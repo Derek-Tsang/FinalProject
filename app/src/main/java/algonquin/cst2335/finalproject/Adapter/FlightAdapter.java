@@ -1,0 +1,133 @@
+package algonquin.cst2335.finalproject.Adapter;
+
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+import algonquin.cst2335.finalproject.Entities.FlightInfo;
+import algonquin.cst2335.finalproject.R;
+import algonquin.cst2335.finalproject.UI.FavouriteFlightActivity;
+import algonquin.cst2335.finalproject.UI.FlightTrackerActivity;
+import algonquin.cst2335.finalproject.UI.Fragment.FlightDetailDialogFragment;
+
+/**
+ *  The FlightAdapter class is responsible for providing data to the RecyclerView in the FlightTrackerActivity and FavouriteFlightActivity.
+ *  It also handles the click events on each item in the RecyclerView and displays a dialog fragment with detailed flight information.
+ */
+public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder> {
+    private Context context;
+    public List<FlightInfo> flights;
+
+    /**
+     * Constructs a new FlightAdapter with the specified application context and list of flights.
+     *
+     * @param applicationcontext The application context.
+     * @param flights The list of flights to be displayed.
+     */
+    public FlightAdapter(Context applicationcontext, List<FlightInfo> flights) {
+        this.context = applicationcontext;
+        // list of flights
+        this.flights = flights;
+    }
+
+    /**
+     * Called when RecyclerView needs a new ViewHolder to represent an item.
+     *
+     * @param parent The ViewGroup into which the new View will be added.
+     * @param viewType The view type of the new View.
+     * @return A new ViewHolder that holds a View of the given view type.
+     */
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        // view to displayed for each question
+
+        View itemview = LayoutInflater.from(context).inflate(R.layout.flight_item_layout, parent, false);
+        return new ViewHolder(itemview);
+    }
+
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     *
+     * @param holder The ViewHolder that should be updated to represent the contents of the item at the given position.
+     * @param position The position of the item within the adapter's data set.
+     */
+    @Override
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+
+        // setting data and handling radio buttons for each view holder
+        holder.tvAirline.setText(flights.get(position).getFlight().getAirline_name());
+        holder.tvFlightIdata.setText(flights.get(position).getFlight().getFlight_iata());
+        holder.tvDate.setText(flights.get(position).getFlight().getFlight_date());
+        holder.tvDepartureAirport.setText(flights.get(position).getDepartureAirport().getIata());
+        holder.tvDepartureTime.setText(flights.get(position).getDepartureAirport().getScheduled().substring(11,16));
+        holder.tvArrivalAirport.setText(flights.get(position).getArrivalAirport().getIata());
+        holder.tvArrivalTime.setText(flights.get(position).getArrivalAirport().getScheduled().substring(11,16));
+        holder.setIsRecyclable(true);
+
+    }
+    /**
+     * Returns the total number of items in the data set held by the adapter.
+     *
+     * @return The total number of items in this adapter.
+     */
+    @Override
+    public int getItemCount() {
+        return flights.size();
+    }
+
+    /**
+     * The ViewHolder class represents each item in the RecyclerView.
+     * It holds and initializes the views for each item, and handles click events on each item.
+     */
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvAirline,tvFlightIdata, tvDate, tvDepartureAirport,tvDepartureTime,tvArrivalAirport,tvArrivalTime;
+
+        public ViewHolder(final View view) {
+            super(view);
+            tvDate = view.findViewById(R.id.tvDate);
+            tvAirline = view.findViewById(R.id.tvAirline);
+            tvDepartureAirport = view.findViewById(R.id.tvDepartureAirport);
+            tvDepartureTime = view.findViewById(R.id.tvDepartureTime);
+            tvArrivalAirport = view.findViewById(R.id.tvArrivalAirport);
+            tvArrivalTime = view.findViewById(R.id.tvArrivalTime);
+            tvFlightIdata = view.findViewById(R.id.tvFlightIdata);
+
+            view.setOnClickListener(click -> {
+                int position = getAbsoluteAdapterPosition();
+                FlightInfo selected = flights.get(position);
+                if(context instanceof FavouriteFlightActivity){
+                    FlightDetailDialogFragment fragment = new FlightDetailDialogFragment(context,selected,true);
+                    fragment.setCancelable(false);
+                    fragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            flights.remove(position);
+                            notifyItemRemoved(position);
+                            notifyDataSetChanged();
+                        }
+                    });
+                    fragment.show(((FavouriteFlightActivity)context).getSupportFragmentManager(),"FlightDetailFragment");
+                }else if (context instanceof FlightTrackerActivity){
+                    FlightDetailDialogFragment fragment = new FlightDetailDialogFragment(context,selected,false);
+                    fragment.setCancelable(false);
+                    fragment.show(((FlightTrackerActivity)context).getSupportFragmentManager(),"FlightDetailFragment");
+                }
+            });
+        }
+    }
+
+}
