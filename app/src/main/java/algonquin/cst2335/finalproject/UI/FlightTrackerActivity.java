@@ -1,13 +1,20 @@
 package algonquin.cst2335.finalproject.UI;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -35,6 +42,7 @@ import algonquin.cst2335.finalproject.Entities.Airport;
 import algonquin.cst2335.finalproject.Entities.Flight;
 import algonquin.cst2335.finalproject.Entities.FlightInfo;
 import algonquin.cst2335.finalproject.Model.FlightViewModel;
+import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 import algonquin.cst2335.finalproject.databinding.ActivityFlightBinding;
 
@@ -55,6 +63,8 @@ public class FlightTrackerActivity extends AppCompatActivity {
     FlightAdapter flightAdapter;
     private final String _TAG = "FLIGHT_TRACKER_TAG";
 
+    Toolbar toolbar;
+
     /**
      * Initializes the FlightTrackerActivity by setting the content view,
      * initializing the FlightViewModel, and setting up the RecyclerView and click listeners.
@@ -66,7 +76,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityFlightBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        configureToolbar();
         flightModel = new ViewModelProvider(this).get(FlightViewModel.class);
 
         flights =flightModel.flights.getValue();
@@ -99,6 +109,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
         });
 
     }
+
     /**
      * Retrieves flight data from the internet using the provided airport code.
      * Makes a GET request to the AviationStack API and parses the JSON response.
@@ -214,5 +225,47 @@ public class FlightTrackerActivity extends AppCompatActivity {
             flightAdapter.notifyDataSetChanged();
             binding.progressBar.setVisibility(View.GONE);
         }
+    }
+
+
+    private void configureToolbar() {
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle("FlightTracker");
+        binding.toolbar.setTitleTextColor(Color.WHITE);
+        //display home icon
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_home);
+        binding.toolbar.setNavigationOnClickListener(click -> {
+            finish();
+        });
+
+    }
+
+    public void hideToolbar() {
+        toolbar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.help){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("How to use")
+                    .setMessage("1. Click the Home button in the upper left corner to return to the home page.\n" +
+                            "2. The input box can accept 3-letter code representing the airport. For instance, " +
+                            "YOW is for Ottawa, YYZ is Toronto, YUL is Montreal. \n" +
+                            "3. Click on the search results list to view flight details. \n" +
+                            "4. You can add flight information to favorites.")
+                    .setPositiveButton("Got it!", (dialog,cl) -> {
+
+                    })
+                    .create().show();
+        }
+        return true;
     }
 }

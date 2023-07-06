@@ -1,29 +1,19 @@
 package algonquin.cst2335.finalproject.UI;
 
+import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.ClientError;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -33,6 +23,7 @@ import algonquin.cst2335.finalproject.Adapter.FlightAdapter;
 import algonquin.cst2335.finalproject.Entities.FlightInfo;
 import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.Model.FlightViewModel;
+import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.databinding.ActivityFlightFavouriteBinding;
 /**
  * The FavouriteFlightActivity class is an activity that displays a list of favorite flights.
@@ -47,6 +38,7 @@ public class FavouriteFlightActivity extends AppCompatActivity {
     ArrayList<FlightInfo> favoriteFlights = new ArrayList<FlightInfo>();
     FlightAdapter flightAdapter;
     private final String _TAG = "FAVOURITE_FLIGHT_TAG";
+    Toolbar toolbar;
 
     /**
      * Called when the activity is starting. Performs initialization of the activity.
@@ -57,7 +49,7 @@ public class FavouriteFlightActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityFlightFavouriteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        configureToolbar();
         flightModel = new ViewModelProvider(this).get(FlightViewModel.class);
 
         favoriteFlights =flightModel.flights.getValue();
@@ -120,5 +112,46 @@ public class FavouriteFlightActivity extends AppCompatActivity {
         });
         favoriteFlights.clear();
 
+    }
+
+
+    private void configureToolbar() {
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle("Favourite");
+        binding.toolbar.setTitleTextColor(Color.WHITE);
+        //display home icon
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_left);
+        binding.toolbar.setNavigationOnClickListener(click -> {
+            finish();
+        });
+
+    }
+
+    public void hideToolbar() {
+        toolbar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.help){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("How to use")
+                    .setMessage("1. Click the Left-arrow button in the upper left corner to return to the previous page.\n" +
+                            "2. The input box supports fuzzy query function, which can filter all the data matching the keyword informatio. \n" +
+                            "3. Support instant query, the query result will be corresponding in the input process instantly. \n" +
+                            "4. You can remove flight information from favorite list.")
+                    .setPositiveButton("Got it!", (dialog,cl) -> {
+
+                    })
+                    .create().show();
+        }
+        return true;
     }
 }

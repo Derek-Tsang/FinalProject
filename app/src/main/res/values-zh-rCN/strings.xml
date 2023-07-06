@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">最终项目</string>
-    <string name="aviation_stack_flight_tracker">Aviation Stack Flight Tracker</string>
+    <string name="aviation_stack_flight_tracker">航班追踪</string>
+    <string name="help">帮助</string>
 </resources>
