@@ -124,7 +124,6 @@ public class FlightTrackerActivity extends AppCompatActivity {
         builder.appendQueryParameter("limit", String.valueOf(20));
 
         Log.e(_TAG, "url = " + builder.toString());
-
         jsonObjRequest = new JsonObjectRequest(Request.Method.GET, builder.toString(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -136,18 +135,16 @@ public class FlightTrackerActivity extends AppCompatActivity {
                 }
             }
         }, error -> {
-
-            if( error instanceof NetworkError) {
-            } else if( error instanceof ClientError) {
-            } else if( error instanceof ServerError) {
-            } else if( error instanceof AuthFailureError) {
-            } else if( error instanceof ParseError) {
-            } else if( error instanceof NoConnectionError) {
-            } else if( error instanceof TimeoutError) {
-            }
+//            if( error instanceof NetworkError) {
+//            } else if( error instanceof ClientError) {
+//            } else if( error instanceof ServerError) {
+//            } else if( error instanceof AuthFailureError) {
+//            } else if( error instanceof ParseError) {
+//            } else if( error instanceof NoConnectionError) {
+//            } else if( error instanceof TimeoutError) {
+//            }
             Toast.makeText(FlightTrackerActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
         });
-
         jsonObjRequest.setTag(_TAG);
         mVolleyQueue.add(jsonObjRequest);
     }

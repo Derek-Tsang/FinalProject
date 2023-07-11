@@ -13,9 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.Entities.FlightInfo;
+import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.UI.FavouriteFlightActivity;
 import algonquin.cst2335.finalproject.UI.FlightTrackerActivity;
@@ -115,6 +120,20 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
 
                         @Override
                         public void onDismiss(DialogInterface dialog) {
+                            FlightInfo f = flights.get(position);
+                            Snackbar.make(tvDate, "You delete a favourite flight"+flights.get(position).getFlight().getAirline_name()
+                                            + " " + flights.get(position).getFlight().getFlight_number(), Snackbar.LENGTH_LONG)
+                                    .setAction("Undo",clk ->{
+                                        flights.add(position, f);
+                                        notifyItemInserted(position);
+                                        Executor thread = Executors.newSingleThreadExecutor();
+                                        thread.execute(() ->
+                                        {
+                                            DataSource.getInstance(context).getFlgithDB()
+                                                    .flightDAO()
+                                                    .addFlight(selected.flight);
+                                        });
+                                    }).show();
                             flights.remove(position);
                             notifyItemRemoved(position);
                             notifyDataSetChanged();
