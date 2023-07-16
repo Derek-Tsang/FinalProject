@@ -7,10 +7,10 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -24,7 +24,7 @@ import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.UI.FavouriteFlightActivity;
 import algonquin.cst2335.finalproject.UI.FlightTrackerActivity;
-import algonquin.cst2335.finalproject.UI.Fragment.FlightDetailDialogFragment;
+import algonquin.cst2335.finalproject.UI.Fragment.FlightDetailFragment;
 
 /**
  *  The FlightAdapter class is responsible for providing data to the RecyclerView in the FlightTrackerActivity and FavouriteFlightActivity.
@@ -33,6 +33,10 @@ import algonquin.cst2335.finalproject.UI.Fragment.FlightDetailDialogFragment;
 public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder> {
     private Context context;
     public List<FlightInfo> flights;
+
+    private OnItemClickListener listener;
+
+    private int position;
 
     /**
      * Constructs a new FlightAdapter with the specified application context and list of flights.
@@ -44,6 +48,14 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         this.context = applicationcontext;
         // list of flights
         this.flights = flights;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(FlightInfo item, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -93,6 +105,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         return flights.size();
     }
 
+
     /**
      * The ViewHolder class represents each item in the RecyclerView.
      * It holds and initializes the views for each item, and handles click events on each item.
@@ -111,41 +124,33 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
             tvFlightIdata = view.findViewById(R.id.tvFlightIdata);
 
             view.setOnClickListener(click -> {
-                int position = getAbsoluteAdapterPosition();
+                position = getAbsoluteAdapterPosition();
                 FlightInfo selected = flights.get(position);
-                if(context instanceof FavouriteFlightActivity){
-                    FlightDetailDialogFragment fragment = new FlightDetailDialogFragment(context,selected,true);
-                    fragment.setCancelable(false);
-                    fragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                listener.onItemClick(selected,position);
+             });
 
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            FlightInfo f = flights.get(position);
-                            Snackbar.make(tvDate, "You delete a favourite flight"+flights.get(position).getFlight().getAirline_name()
-                                            + " " + flights.get(position).getFlight().getFlight_number(), Snackbar.LENGTH_LONG)
-                                    .setAction("Undo",clk ->{
-                                        flights.add(position, f);
-                                        notifyItemInserted(position);
-                                        Executor thread = Executors.newSingleThreadExecutor();
-                                        thread.execute(() ->
-                                        {
-                                            DataSource.getInstance(context).getFlgithDB()
-                                                    .flightDAO()
-                                                    .addFlight(selected.flight);
-                                        });
-                                    }).show();
-                            flights.remove(position);
-                            notifyItemRemoved(position);
-                            notifyDataSetChanged();
-                        }
-                    });
-                    fragment.show(((FavouriteFlightActivity)context).getSupportFragmentManager(),"FlightDetailFragment");
-                }else if (context instanceof FlightTrackerActivity){
-                    FlightDetailDialogFragment fragment = new FlightDetailDialogFragment(context,selected,false);
-                    fragment.setCancelable(false);
-                    fragment.show(((FlightTrackerActivity)context).getSupportFragmentManager(),"FlightDetailFragment");
-                }
-            });
+//            view.setOnClickListener(click -> {
+//                int position = getAbsoluteAdapterPosition();
+//                FlightInfo selected = flights.get(position);
+//                if(context instanceof FavouriteFlightActivity){
+//                    FlightDetailDialogFragment fragment = new FlightDetailDialogFragment(context,selected,true);
+//                    fragment.setCancelable(false);
+//                    fragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//
+//                        @Override
+//                        public void onDismiss(DialogInterface dialog) {
+//                            flights.remove(position);
+//                            notifyItemRemoved(position);
+//                            notifyDataSetChanged();
+//                        }
+//                    });
+//                    fragment.show(((FavouriteFlightActivity)context).getSupportFragmentManager(),"FlightDetailFragment");
+//                }else if (context instanceof FlightTrackerActivity){
+//                    FlightDetailDialogFragment fragment = new FlightDetailDialogFragment(context,selected,false);
+//                    fragment.setCancelable(false);
+//                    fragment.show(((FlightTrackerActivity)context).getSupportFragmentManager(),"FlightDetailFragment");
+//                }
+//            });
         }
     }
 

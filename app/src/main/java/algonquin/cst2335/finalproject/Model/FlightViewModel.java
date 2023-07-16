@@ -1,5 +1,6 @@
 package algonquin.cst2335.finalproject.Model;
 
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -19,4 +20,11 @@ public class FlightViewModel extends ViewModel {
      * LiveData object holding the list of favorite flights.
      */
     public MutableLiveData<ArrayList<FlightInfo>> favoriteFlights = new MutableLiveData<>();
+
+
+    /**
+     * LiveData object holding the String value of search keyword.
+     */
+    public MutableLiveData<String> searchKeyword = new MutableLiveData<>();
+
 }

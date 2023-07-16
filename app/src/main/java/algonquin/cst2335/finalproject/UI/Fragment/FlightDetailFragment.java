@@ -10,17 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.fragment.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
-import com.google.android.material.snackbar.Snackbar;
-
+import java.io.Serializable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import algonquin.cst2335.finalproject.Entities.Flight;
 import algonquin.cst2335.finalproject.Entities.FlightInfo;
 import algonquin.cst2335.finalproject.Model.DataSource;
-import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.databinding.FragmentFlightDetailsLayoutBinding;
 
 /**
@@ -28,7 +26,7 @@ import algonquin.cst2335.finalproject.databinding.FragmentFlightDetailsLayoutBin
  * A dialog fragment for displaying flight details and performing actions related to the flight.
  *
  */
-public class FlightDetailDialogFragment extends DialogFragment {
+public class FlightDetailFragment extends Fragment {
 
     FlightInfo flight;
 
@@ -39,6 +37,16 @@ public class FlightDetailDialogFragment extends DialogFragment {
     FragmentFlightDetailsLayoutBinding binding;
     private DialogInterface.OnDismissListener mOnClickListener;
 
+    public FlightDetailFragment() {
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("flight", flight);
+        outState.putBoolean("isFromFavorite", isFromFavorite);
+    }
+
     /**
      * Constructs a new instance of FlightDetailDialogFragment.
      *
@@ -46,7 +54,8 @@ public class FlightDetailDialogFragment extends DialogFragment {
      * @param flight           The FlightInfo object.
      * @param isFromFavorite   Determines if the flight is from the favorites list.
      */
-    public FlightDetailDialogFragment (Context context, FlightInfo flight, boolean isFromFavorite) {
+    public FlightDetailFragment(Context context, FlightInfo flight, boolean isFromFavorite) {
+        this();
         this.context = context;
         this.flight = flight;
         this.isFromFavorite = isFromFavorite;
@@ -61,6 +70,8 @@ public class FlightDetailDialogFragment extends DialogFragment {
         this.mOnClickListener = listener;
     }
 
+
+
     /**
      * Called to create the view for the dialog fragment.
      *
@@ -73,10 +84,15 @@ public class FlightDetailDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFlightDetailsLayoutBinding.inflate(inflater);
+
+        if(savedInstanceState!=null){
+            flight = (FlightInfo) savedInstanceState.getSerializable("flight");
+            isFromFavorite = savedInstanceState.getBoolean("isFromFavorite");
+        }
         if(isFromFavorite){
             binding.btnAddFav.setText("Remove Favorite");
         }else{
-            binding.btnAddFav.setText("Add Favorite");
+            binding.btnAddFav.setText("Add to Favorite");
         }
         displayDetail(flight);
         return binding.getRoot();
@@ -143,6 +159,8 @@ public class FlightDetailDialogFragment extends DialogFragment {
                 DataSource.getInstance(context).getFlgithDB()
                         .flightDAO()
                         .addFlight(selected.getFlight());
+                getActivity().runOnUiThread( () ->
+                        Toast.makeText(context,"Add Favorite Flight Success!",Toast.LENGTH_SHORT));
             });
 
         }catch (Exception e) {
@@ -191,6 +209,11 @@ public class FlightDetailDialogFragment extends DialogFragment {
             e.printStackTrace();
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT);
         }
+    }
+
+    public void dismiss() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
 }

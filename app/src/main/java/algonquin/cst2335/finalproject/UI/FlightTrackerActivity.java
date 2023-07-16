@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +44,7 @@ import algonquin.cst2335.finalproject.Entities.Flight;
 import algonquin.cst2335.finalproject.Entities.FlightInfo;
 import algonquin.cst2335.finalproject.Model.FlightViewModel;
 import algonquin.cst2335.finalproject.R;
+import algonquin.cst2335.finalproject.UI.Fragment.FlightDetailFragment;
 import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 import algonquin.cst2335.finalproject.databinding.ActivityFlightBinding;
 
@@ -103,9 +105,18 @@ public class FlightTrackerActivity extends AppCompatActivity {
                 Toast.makeText(FlightTrackerActivity.this, "please input airport code!", Toast.LENGTH_SHORT).show();
             }
 
+
         });
         binding.btnFavourite.setOnClickListener(click->{
             startActivity( new Intent(this, FavouriteFlightActivity.class));
+        });
+
+        flightAdapter.setOnItemClickListener(new FlightAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(FlightInfo item, int position) {
+                FlightDetailFragment fragment = new FlightDetailFragment(getApplicationContext(),item,false);
+                getSupportFragmentManager().beginTransaction().add(R.id.fragmentDetail, fragment).addToBackStack("") .commit();
+            }
         });
 
     }
@@ -135,14 +146,6 @@ public class FlightTrackerActivity extends AppCompatActivity {
                 }
             }
         }, error -> {
-//            if( error instanceof NetworkError) {
-//            } else if( error instanceof ClientError) {
-//            } else if( error instanceof ServerError) {
-//            } else if( error instanceof AuthFailureError) {
-//            } else if( error instanceof ParseError) {
-//            } else if( error instanceof NoConnectionError) {
-//            } else if( error instanceof TimeoutError) {
-//            }
             Toast.makeText(FlightTrackerActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
         });
         jsonObjRequest.setTag(_TAG);
@@ -219,6 +222,8 @@ public class FlightTrackerActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             flightAdapter.flights = flights;
+            //save the flights keep the results for screen orientation change
+            flightModel.flights.postValue(flights);
             flightAdapter.notifyDataSetChanged();
             binding.progressBar.setVisibility(View.GONE);
         }
