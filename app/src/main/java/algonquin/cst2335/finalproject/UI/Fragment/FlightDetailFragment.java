@@ -10,14 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.fragment.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
-import com.google.android.material.snackbar.Snackbar;
-
+import java.io.Serializable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import algonquin.cst2335.finalproject.Entities.Flight;
 import algonquin.cst2335.finalproject.Entities.FlightInfo;
 import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.R;
@@ -28,7 +27,7 @@ import algonquin.cst2335.finalproject.databinding.FragmentFlightDetailsLayoutBin
  * A dialog fragment for displaying flight details and performing actions related to the flight.
  *
  */
-public class FlightDetailDialogFragment extends DialogFragment {
+public class FlightDetailFragment extends Fragment {
 
     FlightInfo flight;
 
@@ -39,6 +38,16 @@ public class FlightDetailDialogFragment extends DialogFragment {
     FragmentFlightDetailsLayoutBinding binding;
     private DialogInterface.OnDismissListener mOnClickListener;
 
+    public FlightDetailFragment() {
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("flight", flight);
+        outState.putBoolean("isFromFavorite", isFromFavorite);
+    }
+
     /**
      * Constructs a new instance of FlightDetailDialogFragment.
      *
@@ -46,7 +55,8 @@ public class FlightDetailDialogFragment extends DialogFragment {
      * @param flight           The FlightInfo object.
      * @param isFromFavorite   Determines if the flight is from the favorites list.
      */
-    public FlightDetailDialogFragment (Context context, FlightInfo flight, boolean isFromFavorite) {
+    public FlightDetailFragment(Context context, FlightInfo flight, boolean isFromFavorite) {
+        this();
         this.context = context;
         this.flight = flight;
         this.isFromFavorite = isFromFavorite;
@@ -57,9 +67,11 @@ public class FlightDetailDialogFragment extends DialogFragment {
      *
      * @param listener The OnDismissListener.
      */
-    public void setOnDismissListener(DialogInterface.OnDismissListener listener){
+    public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
         this.mOnClickListener = listener;
     }
+
+
 
     /**
      * Called to create the view for the dialog fragment.
@@ -73,10 +85,15 @@ public class FlightDetailDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentFlightDetailsLayoutBinding.inflate(inflater);
+
+        if(savedInstanceState!=null){
+            flight = (FlightInfo) savedInstanceState.getSerializable("flight");
+            isFromFavorite = savedInstanceState.getBoolean("isFromFavorite");
+        }
         if(isFromFavorite){
-            binding.btnAddFav.setText("Remove Favorite");
+            binding.btnAddFav.setText(getString(R.string.rmFav));
         }else{
-            binding.btnAddFav.setText("Add Favorite");
+            binding.btnAddFav.setText(getString(R.string.addFav));
         }
         displayDetail(flight);
         return binding.getRoot();
@@ -110,7 +127,7 @@ public class FlightDetailDialogFragment extends DialogFragment {
         }
         //close fragment
         binding.closeButton.setOnClickListener(clk -> {
-            dismiss();
+            dismissFragment();
         });
         //save flightinfo into database.
         binding.btnAddFav.setOnClickListener(clk -> {
@@ -119,7 +136,6 @@ public class FlightDetailDialogFragment extends DialogFragment {
             }else{
                 addFavorite(selected);
             }
-            dismiss();
         });
     }
     /**
@@ -144,12 +160,15 @@ public class FlightDetailDialogFragment extends DialogFragment {
                         .flightDAO()
                         .addFlight(selected.getFlight());
             });
-
+            Toast.makeText(context,"Add Favorite Flight Success!",Toast.LENGTH_SHORT);
+            dismissFragment();
         }catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT);
+            Toast.makeText(context,"Add Favorite Flight Failed!",Toast.LENGTH_SHORT);
         }
     }
+
+    boolean isDelete = false;
     /**
      * Removes the selected FlightInfo from the favorites database.
      *
@@ -157,29 +176,28 @@ public class FlightDetailDialogFragment extends DialogFragment {
      */
     private void removeFavorite(FlightInfo selected){
         try {
-            AlertDialog.Builder builder = new AlertDialog.Builder( context );
+            AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
             builder.setMessage("Do you want to delete this flight?")
                     .setTitle("Question:")
                     .setPositiveButton("Yes", (dialog,cl) -> {
+                        isDelete = true;
                         Executor thread = Executors.newSingleThreadExecutor();
                         thread.execute(() ->
                         {
                             DataSource.getInstance(context).getFlgithDB()
                                     .flightDAO()
                                     .deleteFlight(selected.flight);
-                            ((Activity)context).runOnUiThread( () -> {
-                                dismiss();
-                            });
-
                         });
+                        dismissFragment();
                     })
                     .setNegativeButton("No", (dialog,cl) -> {
+                        isDelete = false;
                     })
                     .setOnDismissListener(new DialogInterface.OnDismissListener() {
 
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            if(mOnClickListener != null) {
+                            if(mOnClickListener != null && isDelete) {
                                 mOnClickListener.onDismiss(dialog);
                             }
                         }
@@ -191,6 +209,11 @@ public class FlightDetailDialogFragment extends DialogFragment {
             e.printStackTrace();
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT);
         }
+    }
+
+    public void dismissFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
 }
