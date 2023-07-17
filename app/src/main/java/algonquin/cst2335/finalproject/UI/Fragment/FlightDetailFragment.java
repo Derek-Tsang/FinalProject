@@ -19,6 +19,7 @@ import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.Entities.FlightInfo;
 import algonquin.cst2335.finalproject.Model.DataSource;
+import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.databinding.FragmentFlightDetailsLayoutBinding;
 
 /**
@@ -90,9 +91,9 @@ public class FlightDetailFragment extends Fragment {
             isFromFavorite = savedInstanceState.getBoolean("isFromFavorite");
         }
         if(isFromFavorite){
-            binding.btnAddFav.setText("Remove Favorite");
+            binding.btnAddFav.setText(getString(R.string.rmFav));
         }else{
-            binding.btnAddFav.setText("Add to Favorite");
+            binding.btnAddFav.setText(getString(R.string.addFav));
         }
         displayDetail(flight);
         return binding.getRoot();
@@ -165,7 +166,7 @@ public class FlightDetailFragment extends Fragment {
 
         }catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT);
+            Toast.makeText(context,"Add Favorite Flight Failed!",Toast.LENGTH_SHORT);
         }
     }
     /**
