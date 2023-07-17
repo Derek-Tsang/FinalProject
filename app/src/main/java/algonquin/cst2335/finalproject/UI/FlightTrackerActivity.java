@@ -130,7 +130,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
 
         String url = "http://api.aviationstack.com/v1/flights";
         Uri.Builder builder = Uri.parse(url).buildUpon();
-        builder.appendQueryParameter("access_key", "cf23e26b3d64c7ce69febab26c4802d2");
+        builder.appendQueryParameter("access_key", "4017a0b06e98b6dd3dd8e2cebb3d6c75");
         builder.appendQueryParameter("dep_iata", airportCode);
         builder.appendQueryParameter("limit", String.valueOf(20));
 

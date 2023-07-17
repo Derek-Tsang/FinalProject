@@ -67,7 +67,7 @@ public class FlightDetailFragment extends Fragment {
      *
      * @param listener The OnDismissListener.
      */
-    public void setOnDismissListener(DialogInterface.OnDismissListener listener){
+    public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
         this.mOnClickListener = listener;
     }
 
@@ -127,7 +127,7 @@ public class FlightDetailFragment extends Fragment {
         }
         //close fragment
         binding.closeButton.setOnClickListener(clk -> {
-            dismiss();
+            dismissFragment();
         });
         //save flightinfo into database.
         binding.btnAddFav.setOnClickListener(clk -> {
@@ -136,7 +136,6 @@ public class FlightDetailFragment extends Fragment {
             }else{
                 addFavorite(selected);
             }
-            dismiss();
         });
     }
     /**
@@ -160,15 +159,16 @@ public class FlightDetailFragment extends Fragment {
                 DataSource.getInstance(context).getFlgithDB()
                         .flightDAO()
                         .addFlight(selected.getFlight());
-                getActivity().runOnUiThread( () ->
-                        Toast.makeText(context,"Add Favorite Flight Success!",Toast.LENGTH_SHORT));
             });
-
+            Toast.makeText(context,"Add Favorite Flight Success!",Toast.LENGTH_SHORT);
+            dismissFragment();
         }catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context,"Add Favorite Flight Failed!",Toast.LENGTH_SHORT);
         }
     }
+
+    boolean isDelete = false;
     /**
      * Removes the selected FlightInfo from the favorites database.
      *
@@ -176,29 +176,28 @@ public class FlightDetailFragment extends Fragment {
      */
     private void removeFavorite(FlightInfo selected){
         try {
-            AlertDialog.Builder builder = new AlertDialog.Builder( context );
+            AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
             builder.setMessage("Do you want to delete this flight?")
                     .setTitle("Question:")
                     .setPositiveButton("Yes", (dialog,cl) -> {
+                        isDelete = true;
                         Executor thread = Executors.newSingleThreadExecutor();
                         thread.execute(() ->
                         {
                             DataSource.getInstance(context).getFlgithDB()
                                     .flightDAO()
                                     .deleteFlight(selected.flight);
-                            ((Activity)context).runOnUiThread( () -> {
-                                dismiss();
-                            });
-
                         });
+                        dismissFragment();
                     })
                     .setNegativeButton("No", (dialog,cl) -> {
+                        isDelete = false;
                     })
                     .setOnDismissListener(new DialogInterface.OnDismissListener() {
 
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            if(mOnClickListener != null) {
+                            if(mOnClickListener != null && isDelete) {
                                 mOnClickListener.onDismiss(dialog);
                             }
                         }
@@ -212,7 +211,7 @@ public class FlightDetailFragment extends Fragment {
         }
     }
 
-    public void dismiss() {
+    public void dismissFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
     }
