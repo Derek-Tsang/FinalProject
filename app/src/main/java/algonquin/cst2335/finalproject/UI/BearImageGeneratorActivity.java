@@ -1,27 +1,22 @@
 package algonquin.cst2335.finalproject.UI;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
-
 import algonquin.cst2335.finalproject.Adapter.BearAdapter;
 import algonquin.cst2335.finalproject.Entities.Bear;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.UI.Fragment.BearFragment;
-import algonquin.cst2335.finalproject.UI.Fragment.FlightDetailFragment;
-import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 import algonquin.cst2335.finalproject.databinding.ActivityBearBinding;
-import kotlin.reflect.KClassesImplKt;
+import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 
 public class BearImageGeneratorActivity extends AppCompatActivity {
 
@@ -29,6 +24,7 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
     ArrayList<Bear> bears = new ArrayList<>();
     BearAdapter adapter;
     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //SharedPreference
@@ -40,12 +36,32 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
         configureToolbar();
 
         binding.btnGenerate.setOnClickListener(click -> {
-            BearFragment bearFragment = new BearFragment(getApplicationContext());
-            getSupportFragmentManager().beginTransaction().add(R.id.fragmentDetailBear,bearFragment).addToBackStack("") .commit();
-            bears.add(new Bear());
-            adapter.notifyDataSetChanged();
+            // Show an AlertDialog to confirm clicking "btnGenerate"
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Confirm");
+            alertDialogBuilder.setMessage("Are you sure you want to click btnGenerate?");
+            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Code to perform when the user clicks "Yes" on the AlertDialog.
+                    BearFragment bearFragment = new BearFragment(getApplicationContext());
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragmentDetailBear, bearFragment).addToBackStack("").commit();
+                    bears.add(new Bear());
+                    adapter.notifyDataSetChanged();
+                }
+            });
+            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Code to perform when the user clicks "No" on the AlertDialog.
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
         });
-        adapter = new BearAdapter(this,bears);
+
+        adapter = new BearAdapter(this, bears);
         binding.recyclerviewSavedImages.setAdapter(adapter);
         binding.recyclerviewSavedImages.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -60,7 +76,6 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
         binding.toolbar.setNavigationOnClickListener(click -> {
             finish();
         });
-
     }
 
     public void hideToolbar() {
@@ -86,4 +101,4 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    }
+}

@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,15 @@ public class BearAdapter extends RecyclerView.Adapter<BearAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        //Bear bear = bears.get(position);
+        int imageWidth = 100;
+        int imageHeight = 10;
+
+        // Set a click listener on the image to show a Snackbar with the image's dimensions.
+        holder.image.setOnClickListener(view -> {
+            String message = "Image Width: " + imageWidth + " pixels\nImage Height: " + imageHeight + " pixels";
+            Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+        });
     }
 
     @Override
