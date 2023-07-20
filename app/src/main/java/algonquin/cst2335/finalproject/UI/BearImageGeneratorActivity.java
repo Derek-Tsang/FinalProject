@@ -19,6 +19,7 @@ import algonquin.cst2335.finalproject.Entities.Bear;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.UI.Fragment.BearFragment;
 import algonquin.cst2335.finalproject.UI.Fragment.FlightDetailFragment;
+import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 import algonquin.cst2335.finalproject.databinding.ActivityBearBinding;
 import kotlin.reflect.KClassesImplKt;
 
@@ -30,6 +31,9 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
     Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //SharedPreference
+        CommonSharedPreference.getsharedText(this, "lastCode");
+
         super.onCreate(savedInstanceState);
         binding = ActivityBearBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -71,14 +75,15 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.help){
+        if (item.getItemId() == R.id.help) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use")
-                    .setMessage("Add your own descrition!")
-                    .setPositiveButton("Got it!", (dialog,cl) -> {
+                    .setMessage("Click Search to get the bear image")
+                    .setPositiveButton("Got it!", (dialog, cl) -> {
                     })
                     .create().show();
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
-}
+    }
