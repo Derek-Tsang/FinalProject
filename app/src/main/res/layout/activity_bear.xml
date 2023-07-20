@@ -28,13 +28,27 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/etImageSize"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/editImageSize"
+                android:layout_width="228dp"
+                android:layout_height="46dp"
                 android:ems="10"
-                android:hint="Enter image size (width x height)"
+                android:hint="Enter image size (width)"
                 android:inputType="text"
                 app:layout_constraintEnd_toStartOf="@+id/btnGenerate"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editImageSize2"
+                android:layout_width="228dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="48dp"
+                android:ems="10"
+                android:hint="Enter image size (height)"
+                android:inputType="text"
+                app:layout_constraintEnd_toStartOf="@+id/btnGenerate"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,20 +56,29 @@
                 android:id="@+id/btnGenerate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/search"
+                android:text="Search"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/etImageSize" />
+                app:layout_constraintTop_toTopOf="@+id/editImageSize" />
+
+            <Button
+                android:id="@+id/btnHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="History"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/editImageSize" />
 
             <View
                 android:id="@+id/dividerBear"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="16dp"
                 android:background="@color/my_secondary"
-                app:layout_constraintTop_toBottomOf="@+id/etImageSize" />
+                app:layout_constraintTop_toBottomOf="@+id/editImageSize2"
+                tools:layout_editor_absoluteX="0dp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSavedImages"
+                android:id="@+id/recyclerviewSavedImages"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
@@ -63,7 +86,9 @@
                 android:paddingRight="16dp"
                 android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dividerBear" />
+                app:layout_constraintTop_toBottomOf="@+id/dividerBear"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="1dp" />
 
             <ProgressBar
                 android:id="@+id/progressBar"

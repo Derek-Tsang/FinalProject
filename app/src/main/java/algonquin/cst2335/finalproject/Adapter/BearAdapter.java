@@ -1,56 +1,60 @@
 package algonquin.cst2335.finalproject.Adapter;
 
-
-import android.view.LayoutInflater;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 import algonquin.cst2335.finalproject.R;
 
-public class BearAdapter extends RecyclerView.Adapter<BearAdapter.ViewHolder> {
-    private List<SavedImage> savedImagesList;
-
-    public BearAdapter(List<SavedImage> savedImagesList) {
-        this.savedImagesList = savedImagesList;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.saved_image_item, parent, false);
-        return new ViewHolder(itemView);
-    }
+public class BearAdapter extends AppCompatActivity {
+    private static final String PREF_NAME = "MyPrefs";
+    private static final String KEY_IMAGE_SIZE = "image_size";
+    private EditText editImageSize;
+    private EditText editImageSize2;
+    private Button btnGenerate;
+    private Button btnHistory;
+    private SharedPreferences sharedPreferences;
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SavedImage savedImage = savedImagesList.get(position);
-        // Bind savedImage data to the ViewHolder views
-        holder.ivSavedImage.setImageURI(savedImage.getImageUri());
-        holder.tvWidth.setText("Width: " + savedImage.getWidth());
-        holder.tvHeight.setText("Height: " + savedImage.getHeight());
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bear);
 
-    @Override
-    public int getItemCount() {
-        return savedImagesList.size();
-    }
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivSavedImage;
-        TextView tvWidth, tvHeight;
+        // Initialize views
+        editImageSize = findViewById(R.id.editImageSize);
+        editImageSize2 = findViewById(R.id.editImageSize2);
+        btnGenerate = findViewById(R.id.btnGenerate);
+        btnHistory = findViewById(R.id.btnHistory);
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ivSavedImage = itemView.findViewById(R.id.ivSavedImage);
-            tvWidth = itemView.findViewById(R.id.tvWidth);
-            tvHeight = itemView.findViewById(R.id.tvHeight);
-        }
+        // Load previous input from SharedPreferences
+        String previousImageSize = sharedPreferences.getString(KEY_IMAGE_SIZE, "");
+        editImageSize.setText(previousImageSize);
+
+        // Implement Toast
+        btnGenerate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String imageSize = editImageSize.getText().toString();
+                Toast.makeText(BearAdapter.this, "Image Size: " + imageSize, Toast.LENGTH_SHORT).show();
+                // Save input to SharedPreferences
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(KEY_IMAGE_SIZE, imageSize);
+                editor.apply();
+            }
+        });
+
+        // Other code for Snackbar and AlertDialog remains the same
     }
 }
-
