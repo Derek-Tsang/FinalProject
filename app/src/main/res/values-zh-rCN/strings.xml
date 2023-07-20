@@ -13,4 +13,8 @@
     <string name="rmFav">从收藏中移除</string>
 
     <string name="help">帮助</string>
+    <string name="number">问题数量</string>
+    <string name="selectCategory">种类</string>
+    <string name="searchBtn">查找问题</string>
+    <string name="submitBtn">提交</string>
 </resources>

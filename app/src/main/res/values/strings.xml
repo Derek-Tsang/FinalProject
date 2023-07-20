@@ -12,4 +12,22 @@
     <string name="rmFav">Remove favourite</string>
 
     <string name="help">help</string>
+
+   <!--   below strings for activity_question-->
+    <string name="number">Number of Questions: </string>
+    <string name="selectCategory">Select category: </string>
+    <string name="searchBtn">Search Question</string>
+    <string-array name="category_options">
+        <item>Any Category</item>
+        <item>Sports</item>
+        <item>Geography</item>
+        <item>History</item>
+        <item>Politics</item>
+        <item>Vehicles</item>
+        <item>Animals</item>
+        <item>General Knowledge</item>
+        <item>Science: Computers</item>
+        <item>Entertainment: Video Games</item>
+    </string-array>
+    <string name="submitBtn">Submit</string>
 </resources>
