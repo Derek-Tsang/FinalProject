@@ -1,60 +1,53 @@
 package algonquin.cst2335.finalproject.Adapter;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.snackbar.Snackbar;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
+
+import java.util.ArrayList;
+
+import algonquin.cst2335.finalproject.Entities.Bear;
 import algonquin.cst2335.finalproject.R;
 
-public class BearAdapter extends AppCompatActivity {
-    private static final String PREF_NAME = "MyPrefs";
-    private static final String KEY_IMAGE_SIZE = "image_size";
-    private EditText editImageSize;
-    private EditText editImageSize2;
-    private Button btnGenerate;
-    private Button btnHistory;
-    private SharedPreferences sharedPreferences;
+public class BearAdapter extends RecyclerView.Adapter<BearAdapter.ViewHolder> {
+    Context context;
+    ArrayList<Bear> bears = new ArrayList<>();
+    public BearAdapter(Context applicationcontext, ArrayList<Bear> bears) {
+        this.context = applicationcontext;
+        // list of flights
+        this.bears = bears;
+    }
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // view to displayed for each question
+        View itemview = LayoutInflater.from(context).inflate(R.layout.bear_item_layout, parent, false);
+        return new ViewHolder(itemview);
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bear);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    }
 
-        // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+    @Override
+    public int getItemCount() {
+        return bears.size();
+    }
 
-        // Initialize views
-        editImageSize = findViewById(R.id.editImageSize);
-        editImageSize2 = findViewById(R.id.editImageSize2);
-        btnGenerate = findViewById(R.id.btnGenerate);
-        btnHistory = findViewById(R.id.btnHistory);
+    //
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView image;
 
-        // Load previous input from SharedPreferences
-        String previousImageSize = sharedPreferences.getString(KEY_IMAGE_SIZE, "");
-        editImageSize.setText(previousImageSize);
-
-        // Implement Toast
-        btnGenerate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String imageSize = editImageSize.getText().toString();
-                Toast.makeText(BearAdapter.this, "Image Size: " + imageSize, Toast.LENGTH_SHORT).show();
-                // Save input to SharedPreferences
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(KEY_IMAGE_SIZE, imageSize);
-                editor.apply();
-            }
-        });
-
-        // Other code for Snackbar and AlertDialog remains the same
+        public ViewHolder(final View view) {
+            super(view);
+            image = view.findViewById(R.id.imageView);
+        }
     }
 }
