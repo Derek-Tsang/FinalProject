@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">FinalProject</string>
     <string name="aviation_stack_flight_tracker">Aviation Stack Flight Tracker</string>
+    <string name="currency_converter">Currency Converter</string>
+    <string name="trivia_question_database">Trivia Question Database</string>
+    <string name="bear_image_generator">Bear Image Generator</string>
+    <string name="string_keyword">please input keyword</string>
+    <string name="search">search</string>
+    <string name="Details">Details</string>
+    <string name="myFavourite">my favourite</string>
+    <string name="addFav">add to favourite</string>
+    <string name="rmFav">Remove favourite</string>
+
     <string name="help">help</string>
 
    <!--   below strings for activity_question-->

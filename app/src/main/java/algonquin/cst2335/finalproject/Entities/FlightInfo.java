@@ -1,14 +1,19 @@
 package algonquin.cst2335.finalproject.Entities;
 
+import android.os.Parcelable;
+
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Relation;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 
 
 /**
  *  Represents a flight information object.
  */
-public class FlightInfo {
+public class FlightInfo implements Serializable {
     //The embedded flight object.
     @Embedded
     public Flight flight;

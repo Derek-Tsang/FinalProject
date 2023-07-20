@@ -3,6 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+
     <color name="triviaBg">#E6383E4E</color>
+
+
+    <color name="my_primary">#2062C5</color>
+    <color name="my_secondary">#17B3ED</color>
+    <color name="my_statusbar">#2062C5</color>
 
 </resources>

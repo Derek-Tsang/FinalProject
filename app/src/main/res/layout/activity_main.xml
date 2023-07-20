@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Currency Converter"
+                android:text="@string/currency_converter"
                 android:textStyle="bold" />
 
             <TextView
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Trivia Question Database"
+                android:text="@string/trivia_question_database"
                 android:textStyle="bold" />
 
             <TextView
@@ -220,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="Bear Image Generator"
+                android:text="@string/bear_image_generator"
                 android:textStyle="bold" />
 
             <TextView
