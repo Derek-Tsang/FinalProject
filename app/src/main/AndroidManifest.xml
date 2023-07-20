@@ -39,6 +39,11 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".UI.TriviaQuestionActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".UI.TriviaQuestionDatabaseActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:exported="true">
