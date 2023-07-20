@@ -1,6 +1,7 @@
 package algonquin.cst2335.finalproject.UI.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,38 +12,27 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import algonquin.cst2335.finalproject.Entities.CurrencyResult;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.databinding.FragmentCurrencyDetailsLayoutBinding;
 import algonquin.cst2335.finalproject.databinding.FragmentFlightDetailsLayoutBinding;
 
 public class CurrencyFragment extends Fragment {
-
-    /**
-     * Check to see if tablet or not.
-     */
-    private boolean isTablet;
-    /**
-     * Data passed from last activity.
-     */
-    private Bundle dataFromActivity;
-    /**
-     * database id.
-     */
-    private long id;
     /**
      * position in listView.
      */
     private int position;
 
+    CurrencyResult result;
+
+    Context context;
+
     FragmentCurrencyDetailsLayoutBinding binding;
 
-    /**
-     * @param tablet set to tablet or phone.
-     */
-    public void setTablet(boolean tablet) {
-        isTablet = tablet;
+    public CurrencyFragment(Context context, CurrencyResult result) {
+        this.context = context;
+        this.result = result;
     }
-
 
     /**
      * @param inflater           to display XML layout.
@@ -53,7 +43,16 @@ public class CurrencyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        super.onCreateView(inflater, container, savedInstanceState);
+
         binding = FragmentCurrencyDetailsLayoutBinding.inflate(inflater);
+
+        binding.amountBase.setText(String.valueOf(result.getAmountFrom()));
+        binding.currencyName.setText( result.getCurrencyFrom());
+
+        binding.amountTarget.setText(String.valueOf(result.getAmountTo()));
+        binding.targetCurrency.setText(result.getCurrencyTo());
 
         return binding.getRoot();
 //        dataFromActivity = getArguments();
