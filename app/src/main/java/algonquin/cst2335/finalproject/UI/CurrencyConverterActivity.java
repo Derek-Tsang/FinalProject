@@ -93,7 +93,7 @@ public class CurrencyConverterActivity extends AppCompatActivity {
 
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Currency Converter");
+        getSupportActionBar().setTitle(R.string.currency_converter);
         binding.toolbar.setTitleTextColor(Color.WHITE);
         //display home icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -118,12 +118,9 @@ public class CurrencyConverterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("How to use")
-                    .setMessage("1. Click the Home button in the upper left corner to return to the home page.\n" +
-                            "2. Enter the amount needed to be converted into the input box.\n" +
-                            "3. Click on the spinner to choose the base currecy and the target currency.\n" +
-                            "4. Click on the convert button to run conversion.")
-                    .setPositiveButton("Got it!", (dialog,cl) -> {
+            builder.setTitle(R.string.howToUse)
+                    .setMessage(R.string.helpConverter)
+                    .setPositiveButton(R.string.gotIt, (dialog,cl) -> {
 
                     })
                     .create().show();
