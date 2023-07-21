@@ -19,6 +19,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -61,7 +63,7 @@ public class FavouriteFlightActivity extends AppCompatActivity {
         if(flightModel.searchKeyword.getValue()!=null) {
             binding.etAirportCode.setText(flightModel.searchKeyword.getValue().toString());
         }
-
+        //
         flightAdapter = new FlightAdapter(this,favoriteFlights);
         binding.rvFlights.setAdapter(flightAdapter);
         if(flightModel.favoriteFlights.getValue() == null){
@@ -88,6 +90,7 @@ public class FavouriteFlightActivity extends AppCompatActivity {
                         public void onDismiss(DialogInterface dialog) {
                             favoriteFlights.remove(position);
                             flightAdapter.notifyItemRemoved(position);
+                            Snackbar.make(binding.rvFlights,"remove from favorite list success!", Snackbar.LENGTH_SHORT).show();
                         }
                     });
                 }
