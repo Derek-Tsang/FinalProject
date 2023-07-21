@@ -1,5 +1,33 @@
 <resources>
     <string name="app_name">FinalProject</string>
     <string name="aviation_stack_flight_tracker">Aviation Stack Flight Tracker</string>
+    <string name="currency_converter">Currency Converter</string>
+    <string name="trivia_question_database">Trivia Question Database</string>
+    <string name="bear_image_generator">Bear Image Generator</string>
+    <string name="string_keyword">please input keyword</string>
+    <string name="search">search</string>
+    <string name="Details">Details</string>
+    <string name="myFavourite">my favourite</string>
+    <string name="addFav">add to favourite</string>
+    <string name="rmFav">Remove favourite</string>
+
     <string name="help">help</string>
+
+   <!--   below strings for activity_question-->
+    <string name="number">Number of Questions: </string>
+    <string name="selectCategory">Select category: </string>
+    <string name="searchBtn">Search Question</string>
+    <string-array name="category_options">
+        <item>Any Category</item>
+        <item>Sports</item>
+        <item>Geography</item>
+        <item>History</item>
+        <item>Politics</item>
+        <item>Vehicles</item>
+        <item>Animals</item>
+        <item>General Knowledge</item>
+        <item>Science: Computers</item>
+        <item>Entertainment: Video Games</item>
+    </string-array>
+    <string name="submitBtn">Submit</string>
 </resources>

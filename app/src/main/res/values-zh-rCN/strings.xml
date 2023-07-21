@@ -2,5 +2,19 @@
 <resources>
     <string name="app_name">最终项目</string>
     <string name="aviation_stack_flight_tracker">航班追踪</string>
+    <string name="currency_converter">汇率转换</string>
+    <string name="trivia_question_database">小知识问答</string>
+    <string name="bear_image_generator">小熊图片生成器</string>
+    <string name="string_keyword">请输入关键字</string>
+    <string name="search">查询</string>
+    <string name="Details">详情</string>
+    <string name="myFavourite">我的收藏</string>
+    <string name="addFav">添加到收藏</string>
+    <string name="rmFav">从收藏中移除</string>
+
     <string name="help">帮助</string>
+    <string name="number">问题数量</string>
+    <string name="selectCategory">种类</string>
+    <string name="searchBtn">查找问题</string>
+    <string name="submitBtn">提交</string>
 </resources>
