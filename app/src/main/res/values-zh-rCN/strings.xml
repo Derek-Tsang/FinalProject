@@ -14,7 +14,19 @@
 
     <string name="help">帮助</string>
     <string name="number">问题数量</string>
-    <string name="selectCategory">种类</string>
-    <string name="searchBtn">查找问题</string>
+    <string name="selectCategory">选择种类</string>
+    <string name="searchBtn">查找</string>
     <string name="submitBtn">提交</string>
+    <string name="editUsername">请输入你的名字</string>
+    <string name="editUserScores">请输入你的分数</string>
+    <string name="topTenUser">查看前十名用户分数</string>
+    <string name="headerId">ID</string>
+    <string name="username">用户名</string>
+    <string name="userScores">分数</string>
+    <string name="category">种类</string>
+    <string name="type">类型</string>
+    <string name="difficulty">难度</string>
+    <string name="question">题目</string>
+    <string name="correctAnswer">正确答案</string>
+    <string name="incorrectAnswer">错误答案</string>
 </resources>
