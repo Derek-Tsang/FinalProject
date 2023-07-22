@@ -4,8 +4,9 @@
     <color name="white">#FFFFFFFF</color>
 
 
-    <color name="triviaBg">#E6383E4E</color>
-
+<!--    <color name="triviaBgColor">#E6383E4E</color>-->
+    <color name="triviaBgColor">#383e4e</color>
+    <color name="trivia_text">#FCFCFC</color>
 
     <color name="my_primary">#2062C5</color>
     <color name="my_secondary">#17B3ED</color>
