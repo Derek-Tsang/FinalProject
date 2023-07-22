@@ -1,28 +1,94 @@
 package algonquin.cst2335.finalproject.UI;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+
+import algonquin.cst2335.finalproject.Adapter.ConverterAdapter;
+import algonquin.cst2335.finalproject.Entities.CurrencyResult;
 import algonquin.cst2335.finalproject.R;
+import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 import algonquin.cst2335.finalproject.databinding.ActivityCurrencyBinding;
 
 public class CurrencyConverterActivity extends AppCompatActivity {
 
     ActivityCurrencyBinding binding;
     Toolbar toolbar;
+
+    ArrayList<CurrencyResult> results = new ArrayList<>();
+
+    ConverterAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCurrencyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         configureToolbar();
+
+        binding.amountFrom.setText(CommonSharedPreference.getsharedText(this, "amount"));
+
+        String[] from = {"USD", "RMB"};
+        ArrayAdapter adapterFrom = new ArrayAdapter<String>(this,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, from);
+        binding.currenciesSpinnerFrom.setAdapter(adapterFrom);
+
+        String[] to = {"CAD", "RMB"};
+        ArrayAdapter adapterTo = new ArrayAdapter<String>(this,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, to);
+        binding.currenciesSpinnerTo.setAdapter(adapterTo);
+
+        adapter = new ConverterAdapter(this,results);
+        binding.conversionList.setAdapter(adapter);
+        binding.conversionList.setLayoutManager(new LinearLayoutManager(this));
+
+        binding.runConversion.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if("".equals(binding.amountFrom.getText().toString())){
+                    Snackbar.make(binding.amountFrom, "Please enter amount to be converted",Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"please enter amount",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Double amountTo;
+                Double amountFrom = Double.parseDouble(binding.amountFrom.getText().toString());
+                CommonSharedPreference.setsharedText(getApplicationContext(), "amount",binding.amountFrom.getText().toString());
+                if(binding.currenciesSpinnerFrom.getSelectedItem().toString().equals("USD")
+                        && binding.currenciesSpinnerTo.getSelectedItem().toString().equals("CAD")) {
+                    amountTo = amountFrom * 1.32;
+                    //Currency item;
+                    //item.set()
+                    //currencyList.add(item);
+                    CurrencyResult item = new CurrencyResult();
+
+                    item.setCurrencyFrom(binding.currenciesSpinnerFrom.getSelectedItem().toString());
+                    item.setAmountFrom(amountFrom);
+                    item.setCurrencyTo(binding.currenciesSpinnerTo.getSelectedItem().toString());
+                    item.setAmountTo(amountTo);
+                    Snackbar.make(binding.amountFrom, amountTo.toString(),Snackbar.LENGTH_LONG).show();
+                    binding.amountTo.setText(amountTo.toString());
+                    results.add(item);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void configureToolbar() {
@@ -53,7 +119,10 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use")
-                    .setMessage("Add your own descrition!")
+                    .setMessage("1. Click the Home button in the upper left corner to return to the home page.\n" +
+                            "2. Enter the amount needed to be converted into the input box.\n" +
+                            "3. Click on the spinner to choose the base currecy and the target currency.\n" +
+                            "4. Click on the convert button to run conversion.")
                     .setPositiveButton("Got it!", (dialog,cl) -> {
 
                     })
@@ -61,4 +130,6 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         }
         return true;
     }
+
+
 }

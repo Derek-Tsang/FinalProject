@@ -24,6 +24,19 @@ public class CommonSharedPreference  {
         String value = preferences.getString(key, "");
         return value;
     }
+    public static void setsharedFloat(Context context, String key, float value) {
+        SharedPreferences preferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = preferences.edit();
+        prefsEditor.putFloat(key, value);
+        prefsEditor.apply();
+    }
+
+    // getting a value from shared preferences
+    public static double getsharedFloat(Context context, String key) {
+        SharedPreferences preferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        float value = preferences.getFloat(key, 0.0f);
+        return value;
+    }
 
     public static void setsharedInt(Context context, String key, int value) {
         SharedPreferences preferences = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);

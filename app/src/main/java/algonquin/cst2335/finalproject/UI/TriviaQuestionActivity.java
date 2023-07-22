@@ -111,7 +111,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
                     .setMessage("Would you like to provide your name and scores to be included in our database and have the opportunity to view the top ten user scores? \n\n").
                     setPositiveButton("Yes",(dialog, cl)->{
                         Intent intent = new Intent(this, TriviaUserScoresActivity.class);
-                        intent.putExtra("score",scores);
+                        intent.putExtra("score",scores);          
                         startActivity(intent);
                     }).
                     setNegativeButton("No",(dialog, cl)->{

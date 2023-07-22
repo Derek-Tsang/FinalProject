@@ -92,10 +92,10 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
                 binding.headerName.setVisibility(View.VISIBLE);
                 binding.headerScores.setVisibility(View.VISIBLE);
 
-
+              
                 TriviaUser user = new TriviaUser();
                 user.setUsername(username);
-                user.setScores(scores);
+                user.setScores(score);
 
                  // thread safe
                 thread = Executors.newSingleThreadExecutor();

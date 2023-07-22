@@ -160,11 +160,11 @@ public class FlightDetailFragment extends Fragment {
                         .flightDAO()
                         .addFlight(selected.getFlight());
             });
-            Toast.makeText(context,"Add Favorite Flight Success!",Toast.LENGTH_SHORT);
+            Toast.makeText(context,"Add Favorite Flight Success!",Toast.LENGTH_SHORT).show();
             dismissFragment();
         }catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,"Add Favorite Flight Failed!",Toast.LENGTH_SHORT);
+            Toast.makeText(context,"Add Favorite Flight Failed!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -177,7 +177,7 @@ public class FlightDetailFragment extends Fragment {
     private void removeFavorite(FlightInfo selected){
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
-            builder.setMessage("Do you want to delete this flight?")
+            builder.setMessage("Do you want to remove this flight from your favourite list?")
                     .setTitle("Question:")
                     .setPositiveButton("Yes", (dialog,cl) -> {
                         isDelete = true;
@@ -207,7 +207,7 @@ public class FlightDetailFragment extends Fragment {
 
         }catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT);
+            Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 
