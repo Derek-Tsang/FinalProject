@@ -53,6 +53,7 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
      * Executor to perform database operations on a separate thread
      */
     private Executor thread;
+    int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +61,22 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
         binding = ActivityTriviaUserScoresBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         configureToolbar();
+        if(getIntent()!=null) {
+            score = getIntent().getIntExtra("score",0);
+            binding.editUserScores.setText("Your Score is "+ score+"");
+        }
+
         users = new ArrayList<>();
 
         binding.loginBtn.setOnClickListener((click)->{
 
             String username = binding.editUsername.getText().toString();
-            String scoresInput = binding.editUserScores.getText().toString();
 
-            int scores = 0;
 
-            if(scoresInput.equals("") || username.equals("") || username == null){
 
-                Snackbar.make(binding.getRoot(), "username and scores cannot be empty", Snackbar.LENGTH_SHORT).show();
+            if(("").equals(username)){
+
+                Snackbar.make(binding.getRoot(), "username cannot be empty", Snackbar.LENGTH_SHORT).show();
             }else{
 
                 // connect to database
@@ -84,10 +89,9 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
                 binding.headerName.setVisibility(View.VISIBLE);
                 binding.headerScores.setVisibility(View.VISIBLE);
 
-                scores = Integer.parseInt(scoresInput);
                 TriviaUser user = new TriviaUser();
                 user.setUsername(username);
-                user.setScores(scores);
+                user.setScores(score);
 
                  // thread safe
                 thread = Executors.newSingleThreadExecutor();

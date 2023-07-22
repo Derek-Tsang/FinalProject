@@ -111,12 +111,14 @@ public class TriviaQuestionActivity extends AppCompatActivity {
 
         // handle submit button
         binding.sumbitBtn.setOnClickListener((click)->{
+            int score = calculateTotalScores();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("You achieved:    " + calculateTotalScores())
+            builder.setTitle("You achieved:    " + score + " points")
                     .setMessage("Would you like to provide your name and scores to be included in our database and have the opportunity to view the top ten user scores? \n\n").
                     setPositiveButton("Yes",(dialog, cl)->{
-
-                        startActivity(new Intent(this, TriviaUserScoresActivity.class));
+                        Intent intent = new Intent(this, TriviaUserScoresActivity.class);
+                        intent.putExtra("score",score);
+                        startActivity(intent);
                     }).
                     setNegativeButton("No",(dialog, cl)->{
 
