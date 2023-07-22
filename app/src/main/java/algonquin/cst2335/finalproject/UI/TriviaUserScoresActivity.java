@@ -53,7 +53,11 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
      * Executor to perform database operations on a separate thread
      */
     private Executor thread;
-    int score = 0;
+
+    /**
+     * Represents user scores
+     */
+    int scores = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,20 +65,19 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
         binding = ActivityTriviaUserScoresBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         configureToolbar();
+        users = new ArrayList<>();
+
         if(getIntent()!=null) {
-            score = getIntent().getIntExtra("score",0);
-            binding.editUserScores.setText("Your Score is "+ score+"");
+          scores = getIntent().getIntExtra("score",0);
+            binding.editUserScores.setText("Your Score: "+ scores);
         }
 
-        users = new ArrayList<>();
 
         binding.loginBtn.setOnClickListener((click)->{
 
             String username = binding.editUsername.getText().toString();
 
-
-
-            if(("").equals(username)){
+            if(username.equals("")){
 
                 Snackbar.make(binding.getRoot(), "username cannot be empty", Snackbar.LENGTH_SHORT).show();
             }else{
@@ -89,6 +92,7 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
                 binding.headerName.setVisibility(View.VISIBLE);
                 binding.headerScores.setVisibility(View.VISIBLE);
 
+              
                 TriviaUser user = new TriviaUser();
                 user.setUsername(username);
                 user.setScores(score);
@@ -157,7 +161,9 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use")
-                    .setMessage("Enter your username and scores to view Top ten user scores")
+                    .setMessage("enter your username and scores to view Top ten user scores")
+                    .setPositiveButton("Got it!", (dialog, cl) -> {
+                    })
                     .create().show();
         }
         return true;

@@ -95,14 +95,8 @@ public class TriviaQuestionActivity extends AppCompatActivity {
         }
 
 
-          int amount;
           int categoryNumber = CommonSharedPreference.getsharedInt(this,"categoryNumber");
-          String amountSelect = CommonSharedPreference.getsharedText(this,"amount");
-
-            if(amountSelect == null || amountSelect.equals("")){
-                amount = 10;
-            }else{ amount = Integer.parseInt(amountSelect);}
-
+          int amount= CommonSharedPreference.getsharedInt(this,"amount");
 
         // fetch data from server
         handleServerData(amount,categoryNumber);
@@ -111,13 +105,13 @@ public class TriviaQuestionActivity extends AppCompatActivity {
 
         // handle submit button
         binding.sumbitBtn.setOnClickListener((click)->{
-            int score = calculateTotalScores();
+            int scores = calculateTotalScores();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("You achieved:    " + score + " points")
+            builder.setTitle("You achieved:    " + scores + "/" + amount)
                     .setMessage("Would you like to provide your name and scores to be included in our database and have the opportunity to view the top ten user scores? \n\n").
                     setPositiveButton("Yes",(dialog, cl)->{
                         Intent intent = new Intent(this, TriviaUserScoresActivity.class);
-                        intent.putExtra("score",score);
+                        intent.putExtra("score",scores);          
                         startActivity(intent);
                     }).
                     setNegativeButton("No",(dialog, cl)->{
@@ -183,6 +177,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
                             "5. Enter your name to save your score in the database.\n\n" +
                             "6. View the list of top 10 high scores from previous users by clicking the corresponding button.\n\n" +
                             "Have fun and enjoy the trivia challenge!")
+                            .setPositiveButton("Got it",(dialog, cl)->{})
                     .create().show();
         }
 

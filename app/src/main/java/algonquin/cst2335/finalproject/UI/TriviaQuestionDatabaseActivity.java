@@ -75,13 +75,28 @@ public class TriviaQuestionDatabaseActivity extends AppCompatActivity {
 
 
             String selectedCategory = binding.categorySpinner.getSelectedItem().toString();
-            String amount = binding.amount.getText().toString();
-            Toast.makeText(getApplicationContext(), "Selected category: " + selectedCategory + ", amount: " + amount, Toast.LENGTH_LONG).show();
-            // store category and amount
-            CommonSharedPreference.setsharedInt(this,"categoryNumber",getCategoryNumber(selectedCategory));
-            CommonSharedPreference.setsharedText(this, "amount", amount);
+            String amountSelect = binding.amount.getText().toString();
+            int amount;
 
-            startActivity(new Intent(this,TriviaQuestionActivity.class));
+            if(amountSelect == null || amountSelect.equals("")){
+                amount = 10;
+            }else{ amount = Integer.parseInt(amountSelect);}
+
+            if(amount > 50){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Number of Questions must be less than or equal to 50 ")
+                        .setPositiveButton("Got it!", (dialog, cl) -> {
+                        })
+                        .create().show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Selected category: " + selectedCategory + ", amount: " + amount, Toast.LENGTH_LONG).show();
+                // store category and amount
+                CommonSharedPreference.setsharedInt(this,"categoryNumber",getCategoryNumber(selectedCategory));
+                CommonSharedPreference.setsharedInt(this, "amount", amount);
+
+                startActivity(new Intent(this,TriviaQuestionActivity.class));
+            }
+
 
         });
 
