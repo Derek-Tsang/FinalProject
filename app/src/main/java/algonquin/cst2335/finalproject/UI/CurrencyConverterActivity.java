@@ -1,10 +1,13 @@
 package algonquin.cst2335.finalproject.UI;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -34,6 +43,8 @@ public class CurrencyConverterActivity extends AppCompatActivity {
 
     ConverterAdapter adapter;
 
+    RequestQueue queue = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +53,8 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         configureToolbar();
 
         binding.amountFrom.setText(CommonSharedPreference.getsharedText(this, "amount"));
+
+        queue = Volley.newRequestQueue(this);
 
         String[] from = {"USD", "RMB"};
         ArrayAdapter adapterFrom = new ArrayAdapter<String>(this,
@@ -129,4 +142,35 @@ public class CurrencyConverterActivity extends AppCompatActivity {
     }
 
 
+    private void RequestFromHttpToDevice(String url){
+        //RequestQueue initialized
+        RequestQueue  requestQueue = Volley.newRequestQueue(this);
+        String amountFrom = binding.amountFrom.getText().toString();
+        String currencyFrom = binding.currenciesSpinnerFrom.getSelectedItem().toString();
+        String currencyTo = binding.currenciesSpinnerFrom.getSelectedItem().toString();
+        url = "https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=" +
+                currencyFrom + "&to=" + currencyTo + "&amount=" + amountFrom;
+
+        //String Request initialized
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                // display the repsonse to the screen
+                // it is only for example, you should parse the string
+                //  and set the fields in recyclerView
+                Toast.makeText(getApplicationContext(),"Response :" + response, Toast.LENGTH_LONG).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.i(TAG,"Error :" + error.toString());
+            }
+        });
+        requestQueue.add(request);
+
+
+
+    }
 }
