@@ -30,6 +30,16 @@
         <item>Entertainment: Video Games</item>
     </string-array>
     <string name="submitBtn">Submit</string>
+    <string name = "runConversion">Convert</string>
+    <string name = "baseCurrency">Base Currency:</string>
+    <string name = "target">Convert to:</string>
+    <string name = "databaseID">Database ID:</string>
+    <string name = "helpConverter">1. Click the Home button in the upper left corner to return to the home page.\n
+    2. Enter the amount needed to be converted into the input box.\n
+    3. Click on the spinner to choose the base currecy and the target currency.\n
+    4. Click on the convert button to run conversion.</string>
+    <string name = "howToUse">How to use</string>
+    <string name = "gotIt">Got it!</string>
     <string name="editUsername">please enter your name</string>
     <string name="editUserScores">please enter your scores</string>
     <string name="topTenUser">View Top Ten Scores</string>

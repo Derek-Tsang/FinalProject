@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="Base Currency:" />
+        android:text="@string/baseCurrency" />
 
     <TextView
         android:id="@+id/amountBase"
@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/currency"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Convert to:" />
+        android:layout_marginTop="8dp"
+        android:text="@string/target" />
 
     <TextView
         android:id="@+id/amountTarget"
@@ -74,7 +74,7 @@
         android:layout_below="@id/target"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="Database ID: " />
+        android:text="@string/databaseID" />
 
     <TextView
         android:id="@+id/id_number"

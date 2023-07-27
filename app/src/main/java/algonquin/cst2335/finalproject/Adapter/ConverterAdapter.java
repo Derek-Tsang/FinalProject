@@ -18,6 +18,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.Entities.CurrencyResult;
+import algonquin.cst2335.finalproject.Model.CurrencyDAO;
+import algonquin.cst2335.finalproject.Model.CurrencyDatabase;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.UI.CurrencyConverterActivity;
 import algonquin.cst2335.finalproject.UI.Fragment.CurrencyFragment;
@@ -29,7 +31,9 @@ import algonquin.cst2335.finalproject.UI.Fragment.CurrencyFragment;
 public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.ViewHolder> {
     private Context context;
     public List<CurrencyResult> results;
+
 //    private CurrencyDAO currencyDAO;
+    private CurrencyDAO currencyDAO;
 
     /**
      * Constructs a new FlightAdapter with the specified application context and list of flights.
@@ -39,8 +43,12 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
      */
     public ConverterAdapter(Context applicationcontext, List<CurrencyResult> results) {
         this.context = applicationcontext;
-        // list of flights
+
         this.results = results;
+
+        // Initialize currencyDAO
+//        CurrencyDatabase db = CurrencyDatabase.getInstance(applicationcontext);
+//        currencyDAO = db.currencyDAO();
     }
 
     /**
@@ -111,7 +119,7 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
 //            view.setOnLongClickListener(clk -> {
 //                int position1 = getAbsoluteAdapterPosition();
 //                CurrencyResult selected = results.get(position1);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
 //                builder.setMessage("Do you want to delete the record ( from "
 //                                + selected.getAmountFrom() + " to " + selected.getAmountTo() + " )")
 //                        .setTitle("Question: ")
