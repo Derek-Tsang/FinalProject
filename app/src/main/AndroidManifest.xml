@@ -50,6 +50,11 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".UI.TriviaUserScoresActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".UI.BearImageGeneratorActivity"
             android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:exported="true">

@@ -16,7 +16,7 @@
    <!--   below strings for activity_question-->
     <string name="number">Number of Questions: </string>
     <string name="selectCategory">Select category: </string>
-    <string name="searchBtn">Search Question</string>
+    <string name="searchBtn">Get Questions</string>
     <string-array name="category_options">
         <item>Any Category</item>
         <item>Sports</item>
@@ -30,7 +30,6 @@
         <item>Entertainment: Video Games</item>
     </string-array>
     <string name="submitBtn">Submit</string>
-
     <string name = "runConversion">Convert</string>
     <string name = "baseCurrency">Base Currency:</string>
     <string name = "target">Convert to:</string>
@@ -41,6 +40,17 @@
     4. Click on the convert button to run conversion.</string>
     <string name = "howToUse">How to use</string>
     <string name = "gotIt">Got it!</string>
-
+    <string name="editUsername">please enter your name</string>
+    <string name="editUserScores">please enter your scores</string>
+    <string name="topTenUser">View Top Ten Scores</string>
+    <string name="headerId">ID</string>
+    <string name="username">Username</string>
+    <string name="userScores">Scores</string>
+    <string name="category">Category</string>
+    <string name="type">Type</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="question">Question</string>
+    <string name="correctAnswer">Correct answer</string>
+    <string name="incorrectAnswer">Incorrect answer</string>
 
 </resources>

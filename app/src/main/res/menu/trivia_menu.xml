@@ -3,24 +3,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/delete"
-        android:icon="@drawable/ic_delete"
-        android:title="Delete"
+        android:id="@+id/triviaQuestionDetail"
+        android:icon="@drawable/ic_trivia_detail"
+        android:title="Detail"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/download"
+        android:id="@+id/triviaDownload"
         android:icon="@drawable/ic_trivia_download"
         android:title="Download"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/rank"
-        android:title="Top rank 10"
-        app:showAsAction="never" />
+        android:id="@+id/triviaDelete"
+        android:icon="@drawable/ic_trivia_trash"
+        android:title="Delete"
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/help"
-        android:title="Help"
-        app:showAsAction="never" />
+        android:id="@+id/triviaHelp"
+        android:icon="@drawable/ic_help"
+        android:title="help"
+        app:showAsAction="always">
+    </item>
+
 </menu>
