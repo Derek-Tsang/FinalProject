@@ -23,7 +23,6 @@ public class BearAdapter extends RecyclerView.Adapter<BearAdapter.ViewHolder> {
     ArrayList<Bear> bears = new ArrayList<>();
     public BearAdapter(Context applicationcontext, ArrayList<Bear> bears) {
         this.context = applicationcontext;
-        // list of flights
         this.bears = bears;
     }
     @NonNull
