@@ -14,6 +14,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -104,26 +111,51 @@ public class FlightDetailFragment extends Fragment {
      * @param selected The FlightInfo object to display.
      */
     public void displayDetail(FlightInfo selected){
+        binding.tvFromTo.setText(selected.getDepartureAirport().getIata() + " - " + selected.getArrivalAirport().getIata());
+
+        try{
+            binding.tvDration.setText(calculateMinsGap(selected.getDepartureAirport().getScheduled(),selected.getArrivalAirport().getScheduled()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         binding.tvDate.setText(selected.getFlight().getFlight_date());
         binding.tvAirline.setText(selected.getFlight().getAirline_name());
-        binding.tvFlight.setText(selected.getFlight().getFlight_number());
-        binding.tvDeTimeAndDeAirportCode.setText(selected.getDepartureAirport().getScheduled().substring(11,16)+" - "+ selected.getDepartureAirport().getIata());
-        binding.tvDeAirportName.setText(selected.getDepartureAirport().getAirport());
-        binding.tvDeTerminal.setText("Terminal: "+selected.getDepartureAirport().getTerminal());
-        binding.tvDeGate.setText("Gate: "+selected.getDepartureAirport().getGate());
-        if(selected.getDepartureAirport().getDelay() == null){
-            binding.tvDeDelay.setText("Delay: N/A");
+        binding.tvFlight.setText(selected.getFlight().getFlight_iata());
+        binding.tvDeTime.setText(selected.getDepartureAirport().getScheduled().substring(11,16));
+        binding.tvDeAirportCode.setText(selected.getDepartureAirport().getIata());
+        binding.tvDeAirportName.setText(selected.getDepartureAirport().getAirport() +" Airport");
+        if(selected.getDepartureAirport().getTerminal() == null || "null".equals(selected.getDepartureAirport().getTerminal())){
+            binding.tvDeTerminal.setText("-");
         }else{
-            binding.tvDeDelay.setText("Delay: "+selected.getDepartureAirport().getDelay());
+            binding.tvDeTerminal.setText(selected.getDepartureAirport().getTerminal());
         }
-        binding.tvArTimeAndArAirportCode.setText(selected.getArrivalAirport().getScheduled().substring(11,16)+" - "+ selected.getArrivalAirport().getIata());
-        binding.tvArAirportName.setText(selected.getArrivalAirport().getAirport());
-        binding.tvArTerminal.setText("Terminal: "+selected.getArrivalAirport().getTerminal());
-        binding.tvArGate.setText("Gate: "+selected.getArrivalAirport().getGate());
-        if(selected.getArrivalAirport().getDelay() == null){
-            binding.tvArDelay.setText("Delay: N/A");
+        if(selected.getDepartureAirport().getGate() == null || "null".equals(selected.getDepartureAirport().getGate())){
+            binding.tvDeGate.setText("-");
         }else{
-            binding.tvArDelay.setText("Delay: "+selected.getArrivalAirport().getDelay());
+            binding.tvDeGate.setText(selected.getDepartureAirport().getGate());
+        }
+        if(selected.getDepartureAirport().getDelay() == null || "null".equals(selected.getDepartureAirport().getDelay())){
+            binding.tvDeDelay.setText("-");
+        }else{
+            binding.tvDeDelay.setText(""+selected.getDepartureAirport().getDelay());
+        }
+        binding.tvArTime.setText(selected.getArrivalAirport().getScheduled().substring(11,16));
+        binding.tvArAirportCode.setText(selected.getArrivalAirport().getIata());
+        binding.tvArAirportName.setText(selected.getArrivalAirport().getAirport() +" Airport");
+        if(selected.getArrivalAirport().getTerminal() == null || "null".equals(selected.getArrivalAirport().getTerminal())){
+            binding.tvArTerminal.setText("-");
+        }else{
+            binding.tvArTerminal.setText(selected.getArrivalAirport().getTerminal());
+        }
+        if(selected.getArrivalAirport().getGate() == null || "null".equals(selected.getArrivalAirport().getGate())){
+            binding.tvArGate.setText("-");
+        }else{
+            binding.tvArGate.setText(selected.getArrivalAirport().getGate());
+        }
+        if(selected.getArrivalAirport().getBaggage() == null || "null".equals(selected.getArrivalAirport().getBaggage())){
+            binding.tvArBaggage.setText("-");
+        }else{
+            binding.tvArBaggage.setText(selected.getArrivalAirport().getBaggage());
         }
         //close fragment
         binding.closeButton.setOnClickListener(clk -> {
@@ -214,6 +246,27 @@ public class FlightDetailFragment extends Fragment {
     public void dismissFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    public static String calculateMinsGap(String departureDate,String arrivalDate) {
+        // Calculate the duration between the two date-times
+        long secondsGap = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            OffsetDateTime departure = OffsetDateTime.parse(departureDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            OffsetDateTime arrival = OffsetDateTime.parse(arrivalDate, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+            Duration duration = Duration.between(departure, arrival);
+            // Get the duration in seconds
+            secondsGap = duration.getSeconds();
+        }
+        if(secondsGap>60){
+            if((secondsGap / 60) > 60){
+                return secondsGap / 3600 + "hr " + (secondsGap % 3600 / 60) + "mins";
+            }else{
+                return secondsGap / 60 + "mins";
+            }
+        }else{
+            return secondsGap + "sec";
+        }
     }
 
 }

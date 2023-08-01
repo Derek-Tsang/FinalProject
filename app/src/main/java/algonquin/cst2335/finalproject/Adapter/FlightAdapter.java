@@ -86,12 +86,13 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
 
         // setting data and handling radio buttons for each view holder
         holder.tvAirline.setText(flights.get(position).getFlight().getAirline_name());
-        holder.tvFlightIdata.setText(flights.get(position).getFlight().getFlight_iata());
+        holder.tvFlightIdata.setText(flights.get(position).getFlight().getAirline_iata()+ " " + flights.get(position).getFlight().getFlight_number());
         holder.tvDate.setText(flights.get(position).getFlight().getFlight_date());
         holder.tvDepartureAirport.setText(flights.get(position).getDepartureAirport().getIata());
         holder.tvDepartureTime.setText(flights.get(position).getDepartureAirport().getScheduled().substring(11,16));
         holder.tvArrivalAirport.setText(flights.get(position).getArrivalAirport().getIata());
         holder.tvArrivalTime.setText(flights.get(position).getArrivalAirport().getScheduled().substring(11,16));
+        holder.tvSchedule.setText(flights.get(position).getFlight().getFlight_status());
         holder.setIsRecyclable(true);
 
     }
@@ -111,7 +112,8 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
      * It holds and initializes the views for each item, and handles click events on each item.
      */
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvAirline,tvFlightIdata, tvDate, tvDepartureAirport,tvDepartureTime,tvArrivalAirport,tvArrivalTime;
+        TextView tvAirline,tvFlightIdata, tvDate, tvDepartureAirport,
+                tvDepartureTime,tvArrivalAirport,tvArrivalTime,tvSchedule;
 
         public ViewHolder(final View view) {
             super(view);
@@ -122,6 +124,7 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
             tvArrivalAirport = view.findViewById(R.id.tvArrivalAirport);
             tvArrivalTime = view.findViewById(R.id.tvArrivalTime);
             tvFlightIdata = view.findViewById(R.id.tvFlightIdata);
+            tvSchedule = view.findViewById(R.id.tvSchedule);
 
             view.setOnClickListener(click -> {
                 position = getAbsoluteAdapterPosition();

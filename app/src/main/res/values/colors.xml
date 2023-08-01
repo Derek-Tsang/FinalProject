@@ -2,14 +2,15 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="grey">#F1F1F1</color>
 
 
 <!--    <color name="triviaBgColor">#E6383E4E</color>-->
     <color name="triviaBgColor">#383e4e</color>
     <color name="trivia_text">#FCFCFC</color>
 
-    <color name="my_primary">#2062C5</color>
+    <color name="my_primary">#2267C8</color>
     <color name="my_secondary">#17B3ED</color>
-    <color name="my_statusbar">#2062C5</color>
+    <color name="my_statusbar">#2267C8</color>
 
 </resources>

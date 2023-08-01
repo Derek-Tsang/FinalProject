@@ -40,6 +40,10 @@ public class Flight {
     @ColumnInfo(name = "flight_date")
     private String flight_date;
 
+
+    @ColumnInfo(name = "flight_status")
+    private String flight_status;
+
     @ColumnInfo(name = "airline_name")
     private String airline_name;
 
@@ -121,6 +125,23 @@ public class Flight {
     public void setFlight_date(String flight_date) {
         this.flight_date = flight_date;
     }
+    /**
+
+     Gets the flight status.
+     @return the flight status
+     */
+    public String getFlight_status() {
+        return flight_status;
+    }
+    /**
+
+     Sets the flight status.
+     @param flight_status the flight status to set
+     */
+    public void setFlight_status(String flight_status) {
+        this.flight_status = flight_status;
+    }
+
     /**
 
      Gets the airline name.

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.ClientError;
+import com.android.volley.Header;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -37,6 +38,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import algonquin.cst2335.finalproject.Adapter.FlightAdapter;
 import algonquin.cst2335.finalproject.Entities.Airport;
@@ -130,7 +133,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
 
         String url = "http://api.aviationstack.com/v1/flights";
         Uri.Builder builder = Uri.parse(url).buildUpon();
-        builder.appendQueryParameter("access_key", "4017a0b06e98b6dd3dd8e2cebb3d6c75");
+        builder.appendQueryParameter("access_key", "19df7bca6a2430a9e93b5d723ce027cc");
         builder.appendQueryParameter("dep_iata", airportCode);
         builder.appendQueryParameter("limit", String.valueOf(20));
 
@@ -169,6 +172,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
                     Airport arrival = new Airport();
                     JSONObject jsonObj = data.getJSONObject(i);
                     flight.setFlight_date(jsonObj.getString("flight_date"));
+                    flight.setFlight_status(jsonObj.getString("flight_status"));
                     if(jsonObj.has("departure")) {
                         JSONObject departureObj = jsonObj.getJSONObject("departure");
                         departure.setAirport(departureObj.getString("airport"));

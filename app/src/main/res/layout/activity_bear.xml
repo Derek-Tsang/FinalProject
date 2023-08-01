@@ -10,9 +10,10 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/my_primary"
         android:minHeight="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent">
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight">
 
     </androidx.appcompat.widget.Toolbar>
 

@@ -146,7 +146,7 @@ public class FavouriteFlightActivity extends AppCompatActivity {
 
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Favourite");
+        getSupportActionBar().setTitle("Flight Details");
         binding.toolbar.setTitleTextColor(Color.WHITE);
         //display home icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
