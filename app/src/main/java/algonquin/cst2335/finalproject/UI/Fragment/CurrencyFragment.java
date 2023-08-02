@@ -11,8 +11,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.Entities.CurrencyResult;
+import algonquin.cst2335.finalproject.Model.CurrencyDAO;
+import algonquin.cst2335.finalproject.Model.CurrencyDatabase;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.databinding.FragmentCurrencyDetailsLayoutBinding;
 import algonquin.cst2335.finalproject.databinding.FragmentFlightDetailsLayoutBinding;
@@ -29,9 +38,24 @@ public class CurrencyFragment extends Fragment {
 
     FragmentCurrencyDetailsLayoutBinding binding;
 
+    private RecyclerView.Adapter myAdapter;
+    CurrencyDatabase db;
+    CurrencyDAO dao;
+
+    List<CurrencyResult> list = new ArrayList<CurrencyResult>();
+
     public CurrencyFragment(Context context, CurrencyResult result) {
-        this.context = context;
-        this.result = result;
+//        this.context = context;
+//        this.result = result;
+
+        //database
+        db = Room.databaseBuilder(context, CurrencyDatabase.class, "database-name").build();
+        dao = db.cDAO();
+        Executor thread = Executors.newSingleThreadExecutor();
+        thread.execute(() ->
+        {
+            list = dao.getAllCurrency();
+        });
     }
 
     /**
