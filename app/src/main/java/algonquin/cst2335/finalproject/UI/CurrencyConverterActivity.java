@@ -72,7 +72,11 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         dao = db.cDAO();
 
         //SharedPreferences
-        binding.amountFrom.setText(CommonSharedPreference.getsharedText(this, "amount"));
+//        binding.amountFrom.setText(CommonSharedPreference.getsharedText(this, "amount"));
+
+        SharedPreferences pref = getSharedPreferences("Final", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        binding.amountFrom.setText(pref.getString("amount",""));
 
         queue = Volley.newRequestQueue(this);
 
@@ -199,6 +203,8 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Convert " + currencyFrom +" "+ Double.parseDouble(amountFrom) +" to " + currencyTo +" \n" +
                             "result is " + rate_for_amount, Toast.LENGTH_LONG).show();
 
+                    binding.amountTo.setText(rate_for_amount.toString());
+
                     Executor thread = Executors.newSingleThreadExecutor();
                     thread.execute(() ->
                     {
@@ -207,8 +213,8 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                results.add(currency);
-//                adapter.notifyDataSetChanged();
+                results.add(currency);
+                adapter.notifyDataSetChanged();
             }
 
         }, new Response.ErrorListener() {

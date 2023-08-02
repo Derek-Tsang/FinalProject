@@ -72,59 +72,14 @@ public class CurrencyFragment extends Fragment {
 
         binding = FragmentCurrencyDetailsLayoutBinding.inflate(inflater);
 
-        binding.amountBase.setText(String.valueOf(result.getAmountFrom()));
-        binding.currencyName.setText( result.getCurrencyFrom());
+        binding.amountBase.setText(String.valueOf(list.get(position).getAmountFrom()));
+        binding.currencyName.setText( String.valueOf(list.get(position).getCurrencyFrom()));
 
-        binding.amountTarget.setText(String.valueOf(result.getAmountTo()));
-        binding.targetCurrency.setText(result.getCurrencyTo());
+        binding.amountTarget.setText(String.valueOf(list.get(position).getAmountTo()));
+        binding.targetCurrency.setText(String.valueOf(list.get(position).getCurrencyTo()));
+
+//        binding.idText.setText(String.valueOf(list.get(position).getId()));
 
         return binding.getRoot();
-//        dataFromActivity = getArguments();
-//        assert dataFromActivity != null;
-//        id = dataFromActivity.getLong(CurrencyConverter.ITEM_ID);
-//        position = dataFromActivity.getInt(CurrencyConverter.ITEM_POSITION);
-//
-//        String baseCurrency = dataFromActivity.getString(CurrencyConverter.BASE_CURRENCY);
-//        String targetCurrency = dataFromActivity.getString(CurrencyConverter.TARGET_CURRENCY);
-//
-//        View result = inflater.inflate(R.layout.fragment_currency, container, false);
-//
-//        TextView currency = result.findViewById(R.id.currency_name);
-//        currency.setText(String.format("%s", baseCurrency));
-//
-//        TextView target = result.findViewById(R.id.target_currency);
-//        target.setText(String.format("%s", targetCurrency));
-//
-//        //show the id:
-//        TextView idView = result.findViewById(R.id.id_number);
-//        idView.setText("" + id);
-//
-//        // get the delete button, and add a click listener:
-//        Button deleteButton = result.findViewById(R.id.deleteButton);
-//        deleteButton.setOnClickListener(clk -> {
-//            if (isTablet) { //both the list and details are on the screen:
-//                CurrencyConverter parent = (CurrencyConverter) getActivity();
-//                assert parent != null;
-//                parent.deleteMessageId((int) id, position); //this deletes the item and updates the list
-//
-//                //now remove the fragment since you deleted it from the database:
-//                // this is the object to be removed, so remove(this):
-//                parent.getSupportFragmentManager().beginTransaction().remove(this).commit();
-//            }
-//            //for Phone:
-//            else {
-//                CurrencyEmptyActivity parent = (CurrencyEmptyActivity) getActivity();
-//                Intent backToFragmentExample = new Intent();
-//                backToFragmentExample.putExtra(CurrencyConverter.ITEM_ID, dataFromActivity.getLong(CurrencyConverter.ITEM_ID));
-//                backToFragmentExample.putExtra(CurrencyConverter.ITEM_POSITION, dataFromActivity.getInt(CurrencyConverter.ITEM_POSITION));
-//                backToFragmentExample.putExtra(CurrencyConverter.BASE_CURRENCY, dataFromActivity.getString(CurrencyConverter.BASE_CURRENCY));
-//                backToFragmentExample.putExtra(CurrencyConverter.TARGET_CURRENCY, dataFromActivity.getString(CurrencyConverter.TARGET_CURRENCY));
-//
-//                assert parent != null;
-//                parent.setResult(Activity.RESULT_OK, backToFragmentExample); //send data back to FragmentExample in onActivityResult()
-//                parent.finish(); //go back
-//            }
-//        });
-
     }
 }

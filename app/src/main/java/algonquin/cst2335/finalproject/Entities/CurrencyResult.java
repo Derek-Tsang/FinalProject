@@ -21,6 +21,14 @@ public class CurrencyResult {
     @ColumnInfo(name = "AmountTo")
     double AmountTo;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        id = id;
+    }
+
     public String getCurrencyFrom() {
         return CurrencyFrom;
     }
