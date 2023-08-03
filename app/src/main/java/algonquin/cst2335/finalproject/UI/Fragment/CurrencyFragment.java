@@ -45,17 +45,17 @@ public class CurrencyFragment extends Fragment {
     List<CurrencyResult> list = new ArrayList<CurrencyResult>();
 
     public CurrencyFragment(Context context, CurrencyResult result) {
-//        this.context = context;
-//        this.result = result;
+        this.context = context;
+        this.result = result;
 
-        //database
-        db = Room.databaseBuilder(context, CurrencyDatabase.class, "database-name").build();
-        dao = db.cDAO();
-        Executor thread = Executors.newSingleThreadExecutor();
-        thread.execute(() ->
-        {
-            list = dao.getAllCurrency();
-        });
+//        //database
+//        db = Room.databaseBuilder(context, CurrencyDatabase.class, "database-name").build();
+//        dao = db.cDAO();
+//        Executor thread = Executors.newSingleThreadExecutor();
+//        thread.execute(() ->
+//        {
+//            list = dao.getAllCurrency();
+//        });
     }
 
     /**
@@ -72,13 +72,13 @@ public class CurrencyFragment extends Fragment {
 
         binding = FragmentCurrencyDetailsLayoutBinding.inflate(inflater);
 
-        binding.amountBase.setText(String.valueOf(list.get(position).getAmountFrom()));
-        binding.currencyName.setText( String.valueOf(list.get(position).getCurrencyFrom()));
+        binding.amountBase.setText(result.getAmountFrom() + "");
+        binding.currencyName.setText( result.getCurrencyFrom());
 
-        binding.amountTarget.setText(String.valueOf(list.get(position).getAmountTo()));
-        binding.targetCurrency.setText(String.valueOf(list.get(position).getCurrencyTo()));
+        binding.amountTarget.setText(result.getAmountTo()+ "");
+        binding.targetCurrency.setText(result.getCurrencyTo()+ "");
 
-//        binding.idText.setText(String.valueOf(list.get(position).getId()));
+        binding.idText.setText(result.getId()+"");
 
         return binding.getRoot();
     }

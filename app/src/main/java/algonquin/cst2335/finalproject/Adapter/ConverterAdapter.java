@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -47,8 +48,8 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
         this.results = results;
 
         // Initialize currencyDAO
-//        CurrencyDatabase db = CurrencyDatabase.getInstance(applicationcontext);
-//        currencyDAO = db.currencyDAO();
+        CurrencyDatabase db = Room.databaseBuilder(applicationcontext, CurrencyDatabase.class, "database-name").build();
+        currencyDAO = db.cDAO();
     }
 
     /**
@@ -133,6 +134,7 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
                             thread.execute(() -> {
                                 //delete message from the database
                                 currencyDAO.deleteCurrency(selected);
+//                                results = currencyDAO.getAllCurrency();
                             });
                             //delete the message from the array list
                             results.remove(position1);             //remove the message from the arraylist

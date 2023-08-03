@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -52,12 +53,14 @@ public class CurrencyConverterActivity extends AppCompatActivity {
     ActivityCurrencyBinding binding;
     Toolbar toolbar;
 
-    ArrayList<CurrencyResult> results = new ArrayList<CurrencyResult>();
+    List<CurrencyResult> results = new ArrayList<CurrencyResult>();
     CurrencyDAO dao;
 
     ConverterAdapter adapter;
 
     RequestQueue queue = null;
+
+    long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +70,7 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         configureToolbar();
 
-        //database
-        CurrencyDatabase db = Room.databaseBuilder(getApplicationContext(), CurrencyDatabase.class, "database-name").build();
-        dao = db.cDAO();
+
 
         //SharedPreferences
 //        binding.amountFrom.setText(CommonSharedPreference.getsharedText(this, "amount"));
@@ -90,9 +91,21 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, to);
         binding.currenciesSpinnerTo.setAdapter(adapterTo);
 
-        adapter = new ConverterAdapter(this,results);
-        binding.conversionList.setAdapter(adapter);
-        binding.conversionList.setLayoutManager(new LinearLayoutManager(this));
+
+
+        //database
+        CurrencyDatabase db = Room.databaseBuilder(getApplicationContext(), CurrencyDatabase.class, "database-name").build();
+        dao = db.cDAO();
+        Executor thread = Executors.newSingleThreadExecutor();
+        thread.execute(() ->
+        {
+            results = dao.getAllCurrency();
+
+            runOnUiThread(() -> {
+                adapter = new ConverterAdapter(this,results);
+                binding.conversionList.setAdapter(adapter);
+                binding.conversionList.setLayoutManager(new LinearLayoutManager(this));});
+        });
 
         binding.runConversion.setOnClickListener(new View.OnClickListener() {
 
@@ -209,12 +222,13 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                     thread.execute(() ->
                     {
                         dao.insertCurrency(currency); //insert result into database
+//                        currency.setId(id);
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                results.add(currency);
-                adapter.notifyDataSetChanged();
+//                results.add(currency);
+//                adapter.notifyDataSetChanged();
             }
 
         }, new Response.ErrorListener() {
