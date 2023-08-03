@@ -28,4 +28,10 @@ public class TriviaViewModel extends ViewModel {
      */
     public HashMap<Integer, Integer> userScoresMap = new HashMap<>();
 
+    /**
+     * HashMap to store selected answer for each question.
+     * The key represents the position of the question in the adapter,
+     * The value represents the selected answer
+     */
+    public HashMap<Integer, String> answerMap = new HashMap<>();
 }

@@ -85,7 +85,7 @@ public class TriviaQuestionDatabaseActivity extends AppCompatActivity {
             if(amount > 50){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Number of Questions must be less than or equal to 50 ")
-                        .setPositiveButton("Got it!", (dialog, cl) -> {
+                        .setPositiveButton("OK", (dialog, cl) -> {
                         })
                         .create().show();
             }else{

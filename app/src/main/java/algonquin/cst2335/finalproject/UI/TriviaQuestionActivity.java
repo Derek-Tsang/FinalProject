@@ -177,7 +177,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
                             "5. Enter your name to save your score in the database.\n\n" +
                             "6. View the list of top 10 high scores from previous users by clicking the corresponding button.\n\n" +
                             "Have fun and enjoy the trivia challenge!")
-                            .setPositiveButton("Got it",(dialog, cl)->{})
+                            .setPositiveButton("OK",(dialog, cl)->{})
                     .create().show();
         }
 
@@ -219,11 +219,14 @@ public class TriviaQuestionActivity extends AppCompatActivity {
                             triviaQuestion.setCorrectAnswer(item.getString("correct_answer"));
 
                             JSONArray incorrectAnswersArray = item.getJSONArray("incorrect_answers");
-                            List<String> incorrectAnswersList = new ArrayList<>();
+                            List<String> answers = new ArrayList<>();
                             for (int j = 0; j < incorrectAnswersArray.length(); j++) {
-                                incorrectAnswersList.add(incorrectAnswersArray.getString(j));
+                                answers.add(incorrectAnswersArray.getString(j));
                             }
-                            triviaQuestion.setIncorrectAnswers(incorrectAnswersList);
+                            answers.add(item.getString("correct_answer"));
+
+                            Collections.shuffle(answers);
+                            triviaQuestion.setAnswers(answers);
                             questions.add(triviaQuestion);
                             triviaAdapter.notifyDataSetChanged();
                         }
@@ -249,9 +252,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
             TriviaQuestion question = questions.get(i);
 
             // shuffle the order of list anwsers
-            List<String> answers = new ArrayList<>(question.getIncorrectAnswers());
-            answers.add(question.getCorrectAnswer());
-            Collections.shuffle(answers);
+            List<String> answers = new ArrayList<>(question.getAnswers());
 
             questionString.append((i+1) + "." + question.getQuestion()).append("\n");
             questionString.append("A." + answers.get(0)).append("\n");

@@ -104,13 +104,37 @@ public class TriviaAdapter extends RecyclerView.Adapter<TriviaAdapter.TriviaView
         holder.question.setText((position + 1) + ". " + triviaQuestion.getQuestion());
 
         // shuffle the order of list
-        List<String> answers = new ArrayList<>(triviaQuestion.getIncorrectAnswers());
-        answers.add(triviaQuestion.getCorrectAnswer());
-        Collections.shuffle(answers);
+        List<String> answers = new ArrayList<>(triviaQuestion.getAnswers());
+
         holder.answerA.setText(answers.get(0));
         holder.answerB.setText(answers.get(1));
         holder.answerC.setText(answers.get(2));
         holder.answerD.setText(answers.get(3));
+
+        holder.answerGroup.setOnCheckedChangeListener(null);
+
+        if (triviaModel.answerMap.containsKey(position)) {
+
+            // Retrieve the previously selected answer for this question
+            String selectedAnswer = triviaModel.answerMap.get(position);
+
+            // Uncheck all RadioButtons before setting the correct one
+            holder.answerGroup.clearCheck();
+
+            // Check the corresponding RadioButton based on the selected answer
+            if (selectedAnswer.equalsIgnoreCase(holder.answerA.getText().toString())) {
+                holder.answerA.setChecked(true);
+            } else if (selectedAnswer.equalsIgnoreCase(holder.answerB.getText().toString())) {
+                holder.answerB.setChecked(true);
+            } else if (selectedAnswer.equalsIgnoreCase(holder.answerC.getText().toString())) {
+                holder.answerC.setChecked(true);
+            } else if (selectedAnswer.equalsIgnoreCase(holder.answerD.getText().toString())) {
+                holder.answerD.setChecked(true);
+            }
+        } else {
+            // If the user hasn't answered this question before, clear all RadioButtons
+            holder.answerGroup.clearCheck();
+        }
 
         // Set the OnCheckedChangeListener for the RadioGroup
         holder.answerGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -121,6 +145,7 @@ public class TriviaAdapter extends RecyclerView.Adapter<TriviaAdapter.TriviaView
                 if (selectedBtn != null) {
 
                     String selectedAnswer = selectedBtn.getText().toString();
+                    triviaModel.answerMap.put(position,selectedAnswer);
                     // Check if the correct question selected
                     if (selectedAnswer.equalsIgnoreCase(triviaQuestion.getCorrectAnswer())) {
                         triviaModel.userScoresMap.put(position, 1);
