@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -47,8 +48,8 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
         this.results = results;
 
         // Initialize currencyDAO
-//        CurrencyDatabase db = CurrencyDatabase.getInstance(applicationcontext);
-//        currencyDAO = db.currencyDAO();
+        CurrencyDatabase db = Room.databaseBuilder(applicationcontext, CurrencyDatabase.class, "database-name").build();
+        currencyDAO = db.cDAO();
     }
 
     /**
@@ -97,6 +98,7 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
      * The ViewHolder class represents each item in the RecyclerView.
      * It holds and initializes the views for each item, and handles click events on each item.
      */
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCurrencyFrom, tvAmountFrom, tvCurrencyTo, tvAmountTo;
 
@@ -116,44 +118,45 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
                         .add(R.id.currencyFragment,fragment).addToBackStack("").commit();
             });
 
-//            view.setOnLongClickListener(clk -> {
-//                int position1 = getAbsoluteAdapterPosition();
-//                CurrencyResult selected = results.get(position1);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setMessage("Do you want to delete the record ( from "
-//                                + selected.getAmountFrom() + " to " + selected.getAmountTo() + " )")
-//                        .setTitle("Question: ")
-//                        .setNegativeButton("No", (dialog, cl)->{})
-//                        //delete the message if Yes is clicked.
-//                        .setPositiveButton("Yes", (dialog,cl)->{
-//
-//                            Executor thread = Executors.newSingleThreadExecutor();
-//                            //run on a second thread
-//                            thread.execute(() -> {
-//                                //delete message from the database
-//                                currencyDAO.deleteCurrency(selected);
-//                            });
-//                            //delete the message from the array list
-//                            results.remove(position1);             //remove the message from the arraylist
-//                            notifyItemRemoved(position1);
-//                            Snackbar.make(tvCurrencyFrom, "You deleted message #" + position1,
-//                                            Snackbar.LENGTH_LONG)
-//                                    .setAction("Undo", clk2->{
-//                                        results.add(position1,selected);
-//                                        Executor thread1 = Executors.newSingleThreadExecutor();
-//                                        //run on a second thread
-//                                        thread.execute(() -> {
-//                                            //delete message from the database
-//                                            currencyDAO.insertCurrency(selected);
-//                                        });
-//                                        notifyItemRemoved(position1);
-//                                    }).show();
-//                        })
-//                       // show the alert dialog to the screen
-//                        .create().show();
-//
-//                return true; //why return statement is needed here??
-//            });
+            view.setOnLongClickListener(clk -> {
+                int position1 = getAbsoluteAdapterPosition();
+                CurrencyResult selected = results.get(position1);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Do you want to delete the record ( from "
+                                + selected.getAmountFrom() + " to " + selected.getAmountTo() + " )")
+                        .setTitle("Question: ")
+                        .setNegativeButton("No", (dialog, cl)->{})
+                        //delete the message if Yes is clicked.
+                        .setPositiveButton("Yes", (dialog,cl)->{
+
+                            Executor thread = Executors.newSingleThreadExecutor();
+                            //run on a second thread
+                            thread.execute(() -> {
+                                //delete message from the database
+                                currencyDAO.deleteCurrency(selected);
+//                                results = currencyDAO.getAllCurrency();
+                            });
+                            //delete the message from the array list
+                            results.remove(position1);             //remove the message from the arraylist
+                            notifyItemRemoved(position1);
+                            Snackbar.make(tvCurrencyFrom, "You deleted message #" + position1,
+                                            Snackbar.LENGTH_LONG)
+                                    .setAction("Undo", clk2->{
+                                        results.add(position1,selected);
+                                        Executor thread1 = Executors.newSingleThreadExecutor();
+                                        //run on a second thread
+                                        thread.execute(() -> {
+                                            //delete message from the database
+                                            currencyDAO.insertCurrency(selected);
+                                        });
+                                        notifyItemRemoved(position1);
+                                    }).show();
+                        })
+                       // show the alert dialog to the screen
+                        .create().show();
+
+                return true;
+            });
 
         }
     }

@@ -2,12 +2,12 @@ package algonquin.cst2335.finalproject.Model;
 
 import android.content.Context;
 
+import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-public abstract class CurrencyDatabase extends RoomDatabase {
-    public static CurrencyDatabase getInstance(Context applicationcontext) {
-        return null;
-    }
+import algonquin.cst2335.finalproject.Entities.CurrencyResult;
 
-    public abstract CurrencyDAO currencyDAO() ;
+@Database(entities = {CurrencyResult.class}, version=1)
+public abstract class CurrencyDatabase extends RoomDatabase {
+    public abstract CurrencyDAO cDAO() ;
 }

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.room.Room;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,10 +35,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.Adapter.ConverterAdapter;
 import algonquin.cst2335.finalproject.Entities.CurrencyResult;
+import algonquin.cst2335.finalproject.Model.CurrencyDAO;
+import algonquin.cst2335.finalproject.Model.CurrencyDatabase;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 import algonquin.cst2335.finalproject.databinding.ActivityCurrencyBinding;
@@ -47,20 +53,31 @@ public class CurrencyConverterActivity extends AppCompatActivity {
     ActivityCurrencyBinding binding;
     Toolbar toolbar;
 
-    ArrayList<CurrencyResult> results = new ArrayList<>();
+    List<CurrencyResult> results = new ArrayList<CurrencyResult>();
+    CurrencyDAO dao;
 
     ConverterAdapter adapter;
 
     RequestQueue queue = null;
 
+    long id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCurrencyBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
         configureToolbar();
 
-        binding.amountFrom.setText(CommonSharedPreference.getsharedText(this, "amount"));
+
+
+        //SharedPreferences
+//        binding.amountFrom.setText(CommonSharedPreference.getsharedText(this, "amount"));
+
+        SharedPreferences pref = getSharedPreferences("Final", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        binding.amountFrom.setText(pref.getString("amount",""));
 
         queue = Volley.newRequestQueue(this);
 
@@ -74,9 +91,21 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, to);
         binding.currenciesSpinnerTo.setAdapter(adapterTo);
 
-        adapter = new ConverterAdapter(this,results);
-        binding.conversionList.setAdapter(adapter);
-        binding.conversionList.setLayoutManager(new LinearLayoutManager(this));
+
+
+        //database
+        CurrencyDatabase db = Room.databaseBuilder(getApplicationContext(), CurrencyDatabase.class, "database-name").build();
+        dao = db.cDAO();
+        Executor thread = Executors.newSingleThreadExecutor();
+        thread.execute(() ->
+        {
+            results = dao.getAllCurrency();
+
+            runOnUiThread(() -> {
+                adapter = new ConverterAdapter(this,results);
+                binding.conversionList.setAdapter(adapter);
+                binding.conversionList.setLayoutManager(new LinearLayoutManager(this));});
+        });
 
         binding.runConversion.setOnClickListener(new View.OnClickListener() {
 
@@ -184,13 +213,22 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                     JSONObject position0 = rates.getJSONObject(currencyTo);
                     String rate_for_amount = position0.getString("rate_for_amount");
                     currency.setAmountTo(Double.parseDouble(rate_for_amount));
+                    Toast.makeText(getApplicationContext(),"Convert " + currencyFrom +" "+ Double.parseDouble(amountFrom) +" to " + currencyTo +" \n" +
+                            "result is " + rate_for_amount, Toast.LENGTH_LONG).show();
+
+                    binding.amountTo.setText(rate_for_amount.toString());
+
+                    Executor thread = Executors.newSingleThreadExecutor();
+                    thread.execute(() ->
+                    {
+                        dao.insertCurrency(currency); //insert result into database
+//                        currency.setId(id);
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                results.add(currency);
-                adapter.notifyDataSetChanged();
-
-
+//                results.add(currency);
+//                adapter.notifyDataSetChanged();
             }
 
         }, new Response.ErrorListener() {
