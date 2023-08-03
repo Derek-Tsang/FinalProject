@@ -6,6 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import algonquin.cst2335.finalproject.Entities.TriviaQuestion;
 import algonquin.cst2335.finalproject.databinding.FragmentQuestionDetailsLayoutBinding;
 
@@ -48,6 +52,13 @@ public class TriviaQuestionDetailsFragment extends Fragment {
         super.onCreateView(inflater,container,savedInstanceState);
 
         FragmentQuestionDetailsLayoutBinding binding =  FragmentQuestionDetailsLayoutBinding.inflate(inflater, container, false);
+        List<String> incorrectAnswers = new ArrayList<>(selectQuestion.getAnswers());
+        // remove correct answer from answers
+        for(int i = 0; i < incorrectAnswers.size(); i++){
+            if(incorrectAnswers.get(i).equals(selectQuestion.getCorrectAnswer())){
+                incorrectAnswers.remove(i);
+            }
+        }
 
         binding.category.setText("Category: \t" + selectQuestion.getCategory());
         binding.type.setText("Type: \t" + selectQuestion.getType());
@@ -55,9 +66,9 @@ public class TriviaQuestionDetailsFragment extends Fragment {
         binding.question.setText("Question: \t" + selectQuestion.getQuestion());
         binding.correctAnswer.setText("Correct answer: " + selectQuestion.getCorrectAnswer());
         binding.incorrectAnswers.setText("Incorrect answer: " + "\n"+
-                selectQuestion.getIncorrectAnswers().get(0) + "\n" +
-                selectQuestion.getIncorrectAnswers().get(1) + "\n" +
-                selectQuestion.getIncorrectAnswers().get(2));
+                incorrectAnswers.get(0) + "\n" +
+                incorrectAnswers.get(1) + "\n" +
+                incorrectAnswers.get(2));
 
         return binding.getRoot();
     }

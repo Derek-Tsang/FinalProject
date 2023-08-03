@@ -95,7 +95,7 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
               
                 TriviaUser user = new TriviaUser();
                 user.setUsername(username);
-                user.setScores(score);
+                user.setScores(scores);
 
                  // thread safe
                 thread = Executors.newSingleThreadExecutor();
