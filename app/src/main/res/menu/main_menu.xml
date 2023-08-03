@@ -3,21 +3,25 @@
     <item
         android:id="@+id/flight"
         android:title="@string/aviation_stack_flight_tracker"
-        app:showAsAction="never">
+        android:icon="@drawable/ic_flight"
+        app:showAsAction="always">
     </item>
     <item
         android:id="@+id/currency"
         android:title="@string/currency_converter"
-        app:showAsAction="never">
+        android:icon="@drawable/ic_currency_converter"
+        app:showAsAction="always">
     </item>
     <item
         android:id="@+id/trivia"
         android:title="@string/trivia_question_database"
-        app:showAsAction="never">
+        android:icon="@drawable/ic_questions"
+        app:showAsAction="always">
     </item>
     <item
         android:id="@+id/bear"
         android:title="@string/bear_image_generator"
-        app:showAsAction="never">
+        android:icon="@drawable/ic_bear"
+        app:showAsAction="always">
     </item>
 </menu>
