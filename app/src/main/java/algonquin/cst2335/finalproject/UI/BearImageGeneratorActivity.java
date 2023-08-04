@@ -3,6 +3,7 @@ package algonquin.cst2335.finalproject.UI;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
@@ -43,8 +45,77 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
     List<Bear> bears = new ArrayList<>();
     BearAdapter adapter;
     Toolbar toolbar;
+    JsonObjectRequest jsonObjRequest;
     protected RequestQueue queue = null;
     BearDAO dao;
+    private void generateBearImage() {
+        // Fetch random width and height to generate different-sized bear images
+        int width,height;
+        try{
+            width = Integer.parseInt(binding.editImageSizeWidth.getText().toString());
+        }catch (Exception e){
+            Toast.makeText(BearImageGeneratorActivity.this, "Invalid Width, please re-enter width!", Toast.LENGTH_SHORT).show();
+            binding.editImageSizeWidth.setText("");
+            e.printStackTrace();
+            return;
+        }
+        try{
+            height = Integer.parseInt(binding.editImageSizeHeight.getText().toString());
+        }catch (Exception e){
+            Toast.makeText(BearImageGeneratorActivity.this, "Invalid Height, please re-enter height!", Toast.LENGTH_SHORT).show();
+            binding.editImageSizeHeight.setText("");
+            e.printStackTrace();
+            return;
+        }
+
+        String imagePath = width+"x"+height+"_"+ System.currentTimeMillis() + ".png";
+//        File file = new File(imagePath);
+        // Create the URL with the random width and height
+        String pictureURL = "https://placebear.com/" + width + "/" + height;
+
+        ImageRequest imgReq = new ImageRequest(pictureURL, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap bitmap) {
+                // Add a new BearFragment and update the list of bears
+                Bear bear = new Bear(width,height,imagePath);
+                Executor thread = Executors.newSingleThreadExecutor();
+                bears.add(bear);
+                thread.execute(() ->{
+                    dao.insertImage(bear);
+                });
+                Toast.makeText(BearImageGeneratorActivity.this, bitmap.toString(), Toast.LENGTH_SHORT).show();
+                BearFragment bearFragment = new BearFragment(BearImageGeneratorActivity.this,bear,bitmap);
+                getSupportFragmentManager().beginTransaction().add(R.id.fragmentDetailBear, bearFragment).addToBackStack("").commit();
+
+                thread.execute(() ->{
+                    try {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100,
+                                BearImageGeneratorActivity.this.openFileOutput(imagePath, Activity.MODE_PRIVATE));
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    runOnUiThread(() -> {
+                        adapter.notifyDataSetChanged();
+                    });
+                });
+            }
+        }, width, height, ImageView.ScaleType.CENTER, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Handle errors, if any
+                Toast.makeText(BearImageGeneratorActivity.this, "Error loading bear image", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(imgReq);
+    }
+
+    // Helper method to generate a random number in a specified range
+    private int getRandomNumberInRange(int min, int max) {
+        Random random = new Random();
+        return random.nextInt((max - min) + 1) + min;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,9 +216,9 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
         });
     }
 
-    //public void hideToolbar() {
-       // toolbar.setVisibility(View.GONE);
-    //}
+    public void hideToolbar() {
+        toolbar.setVisibility(View.GONE);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,8 +228,11 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.help) {
+        int itemID = item.getItemId();
+        if (itemID == R.id.bearToHome) {
+            bearToHome();
+            return true;
+        } else if (itemID == R.id.bearHelp) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use")
                     .setMessage("Click Search to get the bear image\n" +
@@ -171,78 +245,21 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
                     })
                     .create().show();
             return true;
+        }else if (itemID == R.id.item_about) {
+            Toast.makeText(this, "Version 1.0, created by M", Toast.LENGTH_LONG).show();
         }
+        // Return the result of the super class method
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void generateBearImage() {
-        // Fetch random width and height to generate different-sized bear images
-        int width,height;
-        try{
-            width = Integer.parseInt(binding.editImageSizeWidth.getText().toString());
-        }catch (Exception e){
-            Toast.makeText(BearImageGeneratorActivity.this, "Invalid Width, please re-enter width!", Toast.LENGTH_SHORT).show();
-            binding.editImageSizeWidth.setText("");
-            e.printStackTrace();
-            return;
-        }
-        try{
-            height = Integer.parseInt(binding.editImageSizeHeight.getText().toString());
-        }catch (Exception e){
-            Toast.makeText(BearImageGeneratorActivity.this, "Invalid Height, please re-enter height!", Toast.LENGTH_SHORT).show();
-            binding.editImageSizeHeight.setText("");
-            e.printStackTrace();
-            return;
-        }
-
-        String imagePath = width+"x"+height+"_"+ System.currentTimeMillis() + ".png";
-//        File file = new File(imagePath);
-        // Create the URL with the random width and height
-        String pictureURL = "https://placebear.com/" + width + "/" + height;
-
-        ImageRequest imgReq = new ImageRequest(pictureURL, new Response.Listener<Bitmap>() {
-            @Override
-            public void onResponse(Bitmap bitmap) {
-                // Add a new BearFragment and update the list of bears
-                Bear bear = new Bear(width,height,imagePath);
-                Executor thread = Executors.newSingleThreadExecutor();
-                bears.add(bear);
-                thread.execute(() ->{
-                    dao.insertImage(bear);
-                });
-                Toast.makeText(BearImageGeneratorActivity.this, bitmap.toString(), Toast.LENGTH_SHORT).show();
-                BearFragment bearFragment = new BearFragment(BearImageGeneratorActivity.this,bear,bitmap);
-                getSupportFragmentManager().beginTransaction().add(R.id.fragmentDetailBear, bearFragment).addToBackStack("").commit();
-
-                thread.execute(() ->{
-                    try {
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100,
-                                BearImageGeneratorActivity.this.openFileOutput(imagePath, Activity.MODE_PRIVATE));
-
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    runOnUiThread(() -> {
-                        adapter.notifyDataSetChanged();
-                    });
-                });
-            }
-        }, width, height, ImageView.ScaleType.CENTER, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Handle errors, if any
-                Toast.makeText(BearImageGeneratorActivity.this, "Error loading bear image", Toast.LENGTH_SHORT).show();
-            }
-        });
-        queue.add(imgReq);
-    }
-
-    // Helper method to generate a random number in a specified range
-    private int getRandomNumberInRange(int min, int max) {
-        Random random = new Random();
-        return random.nextInt((max - min) + 1) + min;
+    private void bearToHome() {
+        // Create an Intent, specifying the main page's class to return to
+        Intent intent = new Intent(this, MainActivity.class);
+        // Launch the main page
+        startActivity(intent);
+        // Optional: Finish the current activity
+        finish();
     }
 
 }

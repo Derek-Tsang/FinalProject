@@ -5,13 +5,13 @@
         android:title="Home"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/bearDelete"
-        android:icon="@drawable/ic_trivia_trash"
-        android:title="Delete"
+    <item android:id="@+id/item_about"
+        android:icon="@drawable/about"
+        android:title="Help"
         app:showAsAction="always"/>
 
     <item android:id="@+id/bearHelp"
-        android:icon="@drawable/about"
+        android:icon="@drawable/ic_help"
         android:title="Help"
         app:showAsAction="always"/>
 </menu>

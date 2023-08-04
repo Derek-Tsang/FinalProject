@@ -91,7 +91,6 @@ public class BearAdapter extends RecyclerView.Adapter<BearAdapter.ViewHolder> {
 
     //
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView imageViewDetail;
         TextView detail;
 
