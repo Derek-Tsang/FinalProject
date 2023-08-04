@@ -1,4 +1,4 @@
-package algonquin.cst2335.finalproject.UI.Fragment;
+package algonquin.cst2335.finalproject.Entities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,14 +9,15 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import algonquin.cst2335.finalproject.Entities.Bear;
 import algonquin.cst2335.finalproject.databinding.BearDetailedLayoutBinding;
 
 public class BearFragment extends Fragment {
     BearDetailedLayoutBinding binding;
     Bitmap bitmap;
+    Bear selected;
 
-    public BearFragment(Context applicationContext, Bear bearImage, Bitmap bm ) {
+    public BearFragment(Context applicationContext, Bear bear, Bitmap bm ) {
+        selected = bear;
         bitmap = bm;
     }
 
@@ -24,6 +25,7 @@ public class BearFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = BearDetailedLayoutBinding.inflate(inflater);
         binding.imageViewDetail.setImageBitmap(bitmap);
+        binding.Detail.setText(selected.getWidthGenerated() + " px x "+ selected.getHeightGenerated()+ " px");
         return binding.getRoot();
     }
 }
