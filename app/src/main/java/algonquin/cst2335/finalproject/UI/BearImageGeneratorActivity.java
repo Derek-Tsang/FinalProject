@@ -2,9 +2,9 @@ package algonquin.cst2335.finalproject.UI;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,49 +15,101 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.Adapter.BearAdapter;
 import algonquin.cst2335.finalproject.Entities.Bear;
+import algonquin.cst2335.finalproject.Entities.BearImageDetailsFragment;
+import algonquin.cst2335.finalproject.Model.BearDAO;
+import algonquin.cst2335.finalproject.Model.BearDatabase;
+import algonquin.cst2335.finalproject.Model.BearModel;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.UI.Fragment.BearFragment;
-import algonquin.cst2335.finalproject.databinding.ActivityBearBinding;
 import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
+import algonquin.cst2335.finalproject.databinding.ActivityBearBinding;
 
-public class BearImageGeneratorActivity extends AppCompatActivity {
+public abstract class BearImageGeneratorActivity extends AppCompatActivity {
     ActivityBearBinding binding;
-    ArrayList<Bear> bears = new ArrayList<>();
+    private ArrayList<Bear> images = new ArrayList<>();
+    ;
     BearAdapter adapter;
     Toolbar toolbar;
-    JsonObjectRequest jsonObjRequest;
     protected RequestQueue queue = null;
+    private RecyclerView.Adapter myAdapter;
+    private RecyclerView myRecyclerView;
+    BearDAO mDAO; // Declare the field
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //SharedPreference
         CommonSharedPreference.getsharedText(this, "lastCode");
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bear);
+
         binding = ActivityBearBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         queue = Volley.newRequestQueue(this);
-        adapter = new BearAdapter(this, bears);
+        adapter = new BearAdapter(this, images);
         binding.recyclerviewSavedImages.setAdapter(adapter);
         binding.recyclerviewSavedImages.setLayoutManager(new LinearLayoutManager(this));
 
+        myRecyclerView = binding.recyclerviewSavedImages;
+        myRecyclerView.setAdapter(myAdapter);
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         configureToolbar();
+
+        //Create database
+        BearDatabase db = Room.databaseBuilder(getApplicationContext(), BearDatabase.class, "database-name").build();
+        //Create DAO
+        mDAO = db.bearDAO();
+
+
+        //if(images == null) {
+        //images = new ArrayList<>();
+        // }
+        // load image list from database start
+        if (images == null || images.size() == 0) {
+            Executor thread = Executors.newSingleThreadExecutor();
+            thread.execute(() ->
+            {   //Once get the data from database
+                images.addAll(mDAO.getAllImage());
+                //load the RecyclerView
+                runOnUiThread(() -> myRecyclerView.setAdapter(myAdapter));
+            });
+        }
+
+        //load image list from db end
+        BearModel.selectedImage.observe(this, (newImage) -> {
+            if (newImage != null) {
+                Log.d("Wow:", "new bear image is not null");
+                BearImageDetailsFragment bearImageDetailsFragment = new BearImageDetailsFragment(newImage);
+                //show the fragment on screen
+                FragmentManager fMgr = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fMgr.beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentLocation, bearImageDetailsFragment);
+                fragmentTransaction.addToBackStack("Add to back stack");
+                fragmentTransaction.commit();
+            } else {
+                Log.d("Wow:", "new bear image is  null");
+            }
+        });
 
         binding.btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +165,11 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.help) {
+        if (item.getItemId() == R.id.bearToHome) {
+            bearToHome();
+        } else if (item.getItemId() == R.id.bearDelete) {
+            bearDelete();
+        } else if (item.getItemId() == R.id.help) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use")
                     .setMessage("Click Search to get the bear image\n" +
@@ -144,10 +200,10 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
             public void onResponse(Bitmap bitmap) {
                 // Add a new BearFragment and update the list of bears
 
-                runOnUiThread( () -> {
-                    BearFragment bearFragment = new BearFragment(BearImageGeneratorActivity.this,bitmap);
+                runOnUiThread(() -> {
+                    BearFragment bearFragment = new BearFragment(BearImageGeneratorActivity.this, bitmap);
                     getSupportFragmentManager().beginTransaction().add(R.id.fragmentDetailBear, bearFragment).addToBackStack("").commit();
-                    bears.add(new Bear());
+                    images.add(new Bear());
                     adapter.notifyDataSetChanged();
                 });
 
@@ -171,4 +227,42 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
         return random.nextInt((max - min) + 1) + min;
     }
 
+
+    private void bearDelete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Bear deletedBear = BearModel.selectedImage.getValue();
+
+        if (deletedBear != null) {
+            builder.setTitle("Do you want to delete the bear?")
+                    .setNegativeButton("No", (dialog, cl) -> {
+                    })
+                    .setPositiveButton("Yes", (dialog, cl) -> {
+                        int position = images.indexOf(deletedBear); // 获取要删除的图片在列表中的位置
+
+                        if (position != -1) {
+                            images.remove(position);
+                            adapter.notifyItemRemoved(position);
+
+                            // 显示 Snackbar 提示
+                            Snackbar.make(binding.getRoot(), "You deleted bear #" + (position + 1), Snackbar.LENGTH_LONG)
+                                    .setAction("UNDO", (clk) -> {
+                                        images.add(position, deletedBear);
+                                        adapter.notifyItemInserted(position);
+                                    })
+                                    .show();
+                        }
+                    })
+                    .create()
+                    .show();
+        }
+    }
+
+    private void bearToHome() {
+        // 创建一个 Intent，指定要返回的主页面的类
+        Intent intent = new Intent(this, MainActivity.class);
+        // 启动主页面
+        startActivity(intent);
+        // 关闭当前活动（可选）
+        finish();
+    }
 }
