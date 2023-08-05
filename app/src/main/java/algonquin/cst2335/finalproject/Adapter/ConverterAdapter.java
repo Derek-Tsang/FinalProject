@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,30 +26,35 @@ import algonquin.cst2335.finalproject.UI.CurrencyConverterActivity;
 import algonquin.cst2335.finalproject.UI.Fragment.CurrencyFragment;
 
 /**
- *  The FlightAdapter class is responsible for providing data to the RecyclerView in the FlightTrackerActivity and FavouriteFlightActivity.
- *  It also handles the click events on each item in the RecyclerView and displays a dialog fragment with detailed flight information.
+ *  The ConverterAdapter class is responsible for providing data to the RecyclerView in the CurrencyConverterActivity.
+ *  It handles displaying currency conversion results and handling click and long-click events on
+ *  each item in the RecyclerView.
+ *  It also communicates with the database for inserting and deleting records.
+ *
+ *  This adapter class extends the RecyclerView.Adapter class and uses a ViewHolder pattern.
+ *
+ *  @version 1.0
+ *  @since 2023-08-04
  */
 public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.ViewHolder> {
     private Context context;
     public List<CurrencyResult> results;
-
-//    private CurrencyDAO currencyDAO;
     private CurrencyDAO currencyDAO;
 
     /**
-     * Constructs a new FlightAdapter with the specified application context and list of flights.
+     * Constructs a new ConverterAdapter with the specified application context and list of currency
+     * conversion results.
      *
      * @param applicationcontext The application context.
-     * @param results The list of results to be displayed.
+     * @param results The list of currency conversion results to be displayed.
      */
     public ConverterAdapter(Context applicationcontext, List<CurrencyResult> results) {
         this.context = applicationcontext;
-
         this.results = results;
 
         // Initialize currencyDAO
-//        CurrencyDatabase db = CurrencyDatabase.getInstance(applicationcontext);
-//        currencyDAO = db.currencyDAO();
+        CurrencyDatabase db = Room.databaseBuilder(applicationcontext, CurrencyDatabase.class, "database-name").build();
+        currencyDAO = db.cDAO();
     }
 
     /**
@@ -61,9 +67,6 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        // view to displayed for each question
-
         View itemview = LayoutInflater.from(context).inflate(R.layout.currency_item_layout, parent, false);
         return new ViewHolder(itemview);
     }
@@ -77,7 +80,7 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        // setting data and handling radio buttons for each view holder
+        // Display currency conversion results
         holder.tvCurrencyFrom.setText(results.get(position).getCurrencyFrom());
         holder.tvAmountFrom.setText(results.get(position).getAmountFrom()+"");
         holder.tvCurrencyTo.setText(results.get(position).getCurrencyTo());
@@ -97,6 +100,7 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
      * The ViewHolder class represents each item in the RecyclerView.
      * It holds and initializes the views for each item, and handles click events on each item.
      */
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCurrencyFrom, tvAmountFrom, tvCurrencyTo, tvAmountTo;
 
@@ -107,6 +111,7 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
             tvCurrencyTo = view.findViewById(R.id.tvCurrencyTo);
             tvAmountTo = view.findViewById(R.id.tvAmountTo);
 
+            // Handle click event on item
             view.setOnClickListener(click -> {
                 int position = getAbsoluteAdapterPosition();
                 CurrencyResult selected = results.get(position);
@@ -116,46 +121,42 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
                         .add(R.id.currencyFragment,fragment).addToBackStack("").commit();
             });
 
-//            view.setOnLongClickListener(clk -> {
-//                int position1 = getAbsoluteAdapterPosition();
-//                CurrencyResult selected = results.get(position1);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                builder.setMessage("Do you want to delete the record ( from "
-//                                + selected.getAmountFrom() + " to " + selected.getAmountTo() + " )")
-//                        .setTitle("Question: ")
-//                        .setNegativeButton("No", (dialog, cl)->{})
-//                        //delete the message if Yes is clicked.
-//                        .setPositiveButton("Yes", (dialog,cl)->{
-//
-//                            Executor thread = Executors.newSingleThreadExecutor();
-//                            //run on a second thread
-//                            thread.execute(() -> {
-//                                //delete message from the database
-//                                currencyDAO.deleteCurrency(selected);
-//                            });
-//                            //delete the message from the array list
-//                            results.remove(position1);             //remove the message from the arraylist
-//                            notifyItemRemoved(position1);
-//                            Snackbar.make(tvCurrencyFrom, "You deleted message #" + position1,
-//                                            Snackbar.LENGTH_LONG)
-//                                    .setAction("Undo", clk2->{
-//                                        results.add(position1,selected);
-//                                        Executor thread1 = Executors.newSingleThreadExecutor();
-//                                        //run on a second thread
-//                                        thread.execute(() -> {
-//                                            //delete message from the database
-//                                            currencyDAO.insertCurrency(selected);
-//                                        });
-//                                        notifyItemRemoved(position1);
-//                                    }).show();
-//                        })
-//                       // show the alert dialog to the screen
-//                        .create().show();
-//
-//                return true; //why return statement is needed here??
-//            });
+            // Handle long-click event on item
+            view.setOnLongClickListener(clk -> {
+                int position1 = getAbsoluteAdapterPosition();
+                CurrencyResult selected = results.get(position1);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Do you want to delete the record ( from "
+                                + selected.getAmountFrom() + " to " + selected.getAmountTo() + " )")
+                        .setTitle("Question: ")
+                        .setNegativeButton("No", (dialog, cl)->{})
+                        //delete the message if Yes is clicked.
+                        .setPositiveButton("Yes", (dialog,cl)->{
 
+                            Executor thread = Executors.newSingleThreadExecutor();
+                            //run on a second thread
+                            thread.execute(() -> {
+                                //delete message from the database
+                                currencyDAO.deleteCurrency(selected);
+                            });
+                            //remove the message from the array list
+                            results.remove(position1);
+                            notifyItemRemoved(position1);
+                            Snackbar.make(tvCurrencyFrom, "You deleted message #" + position1,
+                                            Snackbar.LENGTH_LONG)
+                                    .setAction("Undo", clk2->{
+                                        results.add(position1,selected);
+                                        Executor thread1 = Executors.newSingleThreadExecutor();
+                                        //run on a second thread
+                                        thread1.execute(() -> {
+                                            // Insert message back into the database
+                                            currencyDAO.insertCurrency(selected);
+                                        });
+                                        notifyItemRemoved(position1);
+                                    }).show();
+                        }).create().show();
+                return true;
+            });
         }
     }
-
 }

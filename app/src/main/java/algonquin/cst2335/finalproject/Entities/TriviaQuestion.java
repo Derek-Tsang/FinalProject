@@ -36,7 +36,7 @@ public class TriviaQuestion {
     /**
      * List of incorrect answers for the trivia question.
      */
-    protected List<String> IncorrectAnswers = new ArrayList<>(3);
+    protected List<String> answers = new ArrayList<>(4);
 
     /**
      * no-ary constructor
@@ -140,16 +140,16 @@ public class TriviaQuestion {
      *
      * @return The list of incorrect answers for the trivia question.
      */
-    public List<String> getIncorrectAnswers(){
-        return IncorrectAnswers;
+    public List<String> getAnswers(){
+        return answers;
     }
 
     /**
      * Set the list of incorrect answers for the trivia question.
      *
-     * @param incorrectAnswer The list of incorrect answers to set for the trivia question.
+     * @param answers The list of incorrect answers to set for the trivia question.
      */
-    public void setIncorrectAnswers(List<String> incorrectAnswer){
-        this.IncorrectAnswers = incorrectAnswer;
+    public void setAnswers(List<String> answers){
+        this.answers = answers;
     }
 }
