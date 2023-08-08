@@ -64,8 +64,8 @@
     <string name="question">题目</string>
     <string name="correctAnswer">正确答案</string>
     <string name="incorrectAnswer">错误答案</string>
-    <string name="trivia_question_help"> 欢迎使用小知识生成器!\n\n要使用这款应用程序，请按照以下步骤操作：\n1. 从下拉菜单中选择一个类别。2. 输入您想要获取的问题数量。3. 点击\'获取问题\' 按钮。</string>
-    <string name="trivia_question_help2">1. 选择测验类别和问题数量。\n\n2. 开始测验，点击单选按钮回答问题。\n\n3. 点击工具栏菜单上的详情按钮查看问题详情。\n\n4. 提交答案，查看分数。\n\n5. 输入您的姓名，将分数保存到数据库中。\n\n6. 点击相应按钮，查看前 10 名用户的高分列表。\n\n祝您玩得开心，享受挑战！"</string>
+    <string name="trivia_question_help">要使用这款应用程序，请按照以下步骤操作：\n1. 从下拉菜单中选择一个类别。2. 输入您想要获取的问题数量。3. 点击\'获取问题\' 按钮。</string>
+    <string name="trivia_question_help2">1. 开始测验，点击单选按钮回答问题。\n\n2. 先点击问题，然后点击工具栏菜单上的详情按钮，即可查看问题详情。\n\n3. 删除问题：先单击问题，然后单击工具栏菜单上的删除按钮。\n\n4. 单击工具栏菜单上的下载按钮，下载所有问题。\n\n5. 提交答案，查看分数。\n\n6. 输入您的姓名，将您的分数保存到数据库中，并点击相应按钮查看前 10 名用户的分数列表。\n\n祝您玩得开心，享受挑战！"</string>
     <string name="question_generator">小知识生成器</string>
     <string name="toast_number_over_limit">问题数必须小于或等于<b>50</b></string>
     <string name="question_amount">数量</string>
@@ -76,6 +76,7 @@
     <string name="alert_delete_question">你想删除这个问题吗？</string>
     <string name="snacker_question_remove_suc">您删除了问题 # </string>
     <string name="UNDO">撤销</string>
+    <string name="triviaUserScoresHelp">输入您的用户名和分数，查看十大用户分数</string>
 
     <!--   below strings for currency converter-->
     <string name="runConversion">转换</string>

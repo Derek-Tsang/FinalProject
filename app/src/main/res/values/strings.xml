@@ -75,8 +75,8 @@
     <string name="question">Question</string>
     <string name="correctAnswer">Correct answer</string>
     <string name="incorrectAnswer">Incorrect answer</string>
-    <string name="trivia_question_help">Welcome to the Trivia App!\n\nTo use this app, follow these steps:\n1. Select a category from the dropdown menu.\n2. Enter the number of questions you want to fetch.\n3. Click the \'Get Questions\' button.\nThe app will then fetch trivia questions based on your selection.</string>
-    <string name="trivia_question_help2">1. Select the quiz category and the number of questions.\n\n2. Start the quiz and answer the questions by tapping on the radio buttons.\n\n3. View the question details by click the details button on the toolbar menu.\n\n4. Submit your answers to see your score.\n\n5. Enter your name to save your score in the database.\n\n6. View the list of top 10 high scores from previous users by clicking the corresponding button.\n\nHave fun and enjoy the trivia challenge!"</string>
+    <string name="trivia_question_help">To use this app, follow these steps:\n1. Select a category from the dropdown menu.\n2. Enter the number of questions you want to fetch.\n3. Click the \'Get Questions\' button.\nThe app will then fetch trivia questions based on your selection.</string>
+    <string name="trivia_question_help2">1. Start the quiz and answer questions by tapping on the radio buttons.\n\n2. View the question details by click a question first, then click the details button on the toolbar menu.\n\n3. Delete a question by click a question first, then click the delete button on the toolbar menu.\n\n4. Download all the questions by click the download button on the toolbar menu.\n\n5. Submit your answers to see your score.\n\n6. Enter your name to save your score in database, and view the list of top 10 scores from previous users by clicking the corresponding button\n\nHave fun and enjoy the trivia challenge!</string>
     <string name="question_generator">Qestion Generator</string>
     <string name="toast_number_over_limit">Number of Questions must be less than or equal to 50</string>
     <string name="question_amount">amount</string>
@@ -87,6 +87,7 @@
     <string name="alert_delete_question">Do you want to delete the question ?</string>
     <string name="snacker_question_remove_suc">You deleted question # </string>
     <string name="UNDO">UNDO</string>
+    <string name="triviaUserScoresHelp">enter your username and scores to view Top ten user scores</string>
 
 
     <!--   below strings for currency converter-->

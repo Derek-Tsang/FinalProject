@@ -1,8 +1,6 @@
 package algonquin.cst2335.finalproject.UI;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,17 +16,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.ClientError;
-import com.android.volley.Header;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -38,8 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import algonquin.cst2335.finalproject.Adapter.FlightAdapter;
 import algonquin.cst2335.finalproject.Entities.Airport;
@@ -130,7 +117,6 @@ public class FlightTrackerActivity extends AppCompatActivity {
      * @param airportCode The airport code used to search for flights.
      */
     private void getFlightDataFromInternet(String airportCode) {
-
         String url = "http://api.aviationstack.com/v1/flights";
         Uri.Builder builder = Uri.parse(url).buildUpon();
         builder.appendQueryParameter("access_key", "19df7bca6a2430a9e93b5d723ce027cc");
@@ -150,6 +136,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
             }
         }, error -> {
             Toast.makeText(FlightTrackerActivity.this, R.string.toast_api_error, Toast.LENGTH_LONG).show();
+            binding.progressBar.setVisibility(View.GONE);
         });
         jsonObjRequest.setTag(_TAG);
         mVolleyQueue.add(jsonObjRequest);
