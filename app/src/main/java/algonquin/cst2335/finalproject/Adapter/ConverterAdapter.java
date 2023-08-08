@@ -127,12 +127,11 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
                 int position1 = getAbsoluteAdapterPosition();
                 CurrencyResult selected = results.get(position1);
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Do you want to delete the record ( from "
-                                + selected.getAmountFrom() + " to " + selected.getAmountTo() + " )")
-                        .setTitle("Question: ")
-                        .setNegativeButton("No", (dialog, cl)->{})
+                builder.setMessage(R.string.delete1Converter)
+                        .setTitle(R.string.delete3Converter)
+                        .setNegativeButton(R.string.delete4Converter, (dialog, cl)->{})
                         //delete the message if Yes is clicked.
-                        .setPositiveButton("Yes", (dialog,cl)->{
+                        .setPositiveButton(R.string.delete5Converter, (dialog,cl)->{
 
                             Executor thread = Executors.newSingleThreadExecutor();
                             //run on a second thread
@@ -143,9 +142,9 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
                             //remove the message from the array list
                             results.remove(position1);
                             notifyItemRemoved(position1);
-                            Snackbar.make(tvCurrencyFrom, "You deleted message #" + position1,
+                            Snackbar.make(tvCurrencyFrom, R.string.delete6Converter + position1,
                                             Snackbar.LENGTH_LONG)
-                                    .setAction("Undo", clk2->{
+                                    .setAction(R.string.delete7Converter, clk2->{
                                         results.add(position1,selected);
                                         Executor thread1 = Executors.newSingleThreadExecutor();
                                         //run on a second thread
