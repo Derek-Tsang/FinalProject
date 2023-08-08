@@ -5,6 +5,37 @@
     <string name="currency_converter">汇率转换</string>
     <string name="trivia_question_database">小知识问答</string>
     <string name="bear_image_generator">小熊图片生成器</string>
+    <!--   below strings for flight app-->
+    <string name="flight_tracker">航班追踪</string>
+    <string name="airport_code_hint">航班号 例如：YYZ</string>
+    <string name="toast_input_airport_code">请输入机场代码</string>
+    <string name="toast_json_parse_error">JSON 解析错误！</string>
+    <string name="toast_api_error">应用接口错误！</string>
+    <string name="toast_input_search_keyword">请输入搜索关键字！</string>
+    <string name="toast_add_fav_success">添加收藏列表成功！</string>
+    <string name="toast_add_fav_fail">添加收藏列表失败！</string>
+    <string name="snacker_remove_success">从收藏列表中移除成功！</string>
+    <string name="alert_remove_message">您想将此航班从收藏列表中删除吗？</string>
+    <string name="alert_yes">是</string>
+    <string name="alert_no">否</string>
+    <string name="string_hour">小时 </string>
+    <string name="string_min">分钟 </string>
+    <string name="string_sec">秒 </string>
+    <string name="flight_tracker_help">1. 点击左上角的主页按钮返回主页。\n2. 输入框可接受代表机场的三个字母代码。例如 YOW 代表渥太华，YYZ 代表多伦多，YUL 代表蒙特利尔。\n3. 点击搜索结果列表查看航班详细信息。\n4. 您可以将航班信息添加到收藏夹。</string>
+    <string name="flight_tracker_fav_help">1. 点击左上角的 "左箭头 "按钮返回上一页。\n2. 输入框支持模糊查询功能，可以过滤所有与关键字信息匹配的数据。\n3. 支持即时查询，查询结果会在输入过程中即时对应。\n4. 可以从收藏列表中删除航班信息。</string>
+    <string name="Flight_Details">航班详细信息</string>
+    <string name="DEPARTURE">出发</string>
+    <string name="ARRIVAL">到达</string>
+    <string name="Terminal">离港航站楼</string>
+    <string name="Gate">登机口</string>
+    <string name="Delay">起飞延迟</string>
+    <string name="arrTerminal">抵达航站楼</string>
+    <string name="arrGate">到达口</string>
+    <string name="Baggage">抵达行李</string>
+    <string name="INFORMATION">航班信息</string>
+    <string name="flight_date">航班日期:</string>
+    <string name="airline_name">航线名称:</string>
+    <string name="flight_number">航班号:</string>
     <string name="string_keyword">请输入关键字</string>
     <string name="search">查询</string>
     <string name="Details">详情</string>
@@ -12,16 +43,13 @@
     <string name="addFav">添加到收藏</string>
     <string name="rmFav">从收藏中移除</string>
 
+
+    <!--   below strings for activity_question-->
     <string name="help">帮助</string>
     <string name="number">问题数量</string>
     <string name="selectCategory">选择种类</string>
     <string name="searchBtn">查找</string>
     <string name="submitBtn">提交</string>
-    <string name="runConversion">转换</string>
-    <string name="baseCurrency">基础币种：</string>
-    <string name="target">转换为：</string>
-    <string name="databaseID">数据库ID：</string>
-    <string name="helpConverter">1. 点击左上角的Home按钮回到主页。2. 在输入框中输入需要转换的金额。3. 点击扩展按钮选择基础币种和目标币种。4. 点击转换按钮进行转换操作。</string>
     <string name="howToUse">使用说明</string>
     <string name="gotIt">知道了！</string>
     <string name="editUsername">请输入你的名字</string>
@@ -36,4 +64,24 @@
     <string name="question">题目</string>
     <string name="correctAnswer">正确答案</string>
     <string name="incorrectAnswer">错误答案</string>
+    <string name="trivia_question_help"> 欢迎使用小知识生成器!\n\n要使用这款应用程序，请按照以下步骤操作：\n1. 从下拉菜单中选择一个类别。2. 输入您想要获取的问题数量。3. 点击\'获取问题\' 按钮。</string>
+    <string name="trivia_question_help2">1. 选择测验类别和问题数量。\n\n2. 开始测验，点击单选按钮回答问题。\n\n3. 点击工具栏菜单上的详情按钮查看问题详情。\n\n4. 提交答案，查看分数。\n\n5. 输入您的姓名，将分数保存到数据库中。\n\n6. 点击相应按钮，查看前 10 名用户的高分列表。\n\n祝您玩得开心，享受挑战！"</string>
+    <string name="question_generator">小知识生成器</string>
+    <string name="toast_number_over_limit">问题数必须小于或等于<b>50</b></string>
+    <string name="question_amount">数量</string>
+    <string name="you_achieved">你获得了 </string>
+    <string name="alert_question">您是否愿意提供您的姓名和分数，以便纳入我们的数据库，并有机会查看前十名用户的分数？</string>
+    <string name="Trivia_Question">Trivia问题</string>
+    <string name="Trivia_snacker_message">问题已被下载并保存到 </string>
+    <string name="alert_delete_question">你想删除这个问题吗？</string>
+    <string name="snacker_question_remove_suc">您删除了问题 # </string>
+    <string name="UNDO">撤销</string>
+
+    <!--   below strings for currency converter-->
+    <string name="runConversion">转换</string>
+    <string name="baseCurrency">基础币种：</string>
+    <string name="target">转换为：</string>
+    <string name="databaseID">数据库ID：</string>
+    <string name="helpConverter">1. 点击左上角的Home按钮回到主页。\n2. 在输入框中输入需要转换的金额。\n3. 点击扩展按钮选择基础币种和目标币种。\n4. 点击转换按钮进行转换操作。</string>
+
 </resources>

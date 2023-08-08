@@ -35,6 +35,7 @@ import algonquin.cst2335.finalproject.Adapter.BearAdapter;
 import algonquin.cst2335.finalproject.Entities.Bear;
 import algonquin.cst2335.finalproject.Model.BearDAO;
 import algonquin.cst2335.finalproject.Model.BearDatabase;
+import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.UI.Fragment.BearFragment;
 import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
@@ -170,7 +171,8 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
         configureToolbar();
 
         // Initialize the Room database and retrieve saved bear images
-        BearDatabase db = Room.databaseBuilder(getApplicationContext(), BearDatabase.class, "database-name").build();
+        BearDatabase db = DataSource.getInstance(this).getBearDB();
+
         dao = db.bearDAO();
         Executor thread = Executors.newSingleThreadExecutor();
         // Update the UI with the retrieved bear images using runOnUiThread

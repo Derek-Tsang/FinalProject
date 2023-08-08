@@ -16,6 +16,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import algonquin.cst2335.finalproject.Adapter.TriviaUserAdapter;
 import algonquin.cst2335.finalproject.Entities.TriviaUser;
+import algonquin.cst2335.finalproject.Model.BearDatabase;
+import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.Model.TriviaUserDAO;
 import algonquin.cst2335.finalproject.Model.TriviaUserDatabase;
 import algonquin.cst2335.finalproject.R;
@@ -83,9 +85,11 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
             }else{
 
                 // connect to database
-                TriviaUserDatabase db = Room.databaseBuilder(getApplicationContext(),TriviaUserDatabase.class, "database-name").
-                        fallbackToDestructiveMigration().
-                        build();
+//                TriviaUserDatabase db = Room.databaseBuilder(getApplicationContext(),TriviaUserDatabase.class, "database-name").
+//                        fallbackToDestructiveMigration().
+//                        build();
+
+                TriviaUserDatabase db = DataSource.getInstance(this).getTriviaUserDB();
 
                 triviaUserDAO = db.userDAO();
                 binding.headerId.setVisibility(View.VISIBLE);

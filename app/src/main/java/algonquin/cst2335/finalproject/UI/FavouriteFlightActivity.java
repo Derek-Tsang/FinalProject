@@ -74,7 +74,7 @@ public class FavouriteFlightActivity extends AppCompatActivity {
             if(!binding.etAirportCode.getText().equals("") || binding.etAirportCode.getText()!=null){
                 getFlightDataFromDatabase(binding.etAirportCode.getText().toString());
             }else{
-                Toast.makeText(FavouriteFlightActivity.this, "please input Search keyword!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FavouriteFlightActivity.this, R.string.toast_input_search_keyword, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -90,7 +90,7 @@ public class FavouriteFlightActivity extends AppCompatActivity {
                         public void onDismiss(DialogInterface dialog) {
                             favoriteFlights.remove(position);
                             flightAdapter.notifyItemRemoved(position);
-                            Snackbar.make(binding.rvFlights,"remove from favorite list success!", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(binding.rvFlights,R.string.snacker_remove_success, Snackbar.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -146,7 +146,7 @@ public class FavouriteFlightActivity extends AppCompatActivity {
 
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Flight Details");
+        getSupportActionBar().setTitle(R.string.Flight_Details);
         binding.toolbar.setTitleTextColor(Color.WHITE);
         //display home icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -171,12 +171,9 @@ public class FavouriteFlightActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("How to use")
-                    .setMessage("1. Click the Left-arrow button in the upper left corner to return to the previous page.\n" +
-                            "2. The input box supports fuzzy query function, which can filter all the data matching the keyword informatio. \n" +
-                            "3. Support instant query, the query result will be corresponding in the input process instantly. \n" +
-                            "4. You can remove flight information from favorite list.")
-                    .setPositiveButton("Got it!", (dialog,cl) -> {
+            builder.setTitle(R.string.howToUse)
+                    .setMessage(R.string.flight_tracker_fav_help)
+                    .setPositiveButton(R.string.gotIt, (dialog,cl) -> {
 
                     })
                     .create().show();

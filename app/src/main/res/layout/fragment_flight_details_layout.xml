@@ -45,6 +45,17 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAddFav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/addFav" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -79,7 +90,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:text="DEPARTURE"
+                    android:text="@string/DEPARTURE"
                     android:layout_marginLeft="5dp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/ivDeparture"/>
@@ -151,7 +162,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Terminal" />
+                            android:text="@string/Terminal" />
 
                         <TextView
                             android:id="@+id/tvDeTerminal"
@@ -173,7 +184,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Gate" />
+                            android:text="@string/Gate" />
 
                         <TextView
                             android:id="@+id/tvDeGate"
@@ -195,7 +206,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Delay" />
+                            android:text="@string/Delay" />
 
                         <TextView
                             android:id="@+id/tvDeDelay"
@@ -224,7 +235,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:text="ARRIVAL"
+                    android:text="@string/ARRIVAL"
                     android:layout_marginLeft="5dp"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/ivArrival"/>
@@ -294,7 +305,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Terminal" />
+                            android:text="@string/arrTerminal" />
 
                         <TextView
                             android:id="@+id/tvArTerminal"
@@ -316,7 +327,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Gate" />
+                            android:text="@string/arrGate" />
 
                         <TextView
                             android:id="@+id/tvArGate"
@@ -338,7 +349,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:text="Baggage" />
+                            android:text="@string/Baggage" />
 
                         <TextView
                             android:id="@+id/tvArBaggage"
@@ -354,7 +365,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="INFORMATION"
+                android:text="@string/INFORMATION"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"/>
 
@@ -379,7 +390,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:layout_alignParentStart="true"
-                        android:text="Fight Date:"/>
+                        android:text="@string/flight_date"/>
                     <TextView
                         android:id="@+id/tvDate"
                         android:layout_width="wrap_content"
@@ -409,7 +420,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:layout_alignParentStart="true"
-                        android:text="Airline Name:"/>
+                        android:text="@string/airline_name"/>
                     <TextView
                         android:id="@+id/tvAirline"
                         android:layout_width="wrap_content"
@@ -440,7 +451,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:layout_alignParentStart="true"
-                        android:text="Flight #:"/>
+                        android:text="@string/flight_number"/>
                     <TextView
                         android:id="@+id/tvFlight"
                         android:layout_width="wrap_content"
@@ -451,14 +462,7 @@
                         android:textSize="16sp"/>
                 </RelativeLayout>
             </LinearLayout>
-            <Button
-                android:id="@+id/btnAddFav"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:text="@string/addFav" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

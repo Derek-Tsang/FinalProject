@@ -107,14 +107,14 @@ public class TriviaQuestionActivity extends AppCompatActivity {
         binding.sumbitBtn.setOnClickListener((click)->{
             int scores = calculateTotalScores();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("You achieved:    " + scores + "/" + amount)
-                    .setMessage("Would you like to provide your name and scores to be included in our database and have the opportunity to view the top ten user scores? \n\n").
-                    setPositiveButton("Yes",(dialog, cl)->{
+            builder.setTitle(getResources().getString(R.string.you_achieved)+":    " + scores + "/" + amount)
+                    .setMessage(R.string.alert_question).
+                    setPositiveButton(R.string.alert_yes,(dialog, cl)->{
                         Intent intent = new Intent(this, TriviaUserScoresActivity.class);
                         intent.putExtra("score",scores);          
                         startActivity(intent);
                     }).
-                    setNegativeButton("No",(dialog, cl)->{
+                    setNegativeButton(R.string.alert_no,(dialog, cl)->{
 
 
                     }).
@@ -127,7 +127,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
      */
     private void configureToolbar() {
         setSupportActionBar(binding.triviaToolbar);
-        getSupportActionBar().setTitle("Trivia Question");
+        getSupportActionBar().setTitle(R.string.Trivia_Question);
         binding.triviaToolbar.setTitleTextColor(Color.WHITE);
         //display home icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -169,15 +169,9 @@ public class TriviaQuestionActivity extends AppCompatActivity {
            downloadQuestionsToFile();
         }else if(item.getItemId() == R.id.triviaHelp){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("How to use \n\n")
-                    .setMessage("1. Select the quiz category and the number of questions.\n\n" +
-                            "2. Start the quiz and answer the questions by tapping on the radio buttons.\n\n" +
-                            "3. View the question details by click the details button on the toolbar menu.\n\n" +
-                            "4. Submit your answers to see your score.\n\n" +
-                            "5. Enter your name to save your score in the database.\n\n" +
-                            "6. View the list of top 10 high scores from previous users by clicking the corresponding button.\n\n" +
-                            "Have fun and enjoy the trivia challenge!")
-                            .setPositiveButton("OK",(dialog, cl)->{})
+            builder.setTitle(R.string.howToUse)
+                    .setMessage(R.string.trivia_question_help2)
+                            .setPositiveButton(R.string.alert_yes,(dialog, cl)->{})
                     .create().show();
         }
 
@@ -269,7 +263,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
             FileOutputStream fos = getApplicationContext().openFileOutput(filename, Context.MODE_PRIVATE);
             fos.write(questionString.toString().getBytes());
             fos.close();
-            Snackbar.make(binding.getRoot(), "Questions are downloaded and saved to " + filename, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), getResources().getString(R.string.Trivia_snacker_message) + filename, Snackbar.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -283,16 +277,16 @@ public class TriviaQuestionActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         TriviaQuestion deletedQuestion = triviaModel.selectQuestion.getValue();
         if(deletedQuestion != null ){
-            builder.setTitle("Do you want to delete the question ?" ).
-                    setNegativeButton("No",(dialog, cl)->{}).
-                    setPositiveButton("Yes",(dialog, cl)->{
+            builder.setTitle(R.string.alert_delete_question).
+                    setNegativeButton(R.string.alert_no,(dialog, cl)->{}).
+                    setPositiveButton(R.string.alert_yes,(dialog, cl)->{
                         int position = triviaAdapter.getPosition();
                         questions.remove(deletedQuestion);
                         triviaAdapter.notifyItemRemoved(position);
 
                         TextView questionText = findViewById(R.id.question);
-                        Snackbar.make(questionText, "You deleted question #" + (position+1), Snackbar.LENGTH_LONG).
-                                setAction("UNDO", (clk) -> {
+                        Snackbar.make(questionText, getResources().getString(R.string.snacker_question_remove_suc) + (position+1), Snackbar.LENGTH_LONG).
+                                setAction(R.string.UNDO, (clk) -> {
                                         questions.add(position, deletedQuestion);
                                         triviaAdapter.notifyItemInserted(position);
 

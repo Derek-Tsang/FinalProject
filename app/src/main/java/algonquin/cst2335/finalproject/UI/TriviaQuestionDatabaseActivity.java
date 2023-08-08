@@ -84,12 +84,12 @@ public class TriviaQuestionDatabaseActivity extends AppCompatActivity {
 
             if(amount > 50){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Number of Questions must be less than or equal to 50 ")
-                        .setPositiveButton("OK", (dialog, cl) -> {
+                builder.setMessage(R.string.toast_number_over_limit)
+                        .setPositiveButton(R.string.alert_yes, (dialog, cl) -> {
                         })
                         .create().show();
             }else{
-                Toast.makeText(getApplicationContext(), "Selected category: " + selectedCategory + ", amount: " + amount, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.selectCategory) +": "+ selectedCategory + ", "+ getResources().getString(R.string.question_amount)+": " + amount, Toast.LENGTH_LONG).show();
                 // store category and amount
                 CommonSharedPreference.setsharedInt(this,"categoryNumber",getCategoryNumber(selectedCategory));
                 CommonSharedPreference.setsharedInt(this, "amount", amount);
@@ -154,7 +154,7 @@ public class TriviaQuestionDatabaseActivity extends AppCompatActivity {
      */
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Question Generator");
+        getSupportActionBar().setTitle(R.string.question_generator);
         binding.toolbar.setTitleTextColor(Color.WHITE);
         //display home icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -194,13 +194,8 @@ public class TriviaQuestionDatabaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("How to use")
-                    .setMessage("Welcome to the Trivia App!\n\n" +
-                            "To use this app, follow these steps:\n" +
-                            "1. Select a category from the dropdown menu.\n" +
-                            "2. Enter the number of questions you want to fetch.\n" +
-                            "3. Click the ' Get Questions' button." +
-                            "\nThe app will then fetch trivia questions based on your selection.")
+            builder.setTitle(R.string.howToUse)
+                    .setMessage(R.string.trivia_question_help)
                     .create().show();
         }
         return true;

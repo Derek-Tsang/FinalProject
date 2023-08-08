@@ -105,7 +105,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
                 CommonSharedPreference.setsharedText(this, "lastCode", binding.etAirportCode.getText().toString());
                 getFlightDataFromInternet(binding.etAirportCode.getText().toString());
             }else{
-                Toast.makeText(FlightTrackerActivity.this, "please input airport code!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FlightTrackerActivity.this, R.string.toast_input_airport_code, Toast.LENGTH_SHORT).show();
             }
 
 
@@ -145,11 +145,11 @@ public class FlightTrackerActivity extends AppCompatActivity {
                     parseFlightResponse(response);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(FlightTrackerActivity.this, "JSON parse error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(FlightTrackerActivity.this, R.string.toast_json_parse_error, Toast.LENGTH_LONG).show();
                 }
             }
         }, error -> {
-            Toast.makeText(FlightTrackerActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(FlightTrackerActivity.this, R.string.toast_api_error, Toast.LENGTH_LONG).show();
         });
         jsonObjRequest.setTag(_TAG);
         mVolleyQueue.add(jsonObjRequest);
@@ -236,7 +236,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
 
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("FlightTracker");
+        getSupportActionBar().setTitle(R.string.aviation_stack_flight_tracker);
         binding.toolbar.setTitleTextColor(Color.WHITE);
         //display home icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -261,13 +261,9 @@ public class FlightTrackerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("How to use")
-                    .setMessage("1. Click the Home button in the upper left corner to return to the home page.\n" +
-                            "2. The input box can accept 3-letter code representing the airport. For instance, " +
-                            "YOW is for Ottawa, YYZ is Toronto, YUL is Montreal. \n" +
-                            "3. Click on the search results list to view flight details. \n" +
-                            "4. You can add flight information to favorites.")
-                    .setPositiveButton("Got it!", (dialog,cl) -> {
+            builder.setTitle(R.string.howToUse)
+                    .setMessage(R.string.flight_tracker_help)
+                    .setPositiveButton(R.string.gotIt, (dialog,cl) -> {
 
                     })
                     .create().show();

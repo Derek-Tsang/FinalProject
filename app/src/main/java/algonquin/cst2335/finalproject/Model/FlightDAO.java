@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 import androidx.room.Transaction;
 
 import java.util.List;
@@ -41,6 +42,7 @@ public interface FlightDAO {
             "INNER JOIN Airport AS dep ON Flight.departureId = dep.airportId " +
             "INNER JOIN Airport AS arr ON Flight.arrivalId = arr.airportId ")
     @Transaction
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     List<FlightInfo> getFlightsWithAirports();
 
     /**
@@ -60,6 +62,7 @@ public interface FlightDAO {
             "arr.airport like '%' || :keyword || '%' or " +
             "arr.iata like '%' || :keyword || '%'")
     @Transaction
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     List<FlightInfo> getFlightsWithAirports(String keyword);
 
     /**
