@@ -7,6 +7,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
+
           </Key>
         </deviceKey>
       </Target>

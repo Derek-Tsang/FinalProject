@@ -48,20 +48,27 @@ import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 import algonquin.cst2335.finalproject.databinding.ActivityCurrencyBinding;
 
+/**
+ * The CurrencyConverterActivity class represents the main activity for currency conversion.
+ * This activity allows users to convert currency amounts between different currencies using a web API.
+ *
+ * @version 1.0
+ * @since 2023-08-04
+ */
 public class CurrencyConverterActivity extends AppCompatActivity {
 
     ActivityCurrencyBinding binding;
     Toolbar toolbar;
-
     List<CurrencyResult> results = new ArrayList<CurrencyResult>();
     CurrencyDAO dao;
-
     ConverterAdapter adapter;
-
     RequestQueue queue = null;
+//    long id;
 
-    long id;
-
+    /**
+     * Initializes the activity and sets up the UI components and listeners.
+     * @param savedInstanceState The saved instance state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +76,6 @@ public class CurrencyConverterActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
         configureToolbar();
-
-
-
-        //SharedPreferences
-//        binding.amountFrom.setText(CommonSharedPreference.getsharedText(this, "amount"));
 
         SharedPreferences pref = getSharedPreferences("Final", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -90,8 +92,6 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         ArrayAdapter adapterTo = new ArrayAdapter<String>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, to);
         binding.currenciesSpinnerTo.setAdapter(adapterTo);
-
-
 
         //database
         CurrencyDatabase db = Room.databaseBuilder(getApplicationContext(), CurrencyDatabase.class, "database-name").build();
@@ -122,27 +122,13 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                 Double amountFrom = Double.parseDouble(binding.amountFrom.getText().toString());
                 CommonSharedPreference.setsharedText(getApplicationContext(), "amount",binding.amountFrom.getText().toString());
                 RequestFromHttpToDevice();
-//                if(binding.currenciesSpinnerFrom.getSelectedItem().toString().equals("USD")
-//                        && binding.currenciesSpinnerTo.getSelectedItem().toString().equals("CAD")) {
-//                    amountTo = amountFrom * 1.32;
-//                    //Currency item;
-//                    //item.set()
-//                    //currencyList.add(item);
-//                    CurrencyResult item = new CurrencyResult();
-//
-//                    item.setCurrencyFrom(binding.currenciesSpinnerFrom.getSelectedItem().toString());
-//                    item.setAmountFrom(amountFrom);
-//                    item.setCurrencyTo(binding.currenciesSpinnerTo.getSelectedItem().toString());
-//                    item.setAmountTo(amountTo);
-//                    Snackbar.make(binding.amountFrom, amountTo.toString(),Snackbar.LENGTH_LONG).show();
-//                    binding.amountTo.setText(amountTo.toString());
-//                    results.add(item);
-//                    adapter.notifyDataSetChanged();
-//                }
             }
         });
     }
 
+    /**
+     * Configures the toolbar for the activity.
+     */
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle(R.string.currency_converter);
@@ -156,16 +142,29 @@ public class CurrencyConverterActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Hides the toolbar.
+     */
     public void hideToolbar() {
         toolbar.setVisibility(View.GONE);
     }
 
+    /**
+     * Inflates the menu options in the toolbar.
+     * @param menu The menu to inflate.
+     * @return Whether the menu is created successfully.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
 
+    /**
+     * Handles menu item selections from the toolbar menu.
+     * @param item The selected menu item.
+     * @return Whether the item is handled successfully.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){
@@ -180,7 +179,9 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         return true;
     }
 
-
+    /**
+     * Sends a currency conversion request to a web API and processes the response.
+     */
     private void RequestFromHttpToDevice(){
         //RequestQueue initialized
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -222,19 +223,14 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                     thread.execute(() ->
                     {
                         dao.insertCurrency(currency); //insert result into database
-//                        currency.setId(id);
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                results.add(currency);
-//                adapter.notifyDataSetChanged();
             }
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
                 Log.i(TAG,"Error :" + error.toString());
             }
         }){
@@ -247,10 +243,6 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                     return params;
                 }
             };
-
         requestQueue.add(request);
-
-
-
     }
 }
