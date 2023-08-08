@@ -115,8 +115,8 @@ public class CurrencyConverterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if("".equals(binding.amountFrom.getText().toString())){
-                    Snackbar.make(binding.amountFrom, "Please enter amount to be converted",Snackbar.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(),"please enter amount",Toast.LENGTH_SHORT).show();
+                    Snackbar.make(binding.amountFrom, R.string.snackbarAmount,Snackbar.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),R.string.toastAmount,Toast.LENGTH_SHORT).show();
                     return;
                 }
 
