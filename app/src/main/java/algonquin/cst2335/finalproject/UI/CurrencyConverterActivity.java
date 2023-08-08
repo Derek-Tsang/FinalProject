@@ -42,8 +42,10 @@ import java.util.concurrent.Executors;
 
 import algonquin.cst2335.finalproject.Adapter.ConverterAdapter;
 import algonquin.cst2335.finalproject.Entities.CurrencyResult;
+import algonquin.cst2335.finalproject.Model.BearDatabase;
 import algonquin.cst2335.finalproject.Model.CurrencyDAO;
 import algonquin.cst2335.finalproject.Model.CurrencyDatabase;
+import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.Utilities.CommonSharedPreference;
 import algonquin.cst2335.finalproject.databinding.ActivityCurrencyBinding;
@@ -94,7 +96,7 @@ public class CurrencyConverterActivity extends AppCompatActivity {
         binding.currenciesSpinnerTo.setAdapter(adapterTo);
 
         //database
-        CurrencyDatabase db = Room.databaseBuilder(getApplicationContext(), CurrencyDatabase.class, "database-name").build();
+        CurrencyDatabase db = DataSource.getInstance(this).getCurrencyDB();
         dao = db.cDAO();
         Executor thread = Executors.newSingleThreadExecutor();
         thread.execute(() ->
@@ -222,7 +224,11 @@ public class CurrencyConverterActivity extends AppCompatActivity {
                     Executor thread = Executors.newSingleThreadExecutor();
                     thread.execute(() ->
                     {
-                        dao.insertCurrency(currency); //insert result into database
+                        currency.setId(dao.insertCurrency(currency)); //insert result into database
+                        results.add(currency);
+                        runOnUiThread(() -> {
+                            adapter.notifyDataSetChanged();
+                        });
                     });
                 } catch (Exception e) {
                     e.printStackTrace();

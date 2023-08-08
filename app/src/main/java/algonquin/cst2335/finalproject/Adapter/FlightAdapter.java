@@ -132,28 +132,6 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
                 listener.onItemClick(selected,position);
              });
 
-//            view.setOnClickListener(click -> {
-//                int position = getAbsoluteAdapterPosition();
-//                FlightInfo selected = flights.get(position);
-//                if(context instanceof FavouriteFlightActivity){
-//                    FlightDetailDialogFragment fragment = new FlightDetailDialogFragment(context,selected,true);
-//                    fragment.setCancelable(false);
-//                    fragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//
-//                        @Override
-//                        public void onDismiss(DialogInterface dialog) {
-//                            flights.remove(position);
-//                            notifyItemRemoved(position);
-//                            notifyDataSetChanged();
-//                        }
-//                    });
-//                    fragment.show(((FavouriteFlightActivity)context).getSupportFragmentManager(),"FlightDetailFragment");
-//                }else if (context instanceof FlightTrackerActivity){
-//                    FlightDetailDialogFragment fragment = new FlightDetailDialogFragment(context,selected,false);
-//                    fragment.setCancelable(false);
-//                    fragment.show(((FlightTrackerActivity)context).getSupportFragmentManager(),"FlightDetailFragment");
-//                }
-//            });
         }
     }
 

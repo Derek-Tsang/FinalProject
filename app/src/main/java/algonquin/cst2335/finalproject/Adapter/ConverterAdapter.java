@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 import algonquin.cst2335.finalproject.Entities.CurrencyResult;
 import algonquin.cst2335.finalproject.Model.CurrencyDAO;
 import algonquin.cst2335.finalproject.Model.CurrencyDatabase;
+import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.UI.CurrencyConverterActivity;
 import algonquin.cst2335.finalproject.UI.Fragment.CurrencyFragment;
@@ -53,7 +54,7 @@ public class ConverterAdapter extends RecyclerView.Adapter<ConverterAdapter.View
         this.results = results;
 
         // Initialize currencyDAO
-        CurrencyDatabase db = Room.databaseBuilder(applicationcontext, CurrencyDatabase.class, "database-name").build();
+        CurrencyDatabase db = DataSource.getInstance(applicationcontext).getCurrencyDB();
         currencyDAO = db.cDAO();
     }
 

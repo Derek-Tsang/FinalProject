@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import algonquin.cst2335.finalproject.Entities.TriviaQuestion;
+import algonquin.cst2335.finalproject.R;
 import algonquin.cst2335.finalproject.databinding.FragmentQuestionDetailsLayoutBinding;
 
 /**
@@ -60,12 +61,12 @@ public class TriviaQuestionDetailsFragment extends Fragment {
             }
         }
 
-        binding.category.setText("Category: \t" + selectQuestion.getCategory());
-        binding.type.setText("Type: \t" + selectQuestion.getType());
-        binding.difficulty.setText("Difficulty: \t" + selectQuestion.getDifficulty());
-        binding.question.setText("Question: \t" + selectQuestion.getQuestion());
-        binding.correctAnswer.setText("Correct answer: " + selectQuestion.getCorrectAnswer());
-        binding.incorrectAnswers.setText("Incorrect answer: " + "\n"+
+        binding.category.setText(getResources().getString(R.string.category)+": \t" + selectQuestion.getCategory());
+        binding.type.setText(getResources().getString(R.string.type)+": \t" + selectQuestion.getType());
+        binding.difficulty.setText(getResources().getString(R.string.difficulty)+": \t" + selectQuestion.getDifficulty());
+        binding.question.setText(getResources().getString(R.string.question)+": \t" + selectQuestion.getQuestion());
+        binding.correctAnswer.setText(getResources().getString(R.string.correctAnswer)+": " + selectQuestion.getCorrectAnswer());
+        binding.incorrectAnswers.setText(getResources().getString(R.string.incorrectAnswer)+": " + "\n"+
                 incorrectAnswers.get(0) + "\n" +
                 incorrectAnswers.get(1) + "\n" +
                 incorrectAnswers.get(2));

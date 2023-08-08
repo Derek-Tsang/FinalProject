@@ -1,6 +1,5 @@
 package algonquin.cst2335.finalproject.UI.Fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,14 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -114,7 +108,7 @@ public class FlightDetailFragment extends Fragment {
         binding.tvFromTo.setText(selected.getDepartureAirport().getIata() + " - " + selected.getArrivalAirport().getIata());
 
         try{
-            binding.tvDration.setText(calculateMinsGap(selected.getDepartureAirport().getScheduled(),selected.getArrivalAirport().getScheduled()));
+            binding.tvDration.setText(calculateMinsGap(context,selected.getDepartureAirport().getScheduled(),selected.getArrivalAirport().getScheduled()));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -192,11 +186,11 @@ public class FlightDetailFragment extends Fragment {
                         .flightDAO()
                         .addFlight(selected.getFlight());
             });
-            Toast.makeText(context,"Add Favorite Flight Success!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,R.string.toast_add_fav_success,Toast.LENGTH_SHORT).show();
             dismissFragment();
         }catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,"Add Favorite Flight Failed!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context,R.string.toast_add_fav_fail,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -209,9 +203,9 @@ public class FlightDetailFragment extends Fragment {
     private void removeFavorite(FlightInfo selected){
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder( getContext() );
-            builder.setMessage("Do you want to remove this flight from your favourite list?")
-                    .setTitle("Question:")
-                    .setPositiveButton("Yes", (dialog,cl) -> {
+            builder.setMessage(R.string.alert_remove_message)
+                    .setTitle(R.string.question)
+                    .setPositiveButton(R.string.alert_yes, (dialog,cl) -> {
                         isDelete = true;
                         Executor thread = Executors.newSingleThreadExecutor();
                         thread.execute(() ->
@@ -222,7 +216,7 @@ public class FlightDetailFragment extends Fragment {
                         });
                         dismissFragment();
                     })
-                    .setNegativeButton("No", (dialog,cl) -> {
+                    .setNegativeButton(R.string.alert_no, (dialog,cl) -> {
                         isDelete = false;
                     })
                     .setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -248,7 +242,7 @@ public class FlightDetailFragment extends Fragment {
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
-    public static String calculateMinsGap(String departureDate,String arrivalDate) {
+    public static String calculateMinsGap(Context context, String departureDate,String arrivalDate) {
         // Calculate the duration between the two date-times
         long secondsGap = 0;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -260,12 +254,12 @@ public class FlightDetailFragment extends Fragment {
         }
         if(secondsGap>60){
             if((secondsGap / 60) > 60){
-                return secondsGap / 3600 + "hr " + (secondsGap % 3600 / 60) + "mins";
+                return secondsGap / 3600 + context.getResources().getString(R.string.string_hour) + (secondsGap % 3600 / 60) + context.getResources().getString(R.string.string_min);
             }else{
-                return secondsGap / 60 + "mins";
+                return secondsGap / 60 + context.getResources().getString(R.string.string_min);
             }
         }else{
-            return secondsGap + "sec";
+            return secondsGap + context.getResources().getString(R.string.string_sec);
         }
     }
 

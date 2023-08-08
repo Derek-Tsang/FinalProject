@@ -13,8 +13,9 @@ public class DataSource {
     private static DataSource mInstance;
 
     private FlightTrackerDatabase flgithDB;
-    //TODO: add your dababase here
-
+    private BearDatabase bearDB;
+    private TriviaUserDatabase triviaUserDB;
+    private CurrencyDatabase currencyDB;
 
     /**
      *  Constructs a new instance of the DataSource class.
@@ -24,9 +25,9 @@ public class DataSource {
         this.mCtx = mCtx;
         //creating the app database with Room database builder
         flgithDB = Room.databaseBuilder(mCtx, FlightTrackerDatabase.class, "FlightTrackerDatabase").build();
-        //TODO: add your DatabaseBuilder here
-
-
+        bearDB = Room.databaseBuilder(mCtx, BearDatabase.class, "BearDatabase").build();
+        triviaUserDB = Room.databaseBuilder(mCtx, TriviaUserDatabase.class, "TriviaUserDatabase").build();
+        currencyDB = Room.databaseBuilder(mCtx, CurrencyDatabase.class, "CurrencyDatabase").build();
     }
     /**
      *  Retrieves the singleton instance of the DataSource class.
@@ -46,8 +47,15 @@ public class DataSource {
     public FlightTrackerDatabase getFlgithDB() {
         return flgithDB;
     }
-    //TODO: add get Databade Method here
-
+    public BearDatabase getBearDB() {
+        return bearDB;
+    }
+    public TriviaUserDatabase getTriviaUserDB() {
+        return triviaUserDB;
+    }
+    public CurrencyDatabase getCurrencyDB() {
+        return currencyDB;
+    }
 
 
 

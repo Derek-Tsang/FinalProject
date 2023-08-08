@@ -16,6 +16,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import algonquin.cst2335.finalproject.Adapter.TriviaUserAdapter;
 import algonquin.cst2335.finalproject.Entities.TriviaUser;
+import algonquin.cst2335.finalproject.Model.BearDatabase;
+import algonquin.cst2335.finalproject.Model.DataSource;
 import algonquin.cst2335.finalproject.Model.TriviaUserDAO;
 import algonquin.cst2335.finalproject.Model.TriviaUserDatabase;
 import algonquin.cst2335.finalproject.R;
@@ -83,9 +85,11 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
             }else{
 
                 // connect to database
-                TriviaUserDatabase db = Room.databaseBuilder(getApplicationContext(),TriviaUserDatabase.class, "database-name").
-                        fallbackToDestructiveMigration().
-                        build();
+//                TriviaUserDatabase db = Room.databaseBuilder(getApplicationContext(),TriviaUserDatabase.class, "database-name").
+//                        fallbackToDestructiveMigration().
+//                        build();
+
+                TriviaUserDatabase db = DataSource.getInstance(this).getTriviaUserDB();
 
                 triviaUserDAO = db.userDAO();
                 binding.headerId.setVisibility(View.VISIBLE);
@@ -160,9 +164,9 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("How to use")
-                    .setMessage("enter your username and scores to view Top ten user scores")
-                    .setPositiveButton("Got it!", (dialog, cl) -> {
+            builder.setTitle(R.string.howToUse)
+                    .setMessage(R.string.triviaUserScoresHelp)
+                    .setPositiveButton(R.string.alert_ok, (dialog, cl) -> {
                     })
                     .create().show();
         }

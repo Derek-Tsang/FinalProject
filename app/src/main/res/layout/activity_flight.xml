@@ -40,7 +40,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="code eg.YYZ"
+            android:hint="@string/airport_code_hint"
             android:inputType="text"
             app:layout_constraintEnd_toStartOf="@+id/btnSearch"
             app:layout_constraintStart_toStartOf="parent"

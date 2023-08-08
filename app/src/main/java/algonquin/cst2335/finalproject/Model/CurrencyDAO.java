@@ -25,7 +25,7 @@ public interface CurrencyDAO {
      * @param c The currency conversion result to insert.
      */
     @Insert
-    void insertCurrency(CurrencyResult c);
+    long insertCurrency(CurrencyResult c);
 
     /**
      * Retrieves all currency conversion results from the database.

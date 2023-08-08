@@ -1,8 +1,6 @@
 package algonquin.cst2335.finalproject.UI;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,17 +16,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.ClientError;
-import com.android.volley.Header;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -38,8 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import algonquin.cst2335.finalproject.Adapter.FlightAdapter;
 import algonquin.cst2335.finalproject.Entities.Airport;
@@ -105,7 +92,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
                 CommonSharedPreference.setsharedText(this, "lastCode", binding.etAirportCode.getText().toString());
                 getFlightDataFromInternet(binding.etAirportCode.getText().toString());
             }else{
-                Toast.makeText(FlightTrackerActivity.this, "please input airport code!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FlightTrackerActivity.this, R.string.toast_input_airport_code, Toast.LENGTH_SHORT).show();
             }
 
 
@@ -130,7 +117,6 @@ public class FlightTrackerActivity extends AppCompatActivity {
      * @param airportCode The airport code used to search for flights.
      */
     private void getFlightDataFromInternet(String airportCode) {
-
         String url = "http://api.aviationstack.com/v1/flights";
         Uri.Builder builder = Uri.parse(url).buildUpon();
         builder.appendQueryParameter("access_key", "19df7bca6a2430a9e93b5d723ce027cc");
@@ -145,11 +131,12 @@ public class FlightTrackerActivity extends AppCompatActivity {
                     parseFlightResponse(response);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(FlightTrackerActivity.this, "JSON parse error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(FlightTrackerActivity.this, R.string.toast_json_parse_error, Toast.LENGTH_LONG).show();
                 }
             }
         }, error -> {
-            Toast.makeText(FlightTrackerActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(FlightTrackerActivity.this, R.string.toast_api_error, Toast.LENGTH_LONG).show();
+            binding.progressBar.setVisibility(View.GONE);
         });
         jsonObjRequest.setTag(_TAG);
         mVolleyQueue.add(jsonObjRequest);
@@ -236,7 +223,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
 
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("FlightTracker");
+        getSupportActionBar().setTitle(R.string.aviation_stack_flight_tracker);
         binding.toolbar.setTitleTextColor(Color.WHITE);
         //display home icon
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -261,13 +248,9 @@ public class FlightTrackerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("How to use")
-                    .setMessage("1. Click the Home button in the upper left corner to return to the home page.\n" +
-                            "2. The input box can accept 3-letter code representing the airport. For instance, " +
-                            "YOW is for Ottawa, YYZ is Toronto, YUL is Montreal. \n" +
-                            "3. Click on the search results list to view flight details. \n" +
-                            "4. You can add flight information to favorites.")
-                    .setPositiveButton("Got it!", (dialog,cl) -> {
+            builder.setTitle(R.string.howToUse)
+                    .setMessage(R.string.flight_tracker_help)
+                    .setPositiveButton(R.string.gotIt, (dialog,cl) -> {
 
                     })
                     .create().show();

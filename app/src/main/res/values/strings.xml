@@ -4,6 +4,37 @@
     <string name="currency_converter">Currency Converter</string>
     <string name="trivia_question_database">Trivia Question Database</string>
     <string name="bear_image_generator">Bear Image Generator</string>
+    <!--   below strings for flight app-->
+    <string name="flight_tracker">Flight Tracker</string>
+    <string name="airport_code_hint">code eg.YYZ</string>
+    <string name="toast_input_airport_code">please input airport code!</string>
+    <string name="toast_json_parse_error">JSON parse error!</string>
+    <string name="toast_api_error">API error!</string>
+    <string name="toast_input_search_keyword">please input Search keyword!</string>
+    <string name="toast_add_fav_success">Add Favorite Flight Success!</string>
+    <string name="toast_add_fav_fail">Add Favorite Flight Failed!</string>
+    <string name="snacker_remove_success">remove from favorite list success!</string>
+    <string name="alert_remove_message">Do you want to remove this flight from your favourite list?</string>
+    <string name="alert_yes">Yes</string>
+    <string name="alert_no">No</string>
+    <string name="string_hour">hours </string>
+    <string name="string_min">mins </string>
+    <string name="string_sec">secs </string>
+    <string name="flight_tracker_help">1. Click the Home button in the upper left corner to return to the home page.\n\n2. The input box can accept 3-letter code representing the airport. For instance,YOW is for Ottawa, YYZ is Toronto, YUL is Montreal.\n\n3. Click on the search results list to view flight details.\n\n4. You can add flight information to favorites.</string>
+    <string name="flight_tracker_fav_help">1. Click the Left-arrow button in the upper left corner to return to the previous page.\n\n2. The input box supports fuzzy query function, which can filter all the data matching the keyword information.\n\n3. Support instant query, the query result will be corresponding in the input process instantly.\n\n4. You can remove flight information from favorite list.</string>
+    <string name="Flight_Details">Flight Details</string>
+    <string name="DEPARTURE">DEPARTURE</string>
+    <string name="ARRIVAL">ARRIVAL</string>
+    <string name="Terminal">Terminal</string>
+    <string name="Gate">Gate</string>
+    <string name="Delay">Delay</string>
+    <string name="arrTerminal">Terminal</string>
+    <string name="arrGate">Gate</string>
+    <string name="Baggage">Baggage</string>
+    <string name="INFORMATION">INFORMATION</string>
+    <string name="flight_date">Fight Date:</string>
+    <string name="airline_name">Airline Name:</string>
+    <string name="flight_number">Flight #:</string>
     <string name="string_keyword">please input keyword</string>
     <string name="search">search</string>
     <string name="Details">Details</string>
@@ -30,15 +61,6 @@
         <item>Entertainment: Video Games</item>
     </string-array>
     <string name="submitBtn">Submit</string>
-    <string name = "runConversion">Convert</string>
-    <string name = "baseCurrency">Base Currency:</string>
-    <string name = "target">Convert to:</string>
-    <string name = "databaseID">Database ID:</string>
-    <string name = "helpConverter">1. Click the Home button in the upper left corner to return to the home page.\n
-    2. Enter the amount needed to be converted into the input box.\n
-    3. Click on the spinner to choose the base currency and the target currency.\n
-    4. Click on the convert button to run conversion.
-    5. Long click on the conversion record to delete the selected record.</string>
     <string name = "howToUse">How to use</string>
     <string name = "gotIt">Got it!</string>
     <string name="editUsername">please enter your name</string>
@@ -53,5 +75,27 @@
     <string name="question">Question</string>
     <string name="correctAnswer">Correct answer</string>
     <string name="incorrectAnswer">Incorrect answer</string>
+    <string name="trivia_question_help">To use this app, please follow these steps:\n\n1. Select a category from the dropdown menu.\n\n2. Enter the number of questions you want to fetch.\n\n3. Click the "'Get Questions'" button to fetch trivia questions based on your selection.</string>
+    <string name="trivia_question_help2">1. Start the quiz and answer questions by tapping on the radio buttons.\n\n2. View the question details by click a question first, then click the details button on the toolbar menu.\n\n3. Delete a question by click a question first, then click the delete button on the toolbar menu.\n\n4. Download all the questions by click the download button on the toolbar menu.\n\n5. Submit your answers to see your score.\n\n6. Enter your name to save your score in database, and view the list of top 10 scores from previous users by clicking the corresponding button.\n\nHave fun and enjoy the trivia challenge!</string>
+    <string name="question_generator">Question Generator</string>
+    <string name="toast_number_over_limit">Number of Questions must be less than or equal to 50</string>
+    <string name="question_amount">amount</string>
+    <string name="you_achieved">You achieved</string>
+    <string name="alert_question">Would you like to provide your name and scores to be included in our database and have the opportunity to view the top ten user scores?</string>
+    <string name="Trivia_Question">Trivia Question</string>
+    <string name="Trivia_snacker_message">Questions are downloaded and saved to </string>
+    <string name="alert_delete_question">Do you want to delete the question ?</string>
+    <string name="snacker_question_remove_suc">You deleted question # </string>
+    <string name="UNDO">UNDO</string>
+    <string name="triviaUserScoresHelp">Enter your name to view top ten user scores.</string>
+    <string name="alert_ok">OK</string>
+
+
+    <!--   below strings for currency converter-->
+    <string name = "runConversion">Convert</string>
+    <string name = "baseCurrency">Base Currency:</string>
+    <string name = "target">Convert to:</string>
+    <string name = "databaseID">123 ID:</string>
+    <string name = "helpConverter">1. Click the Home button in the upper left corner to return to the home page.\n\n2. Enter the amount needed to be converted into the input box.\n\n3. Click on the spinner to choose the base currecy and the target currency.\n\n4. Click on the convert button to run conversion.</string>
 
 </resources>
