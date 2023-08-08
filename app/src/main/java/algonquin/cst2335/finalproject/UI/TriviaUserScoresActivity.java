@@ -166,7 +166,7 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.howToUse)
                     .setMessage(R.string.triviaUserScoresHelp)
-                    .setPositiveButton(R.string.gotIt, (dialog, cl) -> {
+                    .setPositiveButton(R.string.alert_ok, (dialog, cl) -> {
                     })
                     .create().show();
         }

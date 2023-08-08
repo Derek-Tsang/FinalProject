@@ -84,5 +84,6 @@
     <string name="target">转换为：</string>
     <string name="databaseID">数据库ID：</string>
     <string name="helpConverter">1. 点击左上角的Home按钮回到主页。\n2. 在输入框中输入需要转换的金额。\n3. 点击扩展按钮选择基础币种和目标币种。\n4. 点击转换按钮进行转换操作。</string>
+    <string name="alert_ok">好的</string>
 
 </resources>

@@ -171,7 +171,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.howToUse)
                     .setMessage(R.string.trivia_question_help2)
-                            .setPositiveButton(R.string.alert_yes,(dialog, cl)->{})
+                            .setPositiveButton(R.string.alert_ok,(dialog, cl)->{})
                     .create().show();
         }
 
