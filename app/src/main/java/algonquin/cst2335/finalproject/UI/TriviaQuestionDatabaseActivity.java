@@ -195,12 +195,11 @@ public class TriviaQuestionDatabaseActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use")
-                    .setMessage("Welcome to the Trivia App!\n\n" +
-                            "To use this app, follow these steps:\n" +
-                            "1. Select a category from the dropdown menu.\n" +
-                            "2. Enter the number of questions you want to fetch.\n" +
-                            "3. Click the ' Get Questions' button." +
-                            "\nThe app will then fetch trivia questions based on your selection.")
+                    .setMessage("To use this app, please follow these steps:\n\n" +
+                            "1. Select a category from the dropdown menu.\n\n" +
+                            "2. Enter the number of questions you want to fetch.\n\n" +
+                            "3. Click the ' Get Questions' button to fetch trivia questions based on your selection.")
+                    .setPositiveButton("OK",(dialog, cl)->{})
                     .create().show();
         }
         return true;

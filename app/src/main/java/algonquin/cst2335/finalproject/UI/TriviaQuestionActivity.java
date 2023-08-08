@@ -170,12 +170,12 @@ public class TriviaQuestionActivity extends AppCompatActivity {
         }else if(item.getItemId() == R.id.triviaHelp){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use \n\n")
-                    .setMessage("1. Select the quiz category and the number of questions.\n\n" +
-                            "2. Start the quiz and answer the questions by tapping on the radio buttons.\n\n" +
-                            "3. View the question details by click the details button on the toolbar menu.\n\n" +
-                            "4. Submit your answers to see your score.\n\n" +
-                            "5. Enter your name to save your score in the database.\n\n" +
-                            "6. View the list of top 10 high scores from previous users by clicking the corresponding button.\n\n" +
+                    .setMessage("1. Start the quiz and answer questions by tapping on the radio buttons.\n\n" +
+                            "2. View the question details by click a question first, then click the details button on the toolbar menu.\n\n" +
+                            "3. Delete a question by click a question first, then click the delete button on the toolbar menu.\n\n" +
+                            "4. Download all the questions by click the download button on the toolbar menu.\n\n" +
+                            "5. Submit your answers to see your score.\n\n" +
+                            "6. Enter your name to save your score in database, and view the list of top 10 scores from previous users by clicking the corresponding button\n\n" +
                             "Have fun and enjoy the trivia challenge!")
                             .setPositiveButton("OK",(dialog, cl)->{})
                     .create().show();

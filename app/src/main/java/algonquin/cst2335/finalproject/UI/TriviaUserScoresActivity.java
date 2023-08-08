@@ -161,9 +161,8 @@ public class TriviaUserScoresActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.help){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use")
-                    .setMessage("enter your username and scores to view Top ten user scores")
-                    .setPositiveButton("Got it!", (dialog, cl) -> {
-                    })
+                    .setMessage("Enter your name to view top ten user scores.")
+                    .setPositiveButton("OK", (dialog, cl) -> {})
                     .create().show();
         }
         return true;
