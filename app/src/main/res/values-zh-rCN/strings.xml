@@ -21,7 +21,7 @@
     <string name="baseCurrency">基础币种：</string>
     <string name="target">转换为：</string>
     <string name="databaseID">数据库ID：</string>
-    <string name="helpConverter">1. 点击左上角的Home按钮回到主页。2. 在输入框中输入需要转换的金额。3. 点击扩展按钮选择基础币种和目标币种。4. 点击转换按钮进行转换操作。</string>
+    <string name="helpConverter">1. 点击左上角的Home按钮回到主页。2. 在输入框中输入需要转换的金额。3. 点击扩展按钮选择基础币种和目标币种。4. 点击转换按钮进行转换操作。5. 长按转换记录以删除该条被选中的记录。</string>
     <string name="howToUse">使用说明</string>
     <string name="gotIt">知道了！</string>
     <string name="editUsername">请输入你的名字</string>

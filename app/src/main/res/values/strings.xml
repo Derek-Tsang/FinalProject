@@ -36,8 +36,9 @@
     <string name = "databaseID">Database ID:</string>
     <string name = "helpConverter">1. Click the Home button in the upper left corner to return to the home page.\n
     2. Enter the amount needed to be converted into the input box.\n
-    3. Click on the spinner to choose the base currecy and the target currency.\n
-    4. Click on the convert button to run conversion.</string>
+    3. Click on the spinner to choose the base currency and the target currency.\n
+    4. Click on the convert button to run conversion.
+    5. Long click on the conversion record to delete the selected record.</string>
     <string name = "howToUse">How to use</string>
     <string name = "gotIt">Got it!</string>
     <string name="editUsername">please enter your name</string>
