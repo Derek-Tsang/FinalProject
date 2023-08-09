@@ -24,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -209,15 +211,15 @@ public class TriviaQuestionActivity extends AppCompatActivity {
                             triviaQuestion.setCategory(item.getString("category"));
                             triviaQuestion.setType(item.getString("type"));
                             triviaQuestion.setDifficulty(item.getString("difficulty"));
-                            triviaQuestion.setQuestion(item.getString("question"));
-                            triviaQuestion.setCorrectAnswer(item.getString("correct_answer"));
+                            triviaQuestion.setQuestion(decodeString(item.getString("question")));
+                            triviaQuestion.setCorrectAnswer(decodeString(item.getString("correct_answer")));
 
                             JSONArray incorrectAnswersArray = item.getJSONArray("incorrect_answers");
                             List<String> answers = new ArrayList<>();
                             for (int j = 0; j < incorrectAnswersArray.length(); j++) {
-                                answers.add(incorrectAnswersArray.getString(j));
+                                answers.add(decodeString(incorrectAnswersArray.getString(j)));
                             }
-                            answers.add(item.getString("correct_answer"));
+                            answers.add(decodeString(item.getString("correct_answer")));
 
                             Collections.shuffle(answers);
                             triviaQuestion.setAnswers(answers);
@@ -225,7 +227,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
                             triviaAdapter.notifyDataSetChanged();
                         }
 
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
 
@@ -327,5 +329,19 @@ public class TriviaQuestionActivity extends AppCompatActivity {
             totalScore += score;
         }
         return totalScore;
+    }
+
+    /**
+     * decode String
+     * @param strData
+     * @return
+     */
+    public static String decodeString(String str) {
+        if (str == null) {
+            return "";
+        }
+        return str.replaceAll("&lt;", "<").replaceAll("&gt;", ">")
+                .replaceAll("&apos;", "'").replaceAll("&quot;", "\"")
+                .replaceAll("&amp;", "&").replaceAll("&#039;", "'");
     }
 }

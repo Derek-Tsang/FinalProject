@@ -4,6 +4,8 @@ package algonquin.cst2335.finalproject.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,6 +122,9 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         holder.tvArrivalAirport.setText(flights.get(position).getArrivalAirport().getIata());
         holder.tvArrivalTime.setText(flights.get(position).getArrivalAirport().getScheduled().substring(11,16));
         holder.tvSchedule.setText(flights.get(position).getFlight().getFlight_status());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            holder.tvSchedule.setTextColor(context.getResources().getColor(getScheduleColor(flights.get(position).getFlight().getFlight_status()), context.getTheme()));
+        }
         holder.setIsRecyclable(true);
 
     }
@@ -168,5 +173,25 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
 
         }
     }
+
+    private int getScheduleColor(String flightStatus){
+        switch(flightStatus){
+            case "scheduled":
+                return R.color.scheduled;
+            case "active":
+                return R.color.active;
+            case "landed":
+                return R.color.landed;
+            case "cancelled":
+                return R.color.cancelled;
+            case "incident":
+                return R.color.incident;
+            case "diverted":
+                return R.color.diverted;
+            default:
+                return R.color.white;
+        }
+    }
+
 
 }

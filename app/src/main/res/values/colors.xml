@@ -4,6 +4,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#F1F1F1</color>
 
+    <color name="scheduled">#2267C8</color>
+    <color name="active">#4CAF50</color>
+    <color name="landed">#FFC107</color>
+    <color name="cancelled">#B20B0B</color>
+    <color name="incident">#F44336</color>
+    <color name="diverted">#9C27B0</color>
 
 <!--    <color name="triviaBgColor">#E6383E4E</color>-->
     <color name="triviaBgColor">#383e4e</color>
@@ -12,5 +18,7 @@
     <color name="my_primary">#2267C8</color>
     <color name="my_secondary">#17B3ED</color>
     <color name="my_statusbar">#2267C8</color>
+
+
 
 </resources>

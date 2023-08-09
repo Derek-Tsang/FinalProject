@@ -97,20 +97,22 @@ public class FlightTrackerActivity extends AppCompatActivity {
         binding = ActivityFlightBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         configureToolbar();
-        flightModel = new ViewModelProvider(this).get(FlightViewModel.class);
 
+        flightModel = new ViewModelProvider(this).get(FlightViewModel.class);
         flights =flightModel.flights.getValue();
         if(flights == null || flights.isEmpty())
         {
             flightModel.flights.setValue(flights = new ArrayList<>());
         }
+
         binding.etAirportCode.setText(CommonSharedPreference.getsharedText(this, "lastCode"));
+
         //initialize the volley queue
         mVolleyQueue = Volley.newRequestQueue(this);
         flightAdapter = new FlightAdapter(this,flights);
-
         binding.rvFlights.setAdapter(flightAdapter);
         binding.rvFlights.setLayoutManager(new LinearLayoutManager(this));
+
         binding.btnSearch.setOnClickListener(click->{
             if(!binding.etAirportCode.getText().equals("") || binding.etAirportCode.getText()!=null){
                 Log.e(_TAG, binding.etAirportCode.getText().toString());
@@ -137,6 +139,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
             }
         });
 
+        getFlightDataFromInternet(CommonSharedPreference.getsharedText(this, "lastCode"));
     }
 
     /**
@@ -149,6 +152,8 @@ public class FlightTrackerActivity extends AppCompatActivity {
         Uri.Builder builder = Uri.parse(url).buildUpon();
         builder.appendQueryParameter("access_key", "19df7bca6a2430a9e93b5d723ce027cc");
         builder.appendQueryParameter("dep_iata", airportCode);
+        // scheduled, active, landed, cancelled, incident, diverted
+//        builder.appendQueryParameter("flight_status", "diverted");
         builder.appendQueryParameter("limit", String.valueOf(20));
 
         Log.e(_TAG, "url = " + builder.toString());
