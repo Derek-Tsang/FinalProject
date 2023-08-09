@@ -31,11 +31,24 @@ import algonquin.cst2335.finalproject.UI.Fragment.FlightDetailFragment;
  *  It also handles the click events on each item in the RecyclerView and displays a dialog fragment with detailed flight information.
  */
 public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder> {
+    /**
+     * The application context.
+     */
     private Context context;
+
+    /**
+     * List of FlightInfo objects.
+     */
     public List<FlightInfo> flights;
 
+    /**
+     * The listener for item click events.
+     */
     private OnItemClickListener listener;
 
+    /**
+     * The position of the item.
+     */
     private int position;
 
     /**
@@ -50,10 +63,24 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
         this.flights = flights;
     }
 
+    /**
+     * Interface definition for a callback to be invoked when an item in the RecyclerView is clicked.
+     */
     public interface OnItemClickListener {
+
+        /**
+         * abstract method of onItemClick
+          * @param item
+         * @param position
+         */
         void onItemClick(FlightInfo item, int position);
     }
 
+    /**
+     * Sets the listener for item click events.
+     *
+     * @param listener The listener to set.
+     */
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
@@ -112,9 +139,16 @@ public class FlightAdapter extends RecyclerView.Adapter<FlightAdapter.ViewHolder
      * It holds and initializes the views for each item, and handles click events on each item.
      */
     public class ViewHolder extends RecyclerView.ViewHolder {
+        /**
+         *TextViews for displaying flight information
+          */
         TextView tvAirline,tvFlightIdata, tvDate, tvDepartureAirport,
                 tvDepartureTime,tvArrivalAirport,tvArrivalTime,tvSchedule;
 
+        /**
+         * ViewHolder of flight adapter
+         * @param view
+         */
         public ViewHolder(final View view) {
             super(view);
             tvDate = view.findViewById(R.id.tvDate);

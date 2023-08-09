@@ -30,18 +30,40 @@ import algonquin.cst2335.finalproject.databinding.FragmentFlightDetailsLayoutBin
  */
 public class FlightDetailFragment extends Fragment {
 
+    /**
+     * FlightInfo object
+     */
     FlightInfo flight;
 
+    /**
+     * Context
+     */
     Context context;
 
+    /**
+     * flag for know if the page is from favorites
+     */
     boolean isFromFavorite;
 
+    /**
+     * binding of this fragment
+     */
     FragmentFlightDetailsLayoutBinding binding;
+    /**
+     * mOnClickListener
+     */
     private DialogInterface.OnDismissListener mOnClickListener;
 
+    /**
+     * Constructor
+     */
     public FlightDetailFragment() {
     }
 
+    /**
+     * onSaveInstanceState
+     * @param outState Bundle in which to place your saved state.
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -194,6 +216,9 @@ public class FlightDetailFragment extends Fragment {
         }
     }
 
+    /**
+     *flag to set function of add favorite or remove favourite
+     */
     boolean isDelete = false;
     /**
      * Removes the selected FlightInfo from the favorites database.
@@ -236,12 +261,21 @@ public class FlightDetailFragment extends Fragment {
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
-
+    /**
+     * Dismisses the fragment.
+     */
     public void dismissFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
     }
-
+    /**
+     * Calculates the time gap between two dates in a user-readable format.
+     *
+     * @param context       The context.
+     * @param departureDate The departure date.
+     * @param arrivalDate   The arrival date.
+     * @return A formatted string representing the time gap.
+     */
     public static String calculateMinsGap(Context context, String departureDate,String arrivalDate) {
         // Calculate the duration between the two date-times
         long secondsGap = 0;

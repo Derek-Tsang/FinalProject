@@ -45,16 +45,44 @@ import algonquin.cst2335.finalproject.databinding.ActivityFlightBinding;
  *  parsing JSON responses, and updating the UI accordingly.
  */
 public class FlightTrackerActivity extends AppCompatActivity {
-
+    /**
+     * View binding for the activity.
+     */
     ActivityFlightBinding binding;
+
+    /**
+     * ViewModel for managing flight data.
+     */
     FlightViewModel flightModel;
+
+    /**
+     * JSON object request for retrieving flight information.
+     */
     JsonObjectRequest jsonObjRequest;
+
+    /**
+     * Volley request queue for handling network requests.
+     */
     private RequestQueue mVolleyQueue;
 
+    /**
+     * List of favorite flights.
+     */
     ArrayList<FlightInfo> flights = new ArrayList<FlightInfo>();
+
+    /**
+     * Adapter for displaying flights in a RecyclerView.
+     */
     FlightAdapter flightAdapter;
+
+    /**
+     * Tag used for logging and identifying this class.
+     */
     private final String _TAG = "FLIGHT_TRACKER_TAG";
 
+    /**
+     * Toolbar for displaying UI elements and actions.
+     */
     Toolbar toolbar;
 
     /**
@@ -220,7 +248,9 @@ public class FlightTrackerActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * configure Toolbar
+     */
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle(R.string.aviation_stack_flight_tracker);
@@ -233,17 +263,27 @@ public class FlightTrackerActivity extends AppCompatActivity {
         });
 
     }
-
+    /**
+     * hide Toolbar
+     */
     public void hideToolbar() {
         toolbar.setVisibility(View.GONE);
     }
-
+    /**
+     * Create Options Menu
+     * @param menu The options menu in which you place your items.
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
-
+    /**
+     * Options Item Selected
+     * @param item The menu item that was selected.
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){

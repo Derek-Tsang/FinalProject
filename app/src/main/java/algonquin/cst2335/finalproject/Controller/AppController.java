@@ -19,7 +19,14 @@ public class AppController extends Application {
      */
     public static final String TAG = AppController.class.getSimpleName();
 
+    /**
+     * The singleton instance of the AppController class.
+     */
     private static AppController mInstance;
+
+    /**
+     * The Volley RequestQueue for handling network requests.
+     */
     private RequestQueue mRequestQueue;
 
     /**
@@ -31,6 +38,9 @@ public class AppController extends Application {
         return mInstance;
     }
 
+    /**
+     * Retrieves the singleton instance of the AppController class
+     */
     @Override
     public void onCreate() {
         super.onCreate();
