@@ -83,7 +83,16 @@
     <string name="baseCurrency">基础币种：</string>
     <string name="target">转换为：</string>
     <string name="databaseID">数据库ID：</string>
-    <string name="helpConverter">1. 点击左上角的Home按钮回到主页。\n2. 在输入框中输入需要转换的金额。\n3. 点击扩展按钮选择基础币种和目标币种。\n4. 点击转换按钮进行转换操作。</string>
+    <string name="helpConverter">1. 点击左上角的Home按钮回到主页。\n\n2. 在输入框中输入需要转换的金额。\n\n3. 点击扩展按钮选择基础币种和目标币种。\n\n4. 点击转换按钮进行转换操作。\n\n5. 长按一条转换记录已删除这条被选中的记录。</string>
     <string name="alert_ok">好的</string>
+    <string name="delete1Converter">您是否想删除这条记录?</string>
+    <string name="delete3Converter">"问题： "</string>
+    <string name="delete4Converter">否</string>
+    <string name="delete5Converter">是</string>
+    <string name="delete6Converter">您删除了一条记录</string>
+    <string name="delete7Converter">撤销</string>
+    <string name="snackbarAmount">请输入您要转换的金额</string>
+    <string name="toastAmount">请输入金额</string>
+    <string name="hintAmount">输入金额</string>
 
 </resources>
