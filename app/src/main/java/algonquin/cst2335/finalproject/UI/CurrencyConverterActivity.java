@@ -158,7 +158,7 @@ public class CurrencyConverterActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.currency_menu, menu);
         return true;
     }
 
@@ -169,7 +169,7 @@ public class CurrencyConverterActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.help){
+        if(item.getItemId() == R.id.currencyHelp){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.howToUse)
                     .setMessage(R.string.helpConverter)
