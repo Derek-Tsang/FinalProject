@@ -140,6 +140,7 @@ public class FlightTrackerActivity extends AppCompatActivity {
         });
 
         getFlightDataFromInternet(CommonSharedPreference.getsharedText(this, "lastCode"));
+        binding.progressBar.setVisibility(View.VISIBLE);
     }
 
     /**

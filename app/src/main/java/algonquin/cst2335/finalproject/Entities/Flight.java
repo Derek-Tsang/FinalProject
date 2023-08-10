@@ -17,14 +17,14 @@ package algonquin.cst2335.finalproject.Entities;
                 @ForeignKey(entity = Airport.class,
                         parentColumns = "airportId",
                         childColumns = "departureId",
-                        onDelete = CASCADE,
-                        onUpdate = CASCADE
+                        onDelete = ForeignKey.CASCADE,
+                        onUpdate = ForeignKey.CASCADE
                 ),
                 @ForeignKey(entity = Airport.class,
                         parentColumns = "airportId",
                         childColumns = "arrivalId",
-                        onDelete = CASCADE,
-                        onUpdate = CASCADE)
+                        onDelete = ForeignKey.CASCADE,
+                        onUpdate = ForeignKey.CASCADE)
         })
 public class Flight {
     /**
