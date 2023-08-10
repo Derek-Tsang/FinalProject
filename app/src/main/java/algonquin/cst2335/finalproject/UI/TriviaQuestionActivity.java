@@ -333,7 +333,7 @@ public class TriviaQuestionActivity extends AppCompatActivity {
 
     /**
      * decode String
-     * @param strData
+     * @param str
      * @return
      */
     public static String decodeString(String str) {
