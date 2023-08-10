@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -172,6 +173,11 @@ public class FlightTrackerActivity extends AppCompatActivity {
             Toast.makeText(FlightTrackerActivity.this, R.string.toast_api_error, Toast.LENGTH_LONG).show();
             binding.progressBar.setVisibility(View.GONE);
         });
+        jsonObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         jsonObjRequest.setTag(_TAG);
         mVolleyQueue.add(jsonObjRequest);
     }

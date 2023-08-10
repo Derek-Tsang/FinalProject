@@ -10,7 +10,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/currencyHelp"
-        android:icon="@drawable/about"
+        android:icon="@drawable/ic_about"
         android:title="Help"
         app:showAsAction="always" />
 
