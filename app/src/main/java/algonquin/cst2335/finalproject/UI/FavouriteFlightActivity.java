@@ -38,15 +38,35 @@ import algonquin.cst2335.finalproject.databinding.ActivityFlightFavouriteBinding
  The activity uses a ViewModel to handle data and a RecyclerView to display the list of flights.
  */
 public class FavouriteFlightActivity extends AppCompatActivity {
+    /**
+     * View binding for the activity
+     */
+    private ActivityFlightFavouriteBinding binding;
+    /**
+     * ViewModel for managing flight data
+     */
+    private FlightViewModel flightModel;
+    /**
+     * List of favorite flights
+     */
+    private ArrayList<FlightInfo> favoriteFlights = new ArrayList<>();
+    /**
+     * Adapter for displaying flights in a RecyclerView
+     */
+    private FlightAdapter flightAdapter;
+    /**
+     * Fragment for displaying flight details
+     */
+    private FlightDetailFragment fragment;
 
-    ActivityFlightFavouriteBinding binding;
-    FlightViewModel flightModel;
-
-    ArrayList<FlightInfo> favoriteFlights = new ArrayList<FlightInfo>();
-    FlightAdapter flightAdapter;
-    FlightDetailFragment fragment;
+    /**
+     * Tag for logging and fragment management
+     */
     private final String _TAG = "FAVOURITE_FLIGHT_TAG";
-    Toolbar toolbar;
+    /**
+     * Toolbar for the activity
+     */
+    private Toolbar toolbar;
 
     /**
      * Called when the activity is starting. Performs initialization of the activity.
@@ -143,7 +163,9 @@ public class FavouriteFlightActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * configure Toolbar
+     */
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle(R.string.Flight_Details);
@@ -156,17 +178,29 @@ public class FavouriteFlightActivity extends AppCompatActivity {
         });
 
     }
-
+    /**
+     * hide Toolbar
+     */
     public void hideToolbar() {
         toolbar.setVisibility(View.GONE);
     }
 
+    /**
+     * Create Options Menu
+     * @param menu The options menu in which you place your items.
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
 
+    /**
+     * Options Item Selected
+     * @param item The menu item that was selected.
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){

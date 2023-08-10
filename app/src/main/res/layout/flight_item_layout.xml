@@ -64,6 +64,7 @@
                     <androidx.constraintlayout.utils.widget.ImageFilterView
                         android:layout_width="15dp"
                         android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_departure"
                         />
 
@@ -72,6 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
                         android:text="17:25"
                         android:textSize="16sp"
                         android:textStyle="italic" />
@@ -83,8 +85,8 @@
 
             <ImageView
                 android:id="@+id/ivFlightIcon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="144dp"
+                android:layout_height="25dp"
                 android:layout_centerInParent="true"
                 app:srcCompat="@drawable/ic_flights" />
 
@@ -115,6 +117,7 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/ic_arrival"
+                        android:layout_gravity="center_vertical"
                         />
 
                     <TextView
@@ -122,6 +125,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
                         android:text="17:25"
                         android:textSize="16sp"
                         android:textStyle="italic" />

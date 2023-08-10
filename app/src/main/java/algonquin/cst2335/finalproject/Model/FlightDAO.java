@@ -72,5 +72,12 @@ public interface FlightDAO {
     @Delete
     void deleteFlight(Flight flight);
 
+    /**
+     *  Deletes a airport entity from the database.
+     *  @param airport The airport entity to be deleted.
+     */
+    @Delete
+    void deleteAirport(Airport airport);
+
 
 }

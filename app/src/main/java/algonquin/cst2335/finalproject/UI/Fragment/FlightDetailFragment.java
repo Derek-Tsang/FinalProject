@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,18 +32,45 @@ import algonquin.cst2335.finalproject.databinding.FragmentFlightDetailsLayoutBin
  */
 public class FlightDetailFragment extends Fragment {
 
+    /**
+     * FlightInfo object
+     */
     FlightInfo flight;
 
+    /**
+     * Context
+     */
     Context context;
 
+    /**
+     * flag for know if the page is from favorites
+     */
     boolean isFromFavorite;
 
+    /**
+     * flag if is New add To Favorites
+     */
+    boolean isNewAddToFavorites = false;
+
+    /**
+     * binding of this fragment
+     */
     FragmentFlightDetailsLayoutBinding binding;
+    /**
+     * mOnClickListener
+     */
     private DialogInterface.OnDismissListener mOnClickListener;
 
+    /**
+     * Constructor
+     */
     public FlightDetailFragment() {
     }
 
+    /**
+     * onSaveInstanceState
+     * @param outState Bundle in which to place your saved state.
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -91,7 +120,7 @@ public class FlightDetailFragment extends Fragment {
             flight = (FlightInfo) savedInstanceState.getSerializable("flight");
             isFromFavorite = savedInstanceState.getBoolean("isFromFavorite");
         }
-        if(isFromFavorite){
+        if(isFromFavorite || isNewAddToFavorites){
             binding.btnAddFav.setText(getString(R.string.rmFav));
         }else{
             binding.btnAddFav.setText(getString(R.string.addFav));
@@ -157,7 +186,7 @@ public class FlightDetailFragment extends Fragment {
         });
         //save flightinfo into database.
         binding.btnAddFav.setOnClickListener(clk -> {
-            if(isFromFavorite){
+            if(isFromFavorite || isNewAddToFavorites){
                 removeFavorite(selected);
             }else{
                 addFavorite(selected);
@@ -180,20 +209,28 @@ public class FlightDetailFragment extends Fragment {
                 long arrival_airport_id = DataSource.getInstance(context).getFlgithDB()
                         .flightDAO()
                         .addAirport(selected.getArrivalAirport());
+                selected.getDepartureAirport().setAirportId(departure_airport_id);
+                selected.getArrivalAirport().setAirportId(arrival_airport_id);
                 selected.getFlight().setDepartureId(departure_airport_id);
                 selected.getFlight().setArrivalId(arrival_airport_id);
-                DataSource.getInstance(context).getFlgithDB()
+                long flight_id = DataSource.getInstance(context).getFlgithDB()
                         .flightDAO()
                         .addFlight(selected.getFlight());
+                selected.getFlight().setFlightId(flight_id);
             });
             Toast.makeText(context,R.string.toast_add_fav_success,Toast.LENGTH_SHORT).show();
-            dismissFragment();
+            binding.btnAddFav.setText(getString(R.string.rmFav));
+            isNewAddToFavorites = true;
+//            dismissFragment();
         }catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context,R.string.toast_add_fav_fail,Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     *flag to set function of add favorite or remove favourite
+     */
     boolean isDelete = false;
     /**
      * Removes the selected FlightInfo from the favorites database.
@@ -212,9 +249,21 @@ public class FlightDetailFragment extends Fragment {
                         {
                             DataSource.getInstance(context).getFlgithDB()
                                     .flightDAO()
+                                    .deleteAirport(selected.departureAirport);
+                            DataSource.getInstance(context).getFlgithDB()
+                                    .flightDAO()
+                                    .deleteAirport(selected.arrivalAirport);
+                            DataSource.getInstance(context).getFlgithDB()
+                                    .flightDAO()
                                     .deleteFlight(selected.flight);
                         });
-                        dismissFragment();
+                        if(!isNewAddToFavorites) {
+                            dismissFragment();
+                        }else{
+                            isNewAddToFavorites = false;
+                            binding.btnAddFav.setText(getString(R.string.addFav));
+                        }
+                        Snackbar.make(binding.fragmentDetails,R.string.snacker_remove_success, Snackbar.LENGTH_SHORT).show();
                     })
                     .setNegativeButton(R.string.alert_no, (dialog,cl) -> {
                         isDelete = false;
@@ -236,12 +285,21 @@ public class FlightDetailFragment extends Fragment {
             Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
-
+    /**
+     * Dismisses the fragment.
+     */
     public void dismissFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
         getActivity().getSupportFragmentManager().popBackStack();
     }
-
+    /**
+     * Calculates the time gap between two dates in a user-readable format.
+     *
+     * @param context       The context.
+     * @param departureDate The departure date.
+     * @param arrivalDate   The arrival date.
+     * @return A formatted string representing the time gap.
+     */
     public static String calculateMinsGap(Context context, String departureDate,String arrivalDate) {
         // Calculate the duration between the two date-times
         long secondsGap = 0;
@@ -254,7 +312,7 @@ public class FlightDetailFragment extends Fragment {
         }
         if(secondsGap>60){
             if((secondsGap / 60) > 60){
-                return secondsGap / 3600 + context.getResources().getString(R.string.string_hour) + (secondsGap % 3600 / 60) + context.getResources().getString(R.string.string_min);
+                return secondsGap / 3600 + context.getResources().getString(R.string.string_hour) +" "+ (secondsGap % 3600 / 60) + context.getResources().getString(R.string.string_min);
             }else{
                 return secondsGap / 60 + context.getResources().getString(R.string.string_min);
             }

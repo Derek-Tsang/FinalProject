@@ -45,16 +45,44 @@ import algonquin.cst2335.finalproject.databinding.ActivityFlightBinding;
  *  parsing JSON responses, and updating the UI accordingly.
  */
 public class FlightTrackerActivity extends AppCompatActivity {
-
+    /**
+     * View binding for the activity.
+     */
     ActivityFlightBinding binding;
+
+    /**
+     * ViewModel for managing flight data.
+     */
     FlightViewModel flightModel;
+
+    /**
+     * JSON object request for retrieving flight information.
+     */
     JsonObjectRequest jsonObjRequest;
+
+    /**
+     * Volley request queue for handling network requests.
+     */
     private RequestQueue mVolleyQueue;
 
+    /**
+     * List of favorite flights.
+     */
     ArrayList<FlightInfo> flights = new ArrayList<FlightInfo>();
+
+    /**
+     * Adapter for displaying flights in a RecyclerView.
+     */
     FlightAdapter flightAdapter;
+
+    /**
+     * Tag used for logging and identifying this class.
+     */
     private final String _TAG = "FLIGHT_TRACKER_TAG";
 
+    /**
+     * Toolbar for displaying UI elements and actions.
+     */
     Toolbar toolbar;
 
     /**
@@ -69,20 +97,22 @@ public class FlightTrackerActivity extends AppCompatActivity {
         binding = ActivityFlightBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         configureToolbar();
-        flightModel = new ViewModelProvider(this).get(FlightViewModel.class);
 
+        flightModel = new ViewModelProvider(this).get(FlightViewModel.class);
         flights =flightModel.flights.getValue();
         if(flights == null || flights.isEmpty())
         {
             flightModel.flights.setValue(flights = new ArrayList<>());
         }
+
         binding.etAirportCode.setText(CommonSharedPreference.getsharedText(this, "lastCode"));
+
         //initialize the volley queue
         mVolleyQueue = Volley.newRequestQueue(this);
         flightAdapter = new FlightAdapter(this,flights);
-
         binding.rvFlights.setAdapter(flightAdapter);
         binding.rvFlights.setLayoutManager(new LinearLayoutManager(this));
+
         binding.btnSearch.setOnClickListener(click->{
             if(!binding.etAirportCode.getText().equals("") || binding.etAirportCode.getText()!=null){
                 Log.e(_TAG, binding.etAirportCode.getText().toString());
@@ -109,6 +139,8 @@ public class FlightTrackerActivity extends AppCompatActivity {
             }
         });
 
+        getFlightDataFromInternet(CommonSharedPreference.getsharedText(this, "lastCode"));
+        binding.progressBar.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -121,6 +153,8 @@ public class FlightTrackerActivity extends AppCompatActivity {
         Uri.Builder builder = Uri.parse(url).buildUpon();
         builder.appendQueryParameter("access_key", "19df7bca6a2430a9e93b5d723ce027cc");
         builder.appendQueryParameter("dep_iata", airportCode);
+        // scheduled, active, landed, cancelled, incident, diverted
+//        builder.appendQueryParameter("flight_status", "diverted");
         builder.appendQueryParameter("limit", String.valueOf(20));
 
         Log.e(_TAG, "url = " + builder.toString());
@@ -220,7 +254,9 @@ public class FlightTrackerActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * configure Toolbar
+     */
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle(R.string.aviation_stack_flight_tracker);
@@ -233,17 +269,27 @@ public class FlightTrackerActivity extends AppCompatActivity {
         });
 
     }
-
+    /**
+     * hide Toolbar
+     */
     public void hideToolbar() {
         toolbar.setVisibility(View.GONE);
     }
-
+    /**
+     * Create Options Menu
+     * @param menu The options menu in which you place your items.
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
-
+    /**
+     * Options Item Selected
+     * @param item The menu item that was selected.
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.help){

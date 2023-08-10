@@ -20,6 +20,9 @@ import algonquin.cst2335.finalproject.databinding.ActivityMainBinding;
  */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * The main activity binding
+     */
     ActivityMainBinding binding;
     /**
      * Called when the activity is starting.
@@ -49,21 +52,31 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * Configures the app's toolbar.
+     */
     private void configureToolbar() {
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle("");
     }
-
-    public void hideToolbar() {
-        binding.toolbar.setVisibility(View.GONE);
-    }
-
+    /**
+     * Called to create the options menu.
+     *
+     * @param menu The options menu in which you place your items.
+     * @return You must return true for the menu to be displayed; if you return false it will not be shown.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
-
+    /**
+     * Called when a menu item is selected.
+     *
+     * @param item The menu item that was selected.
+     * @return Return false to allow normal menu processing to proceed, true to consume it here.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.flight){

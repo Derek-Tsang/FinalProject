@@ -325,11 +325,7 @@ public class BearImageGeneratorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemID = item.getItemId();
-        if (itemID == R.id.bearToHome) {
-            // Handle the "To Home" menu item selection
-            bearToHome();
-            return true;
-        } else if (itemID == R.id.bearHelp) {
+        if (itemID == R.id.bearHelp) {
             // Display a help dialog when the "Help" menu item is selected
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("How to use")

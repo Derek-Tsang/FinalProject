@@ -17,48 +17,80 @@ package algonquin.cst2335.finalproject.Entities;
                 @ForeignKey(entity = Airport.class,
                         parentColumns = "airportId",
                         childColumns = "departureId",
-                        onDelete = CASCADE,
-                        onUpdate = CASCADE
+                        onDelete = ForeignKey.CASCADE,
+                        onUpdate = ForeignKey.CASCADE
                 ),
                 @ForeignKey(entity = Airport.class,
                         parentColumns = "airportId",
                         childColumns = "arrivalId",
-                        onDelete = CASCADE,
-                        onUpdate = CASCADE)
+                        onDelete = ForeignKey.CASCADE,
+                        onUpdate = ForeignKey.CASCADE)
         })
 public class Flight {
+    /**
+     * The automatically generated primary key for the flight.
+     */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "flightId")
     public long flightId;
 
+    /**
+     * The identifier of the departure location for the flight.
+     */
     @ColumnInfo(name = "departureId", index = true)
     private long departureId;
 
+    /**
+     * The identifier of the arrival location for the flight.
+     */
     @ColumnInfo(name = "arrivalId", index = true)
     private long arrivalId;
 
+    /**
+     * The date of the flight.
+     */
     @ColumnInfo(name = "flight_date")
     private String flight_date;
 
-
+    /**
+     * The status of the flight.
+     */
     @ColumnInfo(name = "flight_status")
     private String flight_status;
 
+    /**
+     * The name of the airline operating the flight.
+     */
     @ColumnInfo(name = "airline_name")
     private String airline_name;
 
+    /**
+     * The IATA code of the airline operating the flight.
+     */
     @ColumnInfo(name = "airline_iata")
     private String airline_iata;
 
+    /**
+     * The ICAO code of the airline operating the flight.
+     */
     @ColumnInfo(name = "airline_icao")
     private String airline_icao;
 
+    /**
+     * The flight number assigned by the airline.
+     */
     @ColumnInfo(name = "flight_number")
     private String flight_number;
 
+    /**
+     * The IATA code of the flight.
+     */
     @ColumnInfo(name = "flight_iata")
     private String flight_iata;
 
+    /**
+     * The ICAO code of the flight.
+     */
     @ColumnInfo(name = "flight_icao")
     private String flight_icao;
     /**

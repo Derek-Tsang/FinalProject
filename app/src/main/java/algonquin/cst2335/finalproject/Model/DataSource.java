@@ -9,12 +9,30 @@ import androidx.room.Room;
  */
 public class DataSource {
 
+    /**
+     * Context
+     */
     private Context mCtx;
+    /**
+     * mInstance
+     */
     private static DataSource mInstance;
 
+    /**
+     * Database of Flight Tracker
+     */
     private FlightTrackerDatabase flgithDB;
+    /**
+     * Database of Bear
+     */
     private BearDatabase bearDB;
+    /**
+     * Database of TriviaUser
+     */
     private TriviaUserDatabase triviaUserDB;
+    /**
+     * Database of currency converter
+     */
     private CurrencyDatabase currencyDB;
 
     /**
@@ -47,12 +65,29 @@ public class DataSource {
     public FlightTrackerDatabase getFlgithDB() {
         return flgithDB;
     }
+    /**
+     * Get the BearDatabase instance.
+     *
+     * @return The BearDatabase instance.
+     */
     public BearDatabase getBearDB() {
         return bearDB;
     }
+
+    /**
+     * Get the TriviaUserDatabase instance.
+     *
+     * @return The TriviaUserDatabase instance.
+     */
     public TriviaUserDatabase getTriviaUserDB() {
         return triviaUserDB;
     }
+
+    /**
+     * Get the CurrencyDatabase instance.
+     *
+     * @return The CurrencyDatabase instance.
+     */
     public CurrencyDatabase getCurrencyDB() {
         return currencyDB;
     }

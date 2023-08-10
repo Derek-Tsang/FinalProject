@@ -14,19 +14,24 @@ import java.util.ArrayList;
  *  Represents a flight information object.
  */
 public class FlightInfo implements Serializable {
-    //The embedded flight object.
+    /**
+     *The embedded flight object.
+     */
     @Embedded
     public Flight flight;
 
-    //The departure airport related to the flight.
+    /**
+     * The departure airport related to the flight.
+     */
     @Relation(parentColumn = "departureId", entityColumn = "airportId", entity = Airport.class)
     public Airport departureAirport;
 
-    //The arrival airport related to the flight.
+    /**
+     * The arrival airport related to the flight.
+     */
     @Relation(parentColumn = "arrivalId", entityColumn = "airportId", entity = Airport.class)
     public Airport arrivalAirport;
     /**
-
      Retrieves the flight object.
      @return The flight object.
      */

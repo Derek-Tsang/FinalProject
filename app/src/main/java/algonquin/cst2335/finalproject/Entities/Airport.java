@@ -11,34 +11,88 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "Airport")
 public class Airport {
 
+    /**
+     * The unique identifier for the airport.
+     */
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "airportId")
     public long airportId;
 
+    /**
+     * The name of the airport.
+     */
     @ColumnInfo(name = "airport")
     private String airport;
+
+    /**
+     * The timezone of the airport.
+     */
     @ColumnInfo(name = "timezone")
     private String timezone;
+
+    /**
+     * The IATA code (International Air Transport Association) of the airport.
+     */
     @ColumnInfo(name = "iata")
     private String iata;
+
+    /**
+     * The ICAO code (International Civil Aviation Organization) of the airport.
+     */
     @ColumnInfo(name = "icao")
     private String icao;
+
+    /**
+     * The terminal information of the airport.
+     */
     @ColumnInfo(name = "terminal")
     private String terminal;
+
+    /**
+     * The gate information of the airport.
+     */
     @ColumnInfo(name = "gate")
     private String gate;
+
+    /**
+     * The baggage information of the airport.
+     */
     @ColumnInfo(name = "baggage")
     private String baggage;
+
+    /**
+     * The delay status of the airport.
+     */
     @ColumnInfo(name = "delay")
     private String delay;
+
+    /**
+     * The scheduled departure/arrival time of the airport.
+     */
     @ColumnInfo(name = "scheduled")
     private String scheduled;
+
+    /**
+     * The estimated departure/arrival time of the airport.
+     */
     @ColumnInfo(name = "estimated")
     private String estimated;
+
+    /**
+     * The actual departure/arrival time of the airport.
+     */
     @ColumnInfo(name = "actual")
     private String actual;
+
+    /**
+     * The estimated runway time of the airport.
+     */
     @ColumnInfo(name = "estimatedRunway")
     private String estimatedRunway;
+
+    /**
+     * The actual runway time of the airport.
+     */
     @ColumnInfo(name = "actualRunway")
     private String actualRunway;
     /**
